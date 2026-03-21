@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>J7Software | Digitální kódování Android aplikací</title>
     
+    <meta name="description" content="J7Software - Vývoj prémiových Android aplikací. Čistý kód, moderní design, důraz na soukromí.">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -15,7 +17,7 @@
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
             --accent: #3ddc84; /* Android zelená */
-            --panel-bg: rgba(0, 7, 18, 0.4); /* Ztmavené pozadí panelu pro lepší čitelnost na novém pozadí */
+            --panel-bg: rgba(0, 7, 18, 0.4); 
             --panel-border: rgba(255, 255, 255, 0.08);
         }
 
@@ -30,51 +32,34 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow-x: hidden; /* Zabrání vodorovnému scrollování na mobilu */
+            overflow-x: hidden;
             perspective: 1500px;
             position: relative;
         }
 
-        /* --- Vrstva 1: Tvůj obrázek jako pozadí --- */
+        /* --- Vrstva 1: Obrázek na pozadí --- */
         body::before {
             content: '';
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            /* Zde definujeme tvůj obrázek */
             background-image: url('wallpaper.png'); 
-            background-size: cover; /* Obrázek pokryje celou plochu */
-            background-position: center; /* Vycentrování obrázku */
+            background-size: cover;
+            background-position: center;
             background-repeat: no-repeat;
-            z-index: -3; /* Úplně vespod */
+            z-index: -3;
             pointer-events: none;
-            filter: blur(2px) brightness(0.6); /* Lehké rozmazání a ztmavení, aby vynikl obsah */
+            filter: blur(2px) brightness(0.5); /* Trochu tmavší pro lepší čitelnost */
         }
 
-        /* --- Vrstva 2: Dynamické barevné přechody (volitelné, nechané pro hloubku) --- */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: 
-                radial-gradient(circle at 15% 15%, rgba(61, 220, 132, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 85% 85%, rgba(29, 78, 216, 0.06) 0%, transparent 50%);
-            z-index: -2;
-            pointer-events: none;
-        }
-
-        /* --- Vrstva 3: Canvas pro Matrix Rain --- */
+        /* --- Vrstva 2: Canvas pro Matrix Rain --- */
         #matrix-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1; /* Nad obrázkem, pod obsahem */
-            opacity: 0.15; /* Snížená viditelnost, aby nepřekrýval mobily na pozadí */
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            opacity: 0.12; /* Velmi jemný Matrix */
             pointer-events: none;
         }
 
-        /* Hlavní kontejner pro 3D efekt sledování myši */
         #tilt-container {
             width: 100%;
             max-width: 1000px;
@@ -90,10 +75,9 @@
             margin-bottom: auto;
         }
 
-        /* Hlavní skleněný panel - Glassmorphism */
         main {
             background-color: var(--panel-bg);
-            backdrop-filter: blur(25px); /* Silnější blur pro lepší čitelnost */
+            backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--panel-border);
             border-radius: 30px;
@@ -104,19 +88,18 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8); /* Silnější stín */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
             position: relative;
             transform: translateZ(50px);
         }
 
-        /* Brand / Nadpis */
         .brand-container {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 1rem;
             margin-bottom: 1rem;
-            flex-wrap: wrap; /* Pro velmi úzké displeje */
+            flex-wrap: wrap;
         }
 
         .android-icon-mini {
@@ -141,46 +124,29 @@
             color: var(--text-muted);
             font-weight: 400;
             max-width: 530px;
-            margin-bottom: 3.5rem;
+            margin-bottom: 3rem;
             line-height: 1.5;
         }
 
-        /* Akční karta pro kontakt */
-        .contact-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 1.5rem 3rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            transition: all 0.3s ease-out;
-            text-decoration: none;
+        /* --- Nové decentní tlačítko --- */
+        .cta-button {
+            background: rgba(61, 220, 132, 0.1);
+            border: 1px solid rgba(61, 220, 132, 0.3);
             color: var(--accent);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .contact-card:hover {
-            background: rgba(61, 220, 132, 0.05);
-            border-color: rgba(61, 220, 132, 0.3);
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 25px -5px rgba(61, 220, 132, 0.2);
-        }
-
-        .mail-icon-large {
-            width: 36px; height: 36px;
-            fill: currentColor;
-        }
-
-        .email-text {
-            font-size: 1.3rem;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
             font-weight: 700;
+            text-decoration: none;
+            font-size: 1.1rem;
             letter-spacing: -0.01em;
-            word-break: break-all; /* Aby dlouhý email nepřetekl ven */
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(61, 220, 132, 0.1);
+        }
+
+        .cta-button:hover {
+            background: rgba(61, 220, 132, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(61, 220, 132, 0.2);
         }
 
         /* --- Plovoucí 3D grafika (PC) --- */
@@ -211,44 +177,46 @@
             50% { transform: translateY(-20px) rotate(3deg); }
         }
 
-        /* Patička */
+        /* --- Upravená Patička --- */
         footer {
             padding: 2rem;
             width: 100%;
             text-align: center;
             z-index: 3;
             position: relative;
+            display: flex;
+            justify-content: center;
+            gap: 2rem; /* Mezera mezi odkazy */
+            flex-wrap: wrap; /* Pro mobily */
         }
 
-        footer a {
+        footer a, footer span.contact-link {
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: color 0.2s ease;
-            opacity: 0.7; /* Trochu zvýšená viditelnost */
+            opacity: 0.6;
         }
 
-        footer a:hover { color: var(--text-main); opacity: 1; }
+        footer a:hover, footer span.contact-link a:hover { color: var(--text-main); opacity: 1; }
+        
+        /* Styl pro schovaný email v patičce */
+        footer span.contact-link a {
+            color: inherit;
+            text-decoration: none;
+            opacity: 1;
+        }
 
         /* --- Mobilní zobrazení --- */
         @media (max-width: 768px) {
             body { perspective: none; }
-            body::before { filter: blur(1px) brightness(0.5); } /* Na mobilu ještě trochu tmavší */
+            body::before { filter: blur(1px) brightness(0.4); } 
             #tilt-container { transform: none !important; padding: 1rem; margin-top: 2rem;}
-            main { padding: 2.5rem 1.5rem; border-radius: 20px; backdrop-filter: blur(15px); }
-            h1 { font-size: 2.8rem; }
-            p.subtitle { margin-bottom: 2rem; font-size: 1.1rem; }
-            
-            /* Změna orientace tlačítka na mobilu - ikona a text vedle sebe */
-            .contact-card {
-                flex-direction: row;
-                padding: 1rem 1.2rem;
-                gap: 1rem;
-            }
-            .mail-icon-large { width: 24px; height: 24px; }
-            .email-text { font-size: 1.1rem; }
-
-            /* Vypnutí satelitů, Matrix ale běží dál! */
+            main { padding: 3rem 1.5rem; border-radius: 20px; backdrop-filter: blur(15px); }
+            h1 { font-size: 3rem; }
+            p.subtitle { margin-bottom: 2.5rem; font-size: 1.1rem; }
+            .cta-button { font-size: 1rem; padding: 0.9rem 2rem; }
+            footer { gap: 1rem; padding: 1.5rem; }
             .satellites { display: none; } 
         }
     </style>
@@ -273,19 +241,17 @@
             
             <p class="subtitle">Digitální kódování prémiových Android aplikací. Čistý kód, úderný design.</p>
             
-            <a href="mailto:j7software@post.cz" class="contact-card">
-                <svg class="mail-icon-large" viewBox="0 0 24 24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"></path></svg>
-                <span class="email-text">j7software@post.cz</span>
-            </a>
+            <a href="#" class="cta-button" id="contact-trigger">Napište nám</a>
         </main>
     </div>
 
     <footer>
-        <a href="privacy.html">Zásady ochrany osobních údajů</a>
+        <a href="privacy.html">Ochrana osobních údajů</a>
+        <span class="contact-link" id="email-coder">Kontakt: [Načítání...]</span>
     </footer>
 
     <script>
-        // --- Skript 1: Zaručeně funkční Matrix Rain ---
+        // --- Skript 1: Matrix Rain ---
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         const fontSize = 16;
@@ -297,56 +263,64 @@
             canvas.height = window.innerHeight;
             columns = Math.floor(canvas.width / fontSize);
             drops = [];
-            // Načtení polohy kapek - rozprostřeme je hned od začátku po celé ploše
             for (let x = 0; x < columns; x++) {
                 drops[x] = Math.floor(Math.random() * (canvas.height / fontSize)); 
             }
         }
         
         window.addEventListener('resize', initMatrix);
-        initMatrix(); // Prvotní spuštění
+        initMatrix();
 
         const characters = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const charArray = characters.split('');
 
         function drawMatrix() {
-            // Průhlednost pozadí canvasu ovlivňuje délku "stínu" kapek
             ctx.fillStyle = "rgba(0, 7, 18, 0.08)"; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
             ctx.fillStyle = "#3ddc84"; 
             ctx.font = fontSize + "px 'Inter', monospace";
-
             for (let i = 0; i < drops.length; i++) {
                 const text = charArray[Math.floor(Math.random() * charArray.length)];
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                // Když znak dojede dolů, náhodně ho vrátíme na začátek
                 if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
                     drops[i] = 0;
                 }
                 drops[i]++;
             }
         }
-
         setInterval(drawMatrix, 35);
 
-
-        // --- Skript 2: 3D Tilt Effect (Sledování myši - jen pro PC) ---
+        // --- Skript 2: 3D Tilt Effect ---
         const container = document.getElementById('tilt-container');
-        const body_el = document.body; // Přejmenováno, aby se nepletlo s body elementem
-
+        const body_el = document.body;
         if (window.innerWidth > 768) { 
             body_el.addEventListener('mousemove', (e) => {
-                const xAxis = (window.innerWidth / 2 - e.pageX) / 40; // Jemnější tilt
-                const yAxis = (window.innerHeight / 2 - e.pageY) / 40; // Jemnější tilt
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 45;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 45;
                 container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
             });
-
             body_el.addEventListener('mouseleave', () => {
                 container.style.transform = 'rotateY(0deg) rotateX(0deg)';
             });
         }
+
+        // --- Skript 3: Dekódování a ochrana emailu ---
+        (function() {
+            const user = "j7software";
+            const domain = "post.cz";
+            const email = user + "@" + domain;
+            
+            // 1. Vložení odkazu do patičky
+            const footerEmailContainer = document.getElementById('email-coder');
+            footerEmailContainer.innerHTML = `<a href="mailto:${email}">${email}</a>`;
+            
+            // 2. Propojení hlavního CTA tlačítka
+            const contactTrigger = document.getElementById('contact-trigger');
+            contactTrigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = `mailto:${email}`;
+            });
+        })();
     </script>
 
 </body>
