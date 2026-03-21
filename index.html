@@ -15,8 +15,8 @@
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
             --accent: #3ddc84; /* Android zelená */
-            --panel-bg: rgba(255, 255, 255, 0.03);
-            --panel-border: rgba(255, 255, 255, 0.06);
+            --panel-bg: rgba(0, 7, 18, 0.4); /* Ztmavené pozadí panelu pro lepší čitelnost na novém pozadí */
+            --panel-border: rgba(255, 255, 255, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
@@ -35,27 +35,42 @@
             position: relative;
         }
 
-        /* --- Vrstva 1: Canvas pro Matrix Rain --- */
+        /* --- Vrstva 1: Tvůj obrázek jako pozadí --- */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            /* Zde definujeme tvůj obrázek */
+            background-image: url('wallpaper.png'); 
+            background-size: cover; /* Obrázek pokryje celou plochu */
+            background-position: center; /* Vycentrování obrázku */
+            background-repeat: no-repeat;
+            z-index: -3; /* Úplně vespod */
+            pointer-events: none;
+            filter: blur(2px) brightness(0.6); /* Lehké rozmazání a ztmavení, aby vynikl obsah */
+        }
+
+        /* --- Vrstva 2: Dynamické barevné přechody (volitelné, nechané pro hloubku) --- */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: 
+                radial-gradient(circle at 15% 15%, rgba(61, 220, 132, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 85%, rgba(29, 78, 216, 0.06) 0%, transparent 50%);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* --- Vrstva 3: Canvas pro Matrix Rain --- */
         #matrix-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: -2;
-            opacity: 0.25; /* Mírně zesílená viditelnost */
-            pointer-events: none;
-        }
-
-        /* --- Vrstva 2: Dynamické pozadí --- */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: 
-                radial-gradient(circle at 15% 15%, rgba(61, 220, 132, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 85% 85%, rgba(29, 78, 216, 0.08) 0%, transparent 50%);
-            z-index: -1;
+            z-index: -1; /* Nad obrázkem, pod obsahem */
+            opacity: 0.15; /* Snížená viditelnost, aby nepřekrýval mobily na pozadí */
             pointer-events: none;
         }
 
@@ -78,8 +93,8 @@
         /* Hlavní skleněný panel - Glassmorphism */
         main {
             background-color: var(--panel-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px); /* Silnější blur pro lepší čitelnost */
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--panel-border);
             border-radius: 30px;
             padding: 4rem;
@@ -89,7 +104,7 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8); /* Silnější stín */
             position: relative;
             transform: translateZ(50px);
         }
@@ -210,7 +225,7 @@
             text-decoration: none;
             font-size: 0.9rem;
             transition: color 0.2s ease;
-            opacity: 0.6;
+            opacity: 0.7; /* Trochu zvýšená viditelnost */
         }
 
         footer a:hover { color: var(--text-main); opacity: 1; }
@@ -218,8 +233,9 @@
         /* --- Mobilní zobrazení --- */
         @media (max-width: 768px) {
             body { perspective: none; }
+            body::before { filter: blur(1px) brightness(0.5); } /* Na mobilu ještě trochu tmavší */
             #tilt-container { transform: none !important; padding: 1rem; margin-top: 2rem;}
-            main { padding: 2.5rem 1.5rem; border-radius: 20px; }
+            main { padding: 2.5rem 1.5rem; border-radius: 20px; backdrop-filter: blur(15px); }
             h1 { font-size: 2.8rem; }
             p.subtitle { margin-bottom: 2rem; font-size: 1.1rem; }
             
@@ -294,7 +310,8 @@
         const charArray = characters.split('');
 
         function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 7, 18, 0.05)";
+            // Průhlednost pozadí canvasu ovlivňuje délku "stínu" kapek
+            ctx.fillStyle = "rgba(0, 7, 18, 0.08)"; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             ctx.fillStyle = "#3ddc84"; 
@@ -317,16 +334,16 @@
 
         // --- Skript 2: 3D Tilt Effect (Sledování myši - jen pro PC) ---
         const container = document.getElementById('tilt-container');
-        const body = document.body;
+        const body_el = document.body; // Přejmenováno, aby se nepletlo s body elementem
 
         if (window.innerWidth > 768) { 
-            body.addEventListener('mousemove', (e) => {
-                const xAxis = (window.innerWidth / 2 - e.pageX) / 30;
-                const yAxis = (window.innerHeight / 2 - e.pageY) / 30;
+            body_el.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 40; // Jemnější tilt
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 40; // Jemnější tilt
                 container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
             });
 
-            body.addEventListener('mouseleave', () => {
+            body_el.addEventListener('mouseleave', () => {
                 container.style.transform = 'rotateY(0deg) rotateX(0deg)';
             });
         }
