@@ -46,32 +46,18 @@
             content: '';
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            
-            /* ZÁKLADNÍ NASTAVENÍ (Společné pro PC i Mobil) */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            z-index: -3; /* Úplně vespod */
+            z-index: -3;
             pointer-events: none;
-            
-            /* Výchozí filtr (mírné rozmazání a ztmavení) */
             filter: blur(2px) brightness(0.5); 
-
-            /* -------------------------------------------------
-               1. VERZE PRO PC (Širokoúhlé displeje > 768px)
-               ------------------------------------------------- */
             background-image: url('wallpaper.png'); 
         }
 
-        /* ---------------------------------------------------------
-           2. VERZE PRO MOBIL (Displeje <= 768px) - Media Query
-           --------------------------------------------------------- */
         @media (max-width: 768px) {
             body::before {
-                /* Načteme svislý obrázek pro mobil */
                 background-image: url('wallpaper_mobile.png');
-                
-                /* Na mobilu trochu zvýšíme ztmavení pro lepší čitelnost */
                 filter: blur(1px) brightness(0.4); 
             }
         }
@@ -80,8 +66,8 @@
         #matrix-canvas {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: -1; /* Nad obrázkem, pod obsahem */
-            opacity: 0.12; /* Velmi jemný Matrix */
+            z-index: -1;
+            opacity: 0.12;
             pointer-events: none;
         }
 
@@ -127,15 +113,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1rem;
+            gap: 1.5rem; /* Větší mezera mezi logem a textem */
             margin-bottom: 1rem;
-            flex-wrap: wrap; /* Pro velmi úzké displeje */
+            flex-wrap: wrap;
         }
 
-        .android-icon-mini {
-            width: 32px; height: 32px;
-            fill: var(--accent);
-            opacity: 0.9;
+        /* --- NOVÝ STYL PRO TVOJE LOGO (android.png) --- */
+        .brand-logo {
+            width: auto;         /* Zachovat poměr stran */
+            height: 70px;        /* Fixní výška, aby ladila s nadpisem */
+            max-width: 100%;     /* Aby nepřeteklo na mobilu */
+            display: block;
+            opacity: 0.95;       /* Mírná průhlednost pro "glass" efekt */
+            object-fit: contain; /* Zajistí, že se obrázek nedeformuje */
         }
 
         h1 {
@@ -218,8 +208,8 @@
             position: relative;
             display: flex;
             justify-content: center;
-            gap: 2rem; /* Mezera mezi odkazy */
-            flex-wrap: wrap; /* Pro mobily */
+            gap: 2rem;
+            flex-wrap: wrap;
         }
 
         footer a, footer span.contact-link {
@@ -232,7 +222,6 @@
 
         footer a:hover, footer span.contact-link a:hover { color: var(--text-main); opacity: 1; }
         
-        /* Styl pro schovaný email v patičce */
         footer span.contact-link a {
             color: inherit;
             text-decoration: none;
@@ -244,15 +233,18 @@
            ========================================================================== */
         @media (max-width: 768px) {
             body { perspective: none; }
-            /* Pozadí pro mobil je definováno výše v Media Query u body::before */
-            
             #tilt-container { transform: none !important; padding: 1rem; margin-top: 2rem;}
             main { padding: 3rem 1.5rem; border-radius: 20px; backdrop-filter: blur(15px); }
+            
+            /* Úprava loga pro mobil */
+            .brand-logo { height: 50px; margin-bottom: 0.5rem; }
+            .brand-container { gap: 0.5rem; }
+
             h1 { font-size: 3rem; }
             p.subtitle { margin-bottom: 2.5rem; font-size: 1.1rem; }
             .cta-button { font-size: 1rem; padding: 0.9rem 2rem; }
             footer { gap: 1rem; padding: 1.5rem; }
-            .satellites { display: none; } /* Vypnutí 3D prvků na mobilu */
+            .satellites { display: none; }
         }
     </style>
 </head>
@@ -270,7 +262,7 @@
 
         <main>
             <div class="brand-container">
-                <svg class="android-icon-mini" viewBox="0 0 24 24"><path d="M17.523 15.3414C17.0211 15.3414 16.611 14.9313 16.611 14.4294C16.611 13.9275 17.0211 13.5174 17.523 13.5174C18.0249 13.5174 18.435 13.9275 18.435 14.4294C18.435 14.9313 18.0249 15.3414 17.523 15.3414ZM6.477 15.3414C5.9751 15.3414 5.565 14.9313 5.565 14.4294C5.565 13.9275 5.9751 13.5174 6.477 13.5174C6.9789 13.5174 7.389 13.9275 7.389 14.4294C7.389 14.9313 6.9789 15.3414 6.477 15.3414ZM17.8761 10.9167L19.7916 7.6017C20.0271 7.1934 19.8876 6.6717 19.4793 6.4362C19.0704 6.2007 18.5487 6.3402 18.3132 6.7485L16.3764 10.1016C15.0135 9.4635 13.5273 9.1179 12 9.1179C10.4727 9.1179 8.9865 9.4635 7.6236 10.1016L5.6868 6.7485C5.4513 6.3402 4.9296 6.2007 4.5207 6.4362C4.1124 6.6717 3.9729 7.1934 4.2084 7.6017L6.1239 10.9167C2.9232 12.6375 0.75 15.894 0.75 19.7001H23.25C23.25 15.894 21.0768 12.6375 17.8761 10.9167Z"></path></svg>
+                <img src="android.png" alt="J7Software Android Logo" class="brand-logo">
                 <h1>J7Software</h1>
             </div>
             
@@ -286,10 +278,6 @@
     </footer>
 
     <script>
-        /* ==========================================================================
-           SKRIPTY (Matrix, 3D, Ochrana emailu)
-           ========================================================================== */
-
         // --- Skript 1: Matrix Rain ---
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
@@ -302,75 +290,58 @@
             canvas.height = window.innerHeight;
             columns = Math.floor(canvas.width / fontSize);
             drops = [];
-            // Rozprostřeme kapky po celé ploše
             for (let x = 0; x < columns; x++) {
                 drops[x] = Math.floor(Math.random() * (canvas.height / fontSize)); 
             }
         }
         
         window.addEventListener('resize', initMatrix);
-        initMatrix(); // Prvotní spuštění
+        initMatrix();
 
         const characters = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const charArray = characters.split('');
 
         function drawMatrix() {
-            // Průhlednost pozadí canvasu ovlivňuje délku "stínu" kapek
             ctx.fillStyle = "rgba(0, 7, 18, 0.08)"; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
             ctx.fillStyle = "#3ddc84"; 
             ctx.font = fontSize + "px 'Inter', monospace";
-
             for (let i = 0; i < drops.length; i++) {
                 const text = charArray[Math.floor(Math.random() * charArray.length)];
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                // Když znak dojede dolů, náhodně ho vrátíme na začátek
                 if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
                     drops[i] = 0;
                 }
                 drops[i]++;
             }
         }
-        setInterval(drawMatrix, 35); // Rychlost animace
+        setInterval(drawMatrix, 35);
 
-
-        // --- Skript 2: 3D Tilt Effect (Sledování myši - jen pro PC) ---
+        // --- Skript 2: 3D Tilt Effect ---
         const container = document.getElementById('tilt-container');
         const body_el = document.body;
-        
-        // Funkce se spustí jen pokud je displej širší než 768px
         if (window.innerWidth > 768) { 
             body_el.addEventListener('mousemove', (e) => {
-                const xAxis = (window.innerWidth / 2 - e.pageX) / 45; // Jemný tilt
-                const yAxis = (window.innerHeight / 2 - e.pageY) / 45; // Jemný tilt
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 45;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 45;
                 container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
             });
-
-            // Při opuštění myší vrátit do původní polohy
             body_el.addEventListener('mouseleave', () => {
                 container.style.transform = 'rotateY(0deg) rotateX(0deg)';
             });
         }
 
-
-        // --- Skript 3: Dekódování a ochrana emailu (Antispam) ---
+        // --- Skript 3: Dekódování a ochrana emailu ---
         (function() {
-            // Email je rozdělen, aby ho roboti neviděli v HTML
             const user = "j7software";
             const domain = "post.cz";
             const email = user + "@" + domain;
-            
-            // 1. Vložení funkčního odkazu do patičky
             const footerEmailContainer = document.getElementById('email-coder');
             footerEmailContainer.innerHTML = `<a href="mailto:${email}">${email}</a>`;
-            
-            // 2. Propojení hlavního CTA tlačítka uprostřed
             const contactTrigger = document.getElementById('contact-trigger');
             contactTrigger.addEventListener('click', (e) => {
-                e.preventDefault(); // Zabrání výchozímu chování odkazu (#)
-                window.location.href = `mailto:${email}`; // Otevře poštovního klienta
+                e.preventDefault();
+                window.location.href = `mailto:${email}`;
             });
         })();
     </script>
