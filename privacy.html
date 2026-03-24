@@ -8,8 +8,10 @@
         body { font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 20px; color: #333; }
         h1 { color: #000; border-bottom: 2px solid #eee; padding-bottom: 10px; }
         h2 { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 30px; color: #444; }
+        h3 { color: #555; margin-top: 20px; }
         .en-section { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #eee; margin-top: 20px; }
         .contact { font-weight: bold; color: #000; }
+        .highlight { background-color: #fff3cd; padding: 10px; border-left: 5px solid #ffeeba; margin: 15px 0; }
     </style>
 </head>
 <body>
@@ -21,10 +23,22 @@
         <h2>Česky (Stručný přehled)</h2>
         <p>Aplikace <strong>Tchiki Mail</strong> od vývojáře <strong>Jan Svoboda (j7software)</strong> bere ochranu vašeho soukromí vážně.</p>
         <ul>
-            <li><strong>E-maily a hesla:</strong> Aplikace je e-mailový klient. Vaše zprávy a přihlašovací údaje jsou zpracovávány pouze pro účely fungování aplikace přímo ve vašem zařízení. Neodesíláme je na žádné naše externí servery.</li>
-            <li><strong>Data třetích stran:</strong> Aplikace využívá Google Play Services pro základní funkčnost na systému Android.</li>
-            <li><strong>Kontakt:</strong> V případě dotazů nás kontaktujte na <span class="contact">j7software@post.cz</span>.</li>
+            <li><strong>E-maily a hesla:</strong> Aplikace je e-mailový klient. Vaše zprávy a přihlašovací údaje jsou zpracovávány pouze za účelem fungování aplikace přímo ve vašem zařízení. Neodesíláme je na žádné naše externí servery.</li>
+            <li><strong>Zabezpečení:</strong> Veškerá komunikace mezi aplikací a poštovními servery probíhá šifrovaně (SSL/TLS).</li>
+            <li><strong>Nákupy:</strong> Aplikace obsahuje možnost nákupu předplatného prostřednictvím systému Google Play.</li>
+            <li><strong>Data třetích stran:</strong> Aplikace využívá Google Play Services pro základní funkčnost.</li>
         </ul>
+
+        <div id="delete" class="highlight">
+            <h3>Smazání účtu a dat (Account Deletion)</h3>
+            <p>
+                Tchiki Mail je e-mailový klient a nespravuje vlastní uživatelské účty na serveru. 
+                Pokud chcete smazat veškerá data spojená s používáním aplikace, stačí v nastavení aplikace <strong>odebrat svůj e-mailový účet</strong> nebo <strong>aplikaci odinstalovat</strong>. 
+                Tím dojde k okamžitému a trvalému odstranění všech uložených přístupových tokenů, hesel a stažených zpráv z vašeho mobilního zařízení.
+            </p>
+        </div>
+        
+        <p><strong>Kontakt:</strong> V případě dotazů nás kontaktujte na <span class="contact">j7software@post.cz</span>.</p>
     </section>
 
     <div class="en-section">
@@ -32,30 +46,28 @@
         <p>This privacy policy is applicable to the <strong>Tchiki Mail</strong> app (hereinafter referred to as "Application") for mobile devices, which was developed by <strong>Jan Svoboda</strong> (hereinafter referred to as "Service Provider") as a Freemium service. This service is provided "AS IS".</p>
 
         <h3>Information Collection and Use</h3>
-        <p>The Application acquires the information you supply when you download and register the Application. Registration is not mandatory. The Service Provider may use the information to contact you with important notices or marketing promotions.</p>
+        <p>The Application acquires the information you supply (e-mail address, credentials) to provide e-mail client functionality. The Service Provider may use the information to contact you with important notices.</p>
         
-        <p>The Application may collect certain information automatically, including the type of mobile device, unique device ID, IP address, operating system, and usage information.</p>
+        <p>The Application may collect certain information automatically, including the type of mobile device, unique device ID, IP address, and operating system for analytics and app stability purposes.</p>
+
+        <h3>Data Encryption and Safety</h3>
+        <p>All data transmitted by the Application is encrypted in transit using industry-standard protocols (SSL/TLS) between your device and the e-mail service providers.</p>
 
         <h3>Third Party Access</h3>
-        <p>The Application utilizes third-party services that have their own Privacy Policy. Below is the link to the service provider used:</p>
+        <p>The Application utilizes third-party services. Below are the links to their Privacy Policies:</p>
         <ul>
             <li><a href="https://www.google.com/policies/privacy/" target="_blank">Google Play Services</a></li>
+            <li><a href="https://payments.google.com/payments/apis-secure/u/0/get_legal_document?ldo=0&ldt=privacynotice" target="_blank">Google Play In-App Payments</a></li>
         </ul>
 
-        <h3>Location & AI</h3>
-        <p>This Application does not gather precise real-time location information and does not use Artificial Intelligence (AI) technologies to process your data.</p>
-
-        <h3>Data Retention</h3>
-        <p>The Service Provider will retain User Provided data for as long as you use the Application. Automatically collected information is retained for up to 24 months. For deletion requests, contact <span class="contact">j7software@post.cz</span>.</p>
+        <h3>Account Deletion</h3>
+        <p>Users can request deletion of their data by removing their e-mail account within the app settings or by uninstalling the Application. This process deletes all locally stored data, including credentials and messages.</p>
 
         <h3>Children's Privacy</h3>
         <p>The Application does not address anyone under the age of 13. If the Service Provider discovers that a child under 13 has provided personal information, it will be immediately deleted.</p>
 
-        <h3>Security</h3>
-        <p>We provide physical, electronic, and procedural safeguards to protect the information we process, though no security system can prevent all potential breaches.</p>
-
-        <h3>Consent</h3>
-        <p>By using the Application, you are giving your consent to the processing of your information as set forth in this Privacy Policy.</p>
+        <h3>Contact</h3>
+        <p>If you have any questions, please contact: <span class="contact">j7software@post.cz</span>.</p>
     </div>
 
     <footer style="margin-top: 40px; font-size: 0.8em; color: #888;">
