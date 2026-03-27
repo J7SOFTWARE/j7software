@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TchikiMail — Help</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0b10;--surface:#13141c;--surface2:#1a1c27;--surface3:#21243200;
+  --border:#252836;--border2:#2e3245;
+  --accent:#4f7cff;--accent-glow:rgba(79,124,255,.18);
+  --green:#3ecf8e;--green-glow:rgba(62,207,142,.15);
+  --amber:#f0a500;--amber-glow:rgba(240,165,0,.12);
+  --red:#f0566a;
+  --premium:#c8992a;--premium-bg:#16120a;
+  --text:#dde1f0;--text-muted:#6b7191;--text-dim:#3d4160;
+  --radius:14px;--radius-sm:9px;--radius-xs:6px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--bg);color:var(--text);
+  font-size:14.5px;line-height:1.7;min-height:100vh;
+}
+
+/* subtle noise texture */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:.4;
+}
+body::before{
+  content:'';position:fixed;top:0;left:0;right:0;height:320px;
+  background:radial-gradient(ellipse 70% 50% at 30% 0%,rgba(79,124,255,.07) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+/* ── TOP BAR ── */
+:root{--bar-h:44px;}
+.top-bar{
+  position:sticky;top:0;z-index:200;
+  background:rgba(10,11,16,.96);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:6px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.bar-group{display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.bar-label{
+  font-size:9.5px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--text-dim);white-space:nowrap;
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+.sel-wrap{position:relative;display:inline-flex;align-items:center;}
+.sel-wrap::after{
+  content:"▾";position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  pointer-events:none;font-size:10px;color:var(--text-muted);
+}
+.bar-select{
+  appearance:none;-webkit-appearance:none;
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:12px;font-weight:600;
+  padding:5px 26px 5px 10px;border-radius:6px;cursor:pointer;
+  transition:border-color .15s,background .15s;outline:none;
+}
+.bar-select:hover{border-color:var(--border2);background:var(--surface2);}
+.bar-select:focus{border-color:rgba(79,124,255,.5);box-shadow:0 0 0 2px rgba(79,124,255,.12);}
+.bar-select option{background:#13141c;color:var(--text);}
+.lb{display:none!important;}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:calc(100vh - var(--bar-h));position:relative;z-index:1;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:248px;flex-shrink:0;background:var(--surface);
+  border-right:1px solid var(--border);
+  position:sticky;top:var(--bar-h);height:calc(100vh - var(--bar-h));
+  overflow-y:auto;display:flex;flex-direction:column;
+  scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+}
+.sidebar-logo{padding:20px 17px 15px;border-bottom:1px solid var(--border);}
+.logo-mark{display:flex;align-items:center;gap:9px;margin-bottom:3px;}
+.logo-icon{
+  width:32px;height:32px;
+  background:linear-gradient(135deg,#4f7cff 0%,#7c5cfc 100%);
+  border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-size:15px;box-shadow:0 0 20px rgba(79,124,255,.35);flex-shrink:0;
+}
+.logo-name{
+  font-family:'Fraunces',serif;font-weight:700;font-size:17px;
+  letter-spacing:-.3px;color:var(--text);
+}
+.logo-sub{font-size:10.5px;color:var(--text-muted);font-weight:400;letter-spacing:.2px;}
+.nav-sec{padding:11px 7px 3px;}
+.nav-sec-title{
+  font-size:9px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--text-dim);padding:0 9px;margin-bottom:3px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+.ni{
+  display:flex;align-items:center;gap:7px;padding:7px 9px;
+  border-radius:var(--radius-sm);cursor:pointer;
+  transition:background .13s,color .13s;color:var(--text-muted);
+  font-size:12.5px;font-weight:500;border:none;background:none;
+  width:100%;text-align:left;font-family:'Plus Jakarta Sans',sans-serif;
+}
+.ni:hover{background:var(--surface2);color:var(--text);}
+.ni.active{background:rgba(79,124,255,.11);color:var(--accent);font-weight:600;}
+.ni .ico{font-size:13px;width:16px;text-align:center;flex-shrink:0;opacity:.85;}
+.nbadge{
+  margin-left:auto;background:var(--premium);color:#0a0b10;
+  font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:4px;
+  letter-spacing:.4px;font-family:'Plus Jakarta Sans',sans-serif;
+}
+
+/* ── MAIN ── */
+.main{flex:1;max-width:800px;padding:38px 48px;overflow-y:auto;}
+.sec{display:none;animation:fi .22s ease;}
+.sec.active{display:block;}
+@keyframes fi{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── TYPOGRAPHY ── */
+.ptag{
+  display:inline-block;font-size:10px;font-weight:800;
+  letter-spacing:1.8px;text-transform:uppercase;color:var(--accent);
+  margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif;
+}
+h1{
+  font-family:'Fraunces',serif;font-size:30px;font-weight:900;
+  letter-spacing:-.5px;line-height:1.18;color:var(--text);margin-bottom:10px;
+  font-optical-sizing:auto;
+}
+.pdesc{
+  font-size:14.5px;color:var(--text-muted);font-weight:400;
+  max-width:500px;line-height:1.72;margin-bottom:26px;
+}
+h2{
+  font-family:'Fraunces',serif;font-size:17px;font-weight:700;
+  color:var(--text);margin:32px 0 12px;letter-spacing:-.2px;
+  display:flex;align-items:center;gap:8px;
+}
+h2::before{
+  content:'';display:inline-block;width:3px;height:17px;
+  background:var(--accent);border-radius:2px;flex-shrink:0;
+}
+p{margin-bottom:10px;color:var(--text-muted);font-size:14px;}
+p strong{color:var(--text);font-weight:600;}
+
+/* ── HERO CARD ── */
+.hero{
+  background:linear-gradient(135deg,var(--surface) 0%,#13152200 100%);
+  border:1px solid var(--border2);border-radius:var(--radius);
+  padding:24px 28px;margin-bottom:26px;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'✉';position:absolute;right:22px;top:50%;transform:translateY(-50%);
+  font-size:66px;opacity:.035;
+}
+.hero h2{margin:0 0 6px;font-size:20px;}
+.hero h2::before{display:none;}
+.hero p{margin:0;font-size:13.5px;}
+
+/* ── PROTOCOL PILLS ── */
+.pp{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap;}
+.pill{
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:var(--radius-xs);padding:6px 11px;
+  font-size:12.5px;font-weight:600;color:var(--text);
+  display:flex;align-items:center;gap:5px;
+}
+.pill .dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);}
+
+/* ── CARDS ── */
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:10px;margin:13px 0;}
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+  position:relative;overflow:hidden;
+}
+.card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--accent),transparent);
+  opacity:0;transition:opacity .2s;
+}
+.card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.25);}
+.card:hover::after{opacity:1;}
+.card-ico{font-size:22px;margin-bottom:9px;display:block;}
+.card-title{font-family:'Fraunces',serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.card-desc{font-size:12px;color:var(--text-muted);line-height:1.55;margin:0;}
+
+/* ── STEPS ── */
+.steps{display:flex;flex-direction:column;gap:8px;margin:12px 0;}
+.step{
+  display:flex;gap:12px;align-items:flex-start;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:13px 16px;
+}
+.step-n{
+  width:24px;height:24px;background:rgba(79,124,255,.13);
+  border:1px solid rgba(79,124,255,.28);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10.5px;font-weight:800;color:var(--accent);flex-shrink:0;
+  font-family:'Plus Jakarta Sans',sans-serif;margin-top:1px;
+}
+.step-t{font-weight:700;color:var(--text);font-size:13px;margin-bottom:2px;}
+.step-d{font-size:12px;color:var(--text-muted);margin:0;line-height:1.55;}
+
+/* ── CALLOUTS ── */
+.co{
+  display:flex;gap:11px;padding:13px 16px;border-radius:var(--radius);
+  margin:13px 0;border:1px solid;align-items:flex-start;
+}
+.co.info{background:rgba(79,124,255,.05);border-color:rgba(79,124,255,.18);}
+.co.tip{background:rgba(62,207,142,.05);border-color:rgba(62,207,142,.18);}
+.co.warn{background:rgba(240,165,0,.05);border-color:rgba(240,165,0,.18);}
+.co.prem{background:var(--premium-bg);border-color:rgba(200,153,42,.28);}
+.co-ico{font-size:16px;flex-shrink:0;margin-top:1px;}
+.co-body{flex:1;}
+.co-title{font-weight:700;font-size:13px;margin-bottom:3px;font-family:'Plus Jakarta Sans',sans-serif;}
+.co.info .co-title{color:var(--accent);}
+.co.tip .co-title{color:var(--green);}
+.co.warn .co-title{color:var(--amber);}
+.co.prem .co-title{color:var(--premium);}
+.co p{font-size:12.5px;margin:0;line-height:1.58;}
+
+/* ── TABLE ── */
+.tbl{width:100%;border-collapse:collapse;margin:13px 0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);}
+.tbl th{background:var(--surface2);padding:9px 13px;font-size:10.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;color:var(--text-muted);text-align:left;font-family:'Plus Jakarta Sans',sans-serif;}
+.tbl td{padding:10px 13px;font-size:13px;color:var(--text-muted);border-top:1px solid var(--border);vertical-align:middle;}
+.tbl tr:hover td{background:rgba(255,255,255,.015);}
+.tbl td:first-child{color:var(--text);font-weight:600;}
+.tbl .pc{color:var(--green);font-weight:600;}
+.tbl .lk{color:var(--text-dim);}
+
+/* ── SHORTCUT LIST ── */
+.slist{display:flex;flex-direction:column;gap:1px;margin:9px 0;}
+.srow{display:flex;align-items:center;justify-content:space-between;padding:8px 11px;border-radius:var(--radius-xs);transition:background .12s;}
+.srow:hover{background:var(--surface);}
+.sl{font-size:13px;color:var(--text-muted);}
+.sv{font-size:12.5px;color:var(--text);font-weight:600;text-align:right;}
+
+/* ── BADGE ── */
+.badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle;font-family:'Plus Jakarta Sans',sans-serif;}
+.badge.pr{background:rgba(200,153,42,.15);color:var(--premium);}
+
+/* ── TAG LIST ── */
+.tlist{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0;}
+.tag{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:4px 9px;font-size:12px;color:var(--text-muted);font-weight:500;}
+.tag.at{border-color:rgba(79,124,255,.35);color:var(--accent);background:rgba(79,124,255,.07);}
+
+/* ── COLOR SWATCHES ── */
+.swatches{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0;}
+.swatch{width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,.08);transition:transform .15s;cursor:default;}
+.swatch:hover{transform:scale(1.25);}
+
+/* ── TRIAL STATES ── */
+.tstates{display:flex;gap:9px;margin:13px 0;}
+.tstate{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:13px;text-align:center;}
+.tstate-ico{font-size:18px;margin-bottom:4px;display:block;}
+.tstate-name{font-family:'Fraunces',serif;font-size:12px;font-weight:700;margin-bottom:3px;display:block;}
+.tstate-desc{font-size:11px;color:var(--text-muted);margin:0;}
+.tstate.sa{border-color:rgba(62,207,142,.28);background:rgba(62,207,142,.04);}
+.tstate.sa .tstate-name{color:var(--green);}
+.tstate.se{border-color:rgba(240,165,0,.28);background:rgba(240,165,0,.04);}
+.tstate.se .tstate-name{color:var(--amber);}
+.tstate.sx{border-color:rgba(240,86,106,.28);background:rgba(240,86,106,.04);}
+.tstate.sx .tstate-name{color:var(--red);}
+
+/* ── RTL ── */
+[dir="rtl"] .sidebar{border-right:none;border-left:1px solid var(--border);}
+[dir="rtl"] h2::before{margin-left:0;}
+[dir="rtl"] .ni{text-align:right;}
+[dir="rtl"] .nbadge{margin-left:0;margin-right:auto;}
+[dir="rtl"] .sv{text-align:left;}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:700px){
+  :root{--bar-h:80px;}
+  .top-bar{flex-wrap:wrap;row-gap:5px;}
+  .bar-group:last-of-type{margin-left:0!important;}
+  .layout{flex-direction:column;}
+  .sidebar{display:none;}
+  .main{padding:20px 16px;max-width:100%;}
+  .cg{grid-template-columns:1fr 1fr;}
+  .tstates{flex-direction:column;}
+  h1{font-size:24px;}
+}
+@media(max-width:420px){.cg{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="bar-group">
+    <span class="bar-label" id="ll-topic">Topic</span>
+    <div class="sel-wrap">
+      <select class="bar-select" id="topic-select" onchange="showSecById(this.value)">
+        <option value="overview"  data-nav="nav_overview">Overview</option>
+        <option value="accounts"  data-nav="nav_accounts">Email accounts</option>
+        <option value="login"     data-nav="nav_login">Login &amp; OAuth</option>
+        <option value="inbox"     data-nav="nav_inbox">Inbox</option>
+        <option value="compose"   data-nav="nav_compose">Composing</option>
+        <option value="attachments" data-nav="nav_attachments">Attachments</option>
+        <option value="search"    data-nav="nav_search">Search</option>
+        <option value="filters"   data-nav="nav_filters">Filters</option>
+        <option value="watcher"   data-nav="nav_watcher">Watcher</option>
+        <option value="widget"    data-nav="nav_widget">Widget</option>
+        <option value="appearance" data-nav="nav_appearance">Appearance</option>
+        <option value="sync"      data-nav="nav_sync">Sync</option>
+        <option value="backup"    data-nav="nav_backup">Backup</option>
+        <option value="trial"     data-nav="nav_trial">Trial &amp; Premium</option>
+        <option value="security"  data-nav="nav_security">Security</option>
+      </select>
+    </div>
+  </div>
+  <div class="bar-group" style="margin-left:auto;">
+    <span class="bar-label" id="ll">Language</span>
+    <div class="sel-wrap">
+      <select class="bar-select" id="lang-select" onchange="setLang(this.value)">
+        <option value="en">🇬🇧 EN – English</option>
+        <option value="cs">🇨🇿 CS – Čeština</option>
+        <option value="de">🇩🇪 DE – Deutsch</option>
+        <option value="fr">🇫🇷 FR – Français</option>
+        <option value="es">🇪🇸 ES – Español</option>
+        <option value="it">🇮🇹 IT – Italiano</option>
+        <option value="pt">🇵🇹 PT – Português</option>
+        <option value="ru">🇷🇺 RU – Русский</option>
+        <option value="uk">🇺🇦 UK – Українська</option>
+        <option value="pl">🇵🇱 PL – Polski</option>
+        <option value="nl">🇳🇱 NL – Nederlands</option>
+        <option value="sv">🇸🇪 SV – Svenska</option>
+        <option value="da">🇩🇰 DA – Dansk</option>
+        <option value="nb">🇳🇴 NB – Norsk bokmål</option>
+        <option value="nn">🇳🇴 NN – Norsk nynorsk</option>
+        <option value="fi">🇫🇮 FI – Suomi</option>
+        <option value="hu">🇭🇺 HU – Magyar</option>
+        <option value="sk">🇸🇰 SK – Slovenčina</option>
+        <option value="hr">🇭🇷 HR – Hrvatski</option>
+        <option value="ro">🇷🇴 RO – Română</option>
+        <option value="bg">🇧🇬 BG – Български</option>
+        <option value="tr">🇹🇷 TR – Türkçe</option>
+        <option value="ar">🇸🇦 AR – العربية</option>
+        <option value="hi">🇮🇳 HI – हिन्दी</option>
+        <option value="bn">🇧🇩 BN – বাংলা</option>
+        <option value="ja">🇯🇵 JA – 日本語</option>
+        <option value="ko">🇰🇷 KO – 한국어</option>
+        <option value="zh">🇨🇳 ZH – 中文</option>
+        <option value="vi">🇻🇳 VI – Tiếng Việt</option>
+        <option value="id">🇮🇩 ID – Bahasa Indonesia</option>
+        <option value="sw">🇰🇪 SW – Kiswahili</option>
+        <option value="ur">🇵🇰 UR – اردو</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <div class="logo-icon">✉</div>
+      <span class="logo-name">TchikiMail</span>
+    </div>
+    <div class="logo-sub" data-t="help_version">Help · v3.5</div>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-sec-title" data-t="nav_start">Getting started</div>
+    <button class="ni active" onclick="showSec('overview',this)"><span class="ico">🏠</span><span data-t="nav_overview">Overview</span></button>
+    <button class="ni" onclick="showSec('accounts',this)"><span class="ico">👤</span><span data-t="nav_accounts">Email accounts</span></button>
+    <button class="ni" onclick="showSec('login',this)"><span class="ico">🔐</span><span data-t="nav_login">Login & OAuth</span></button>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-sec-title" data-t="nav_email">Email</div>
+    <button class="ni" onclick="showSec('inbox',this)"><span class="ico">📥</span><span data-t="nav_inbox">Inbox</span></button>
+    <button class="ni" onclick="showSec('compose',this)"><span class="ico">✏️</span><span data-t="nav_compose">Composing</span></button>
+    <button class="ni" onclick="showSec('attachments',this)"><span class="ico">📎</span><span data-t="nav_attachments">Attachments</span></button>
+    <button class="ni" onclick="showSec('search',this)"><span class="ico">🔍</span><span data-t="nav_search">Search</span></button>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-sec-title" data-t="nav_productivity">Productivity</div>
+    <button class="ni" onclick="showSec('filters',this)"><span class="ico">🗂️</span><span data-t="nav_filters">Filters</span><span class="nbadge">Pro</span></button>
+    <button class="ni" onclick="showSec('watcher',this)"><span class="ico">🔔</span><span data-t="nav_watcher">Watcher</span><span class="nbadge">Pro</span></button>
+    <button class="ni" onclick="showSec('widget',this)"><span class="ico">📱</span><span data-t="nav_widget">Widget</span></button>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-sec-title" data-t="nav_settings">Settings</div>
+    <button class="ni" onclick="showSec('appearance',this)"><span class="ico">🎨</span><span data-t="nav_appearance">Appearance</span><span class="nbadge">Pro</span></button>
+    <button class="ni" onclick="showSec('sync',this)"><span class="ico">🔄</span><span data-t="nav_sync">Sync</span></button>
+    <button class="ni" onclick="showSec('backup',this)"><span class="ico">💾</span><span data-t="nav_backup">Backup</span><span class="nbadge">Pro</span></button>
+    <button class="ni" onclick="showSec('trial',this)"><span class="ico">⭐</span><span data-t="nav_trial">Trial & Premium</span></button>
+    <button class="ni" onclick="showSec('security',this)"><span class="ico">🔒</span><span data-t="nav_security">Security</span></button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<section id="overview" class="sec active">
+  <div class="ptag" data-t="tag_help">Help</div>
+  <h1 data-t="overview_h1">Welcome to TchikiMail</h1>
+  <p class="pdesc" data-t="overview_desc">A native Android email client designed for speed, privacy, and clarity.</p>
+  <div class="hero">
+    <h2 data-t="overview_hero_title">TchikiMail v3.5</h2>
+    <p data-t="overview_hero_desc">Full-featured email client supporting IMAP, POP3, Gmail and Microsoft 365. Works with any email address.</p>
+  </div>
+  <h2 data-t="overview_protocols">Supported protocols & services</h2>
+  <div class="pp">
+    <div class="pill"><span class="dot"></span> IMAP</div>
+    <div class="pill"><span class="dot"></span> POP3</div>
+    <div class="pill"><span class="dot"></span> SMTP</div>
+    <div class="pill"><span class="dot"></span> Gmail (OAuth2)</div>
+    <div class="pill"><span class="dot"></span> Microsoft 365 / Outlook (OAuth2)</div>
+  </div>
+  <div class="co info">
+    <div class="co-ico">ℹ️</div>
+    <div class="co-body">
+      <div class="co-title" data-t="overview_oauth_title">What is OAuth2?</div>
+      <p data-t="overview_oauth_desc">OAuth2 lets you sign in through the provider's official page — TchikiMail never sees or stores your password.</p>
+    </div>
+  </div>
+  <h2 data-t="overview_features">Main features</h2>
+  <div class="cg">
+    <div class="card"><span class="card-ico">📥</span><div class="card-title" data-t="feat_inbox">Inbox</div><p class="card-desc" data-t="feat_inbox_desc">Messages from all or selected accounts. Swipe to archive or delete.</p></div>
+    <div class="card"><span class="card-ico">✏️</span><div class="card-title" data-t="feat_compose">Compose</div><p class="card-desc" data-t="feat_compose_desc">Rich text editor with formatting, quotes, attachments and custom signature.</p></div>
+    <div class="card"><span class="card-ico">👤</span><div class="card-title" data-t="feat_accounts">Accounts</div><p class="card-desc" data-t="feat_accounts_desc">Manage multiple email accounts, each with its own color.</p></div>
+    <div class="card"><span class="card-ico">🗂️</span><div class="card-title" data-t="feat_filters">Filters</div><p class="card-desc" data-t="feat_filters_desc">Automatically sort incoming emails using custom rules.</p></div>
+    <div class="card"><span class="card-ico">🔔</span><div class="card-title" data-t="feat_watcher">Watcher</div><p class="card-desc" data-t="feat_watcher_desc">Instant alert when an email matching your criteria arrives.</p></div>
+    <div class="card"><span class="card-ico">💾</span><div class="card-title" data-t="feat_backup">Backup</div><p class="card-desc" data-t="feat_backup_desc">Export settings and restore on a new device.</p></div>
+  </div>
+</section>
+
+<section id="accounts" class="sec">
+  <div class="ptag" data-t="tag_start">Getting started</div>
+  <h1 data-t="accounts_h1">Email accounts</h1>
+  <p class="pdesc" data-t="accounts_desc">Add one or more email accounts. Each account has its own color and notification settings.</p>
+  <h2 data-t="accounts_add">Adding a new account</h2>
+  <div class="steps">
+    <div class="step"><div class="step-n">1</div><div><div class="step-t" data-t="acc_s1">Open Settings → Accounts</div><p class="step-d" data-t="acc_s1d">Tap the person icon in the bottom navigation.</p></div></div>
+    <div class="step"><div class="step-n">2</div><div><div class="step-t" data-t="acc_s2">Tap "+ Add account"</div><p class="step-d" data-t="acc_s2d">Button in the bottom-right corner of the Accounts screen.</p></div></div>
+    <div class="step"><div class="step-n">3</div><div><div class="step-t" data-t="acc_s3">Choose login type</div><p class="step-d" data-t="acc_s3d">Gmail and Microsoft 365 offer OAuth2. For other providers, enter IMAP/SMTP details manually.</p></div></div>
+    <div class="step"><div class="step-n">4</div><div><div class="step-t" data-t="acc_s4">Choose color and display name</div><p class="step-d" data-t="acc_s4d">Each account gets a unique color shown next to messages for quick identification.</p></div></div>
+  </div>
+  <h2 data-t="accounts_imap">Manual IMAP/SMTP setup</h2>
+  <p data-t="accounts_imap_desc">You'll need these details from your email provider:</p>
+  <div class="slist">
+    <div class="srow"><span class="sl">IMAP server</span><span class="sv">e.g. imap.gmail.com</span></div>
+    <div class="srow"><span class="sl">IMAP port</span><span class="sv">993 (SSL) or 143 (STARTTLS)</span></div>
+    <div class="srow"><span class="sl">SMTP server</span><span class="sv">e.g. smtp.gmail.com</span></div>
+    <div class="srow"><span class="sl">SMTP port</span><span class="sv">465 (SSL) or 587 (STARTTLS)</span></div>
+    <div class="srow"><span class="sl" data-t="imap_user">Username</span><span class="sv" data-t="imap_user_val">Usually the full email address</span></div>
+  </div>
+  <div class="co tip">
+    <div class="co-ico">💡</div>
+    <div class="co-body">
+      <div class="co-title" data-t="acc_tip_title">App password</div>
+      <p data-t="acc_tip_desc">Some providers (e.g. Gmail, Yahoo, Seznam) require an "app password" when you have two-factor authentication enabled. Generate it in your provider's security settings — do not use your regular login password.</p>
+    </div>
+  </div>
+  <h2 data-t="accounts_manage">Managing active accounts</h2>
+  <p data-t="accounts_manage_desc">In <strong>Settings → Accounts</strong> you can edit, deactivate or delete accounts. The <strong>"Select active accounts"</strong> button lets you choose which accounts sync.</p>
+  <div class="co warn">
+    <div class="co-ico">⚠️</div>
+    <div class="co-body">
+      <div class="co-title" data-t="acc_limit_title">Free version: 2 active accounts limit</div>
+      <p data-t="acc_limit_desc">After the trial expires or without Premium, you can have at most <strong>2 active accounts</strong>. Others remain saved but won't sync. Premium removes this limit entirely.</p>
+    </div>
+  </div>
+  <h2 data-t="accounts_colors">Account colors</h2>
+  <p data-t="accounts_colors_desc">Each account has a color visible next to messages and in notifications. Change it anytime in account settings.</p>
+  <div class="swatches">
+    <div class="swatch" style="background:#4f7cff"></div>
+    <div class="swatch" style="background:#f0566a"></div>
+    <div class="swatch" style="background:#3ecf8e"></div>
+    <div class="swatch" style="background:#f0a500"></div>
+    <div class="swatch" style="background:#c678dd"></div>
+    <div class="swatch" style="background:#e06c75"></div>
+    <div class="swatch" style="background:#56b6c2"></div>
+    <div class="swatch" style="background:#98c379"></div>
+  </div>
+</section>
+
+<section id="login" class="sec">
+  <div class="ptag" data-t="tag_start">Getting started</div>
+  <h1 data-t="login_h1">Login & OAuth</h1>
+  <p class="pdesc" data-t="login_desc">Secure login for Gmail, Microsoft 365 and other providers.</p>
+  <h2 data-t="login_gmail">Gmail — OAuth2 login</h2>
+  <p data-t="login_gmail_desc">TchikiMail opens Google's official login page in a built-in browser. Your password never reaches the app.</p>
+  <div class="steps">
+    <div class="step"><div class="step-n">1</div><div><div class="step-t" data-t="login_g1">Add account → Gmail</div><p class="step-d" data-t="login_g1d">Tap "Sign in with Google".</p></div></div>
+    <div class="step"><div class="step-n">2</div><div><div class="step-t" data-t="login_g2">Sign in on Google's page</div><p class="step-d" data-t="login_g2d">Enter your Google credentials there.</p></div></div>
+    <div class="step"><div class="step-n">3</div><div><div class="step-t" data-t="login_g3">Grant permissions</div><p class="step-d" data-t="login_g3d">Confirm the requested permissions and you'll be redirected back to the app.</p></div></div>
+  </div>
+  <h2 data-t="login_ms">Microsoft 365 / Outlook</h2>
+  <p data-t="login_ms_desc">Same principle as Google — through Microsoft's login page. Works for Outlook.com, Hotmail, Live and corporate Microsoft 365 accounts.</p>
+  <div class="co info">
+    <div class="co-ico">ℹ️</div>
+    <div class="co-body">
+      <div class="co-title" data-t="login_refresh_title">Automatic token refresh</div>
+      <p data-t="login_refresh_desc">OAuth2 access tokens expire periodically. TchikiMail refreshes them automatically in the background — you won't need to re-enter your password.</p>
+    </div>
+  </div>
+  <h2 data-t="login_imap">IMAP/SMTP — password login</h2>
+  <p data-t="login_imap_desc">For other providers you enter your password directly. It is <strong>encrypted with AES-256-GCM</strong> and stored in the Android Keystore.</p>
+  <div class="co warn">
+    <div class="co-ico">⚠️</div>
+    <div class="co-body">
+      <div class="co-title" data-t="login_transfer_title">Transferring to a new device</div>
+      <p data-t="login_transfer_desc">Encryption keys are device-specific. When restoring on a new phone, you'll need to re-enter IMAP/SMTP passwords. Gmail and Microsoft 365 just need to log in again via OAuth2.</p>
+    </div>
+  </div>
+</section>
+
+<section id="inbox" class="sec">
+  <div class="ptag" data-t="tag_email">Email</div>
+  <h1 data-t="inbox_h1">Inbox</h1>
+  <p class="pdesc" data-t="inbox_desc">The main screen — messages from all or selected accounts, with quick swipe actions.</p>
+  <h2 data-t="inbox_gestures">Swipe gestures</h2>
+  <div class="slist">
+    <div class="srow"><span class="sl" data-t="swipe_left">Swipe left</span><span class="sv" data-t="swipe_left_val">Delete message</span></div>
+    <div class="srow"><span class="sl" data-t="swipe_right">Swipe right</span><span class="sv" data-t="swipe_right_val">Archive message</span></div>
+    <div class="srow"><span class="sl" data-t="tap_msg">Tap message</span><span class="sv" data-t="tap_msg_val">Open detail</span></div>
+    <div class="srow"><span class="sl" data-t="star">Star icon</span><span class="sv" data-t="star_val">Mark as important</span></div>
+  </div>
+  <div class="co tip">
+    <div class="co-ico">💡</div>
+    <div class="co-body">
+      <div class="co-title" data-t="inbox_qr_title">Quick Reply</div>
+      <p data-t="inbox_qr_desc">A quick reply field is available at the bottom of the message detail. The reply automatically includes a quote of the original so the recipient sees the context.</p>
+    </div>
+  </div>
+  <h2 data-t="inbox_folders">Folders</h2>
+  <p data-t="inbox_folders_desc">TchikiMail shows standard folders: Inbox, Sent, Drafts, Trash, Spam and other folders from your provider or created by filters.</p>
+  <h2 data-t="inbox_read">Mark read / unread</h2>
+  <p data-t="inbox_read_desc">Long-press a message to toggle its read state. Unread messages are highlighted.</p>
+  <h2 data-t="inbox_move">Move to folder</h2>
+  <p data-t="inbox_move_desc">In the message detail tap the folder icon to choose a target folder. The move is performed on the server.</p>
+</section>
+
+<section id="compose" class="sec">
+  <div class="ptag" data-t="tag_email">Email</div>
+  <h1 data-t="compose_h1">Composing emails</h1>
+  <p class="pdesc" data-t="compose_desc">Full-featured editor for writing, replying and forwarding.</p>
+  <h2 data-t="compose_format">Text formatting</h2>
+  <div class="tlist">
+    <span class="tag at" data-t="fmt_bold">Bold</span>
+    <span class="tag at" data-t="fmt_italic">Italic</span>
+    <span class="tag at" data-t="fmt_underline">Underline</span>
+    <span class="tag at" data-t="fmt_strike">Strikethrough</span>
+    <span class="tag at" data-t="fmt_headings">Headings</span>
+    <span class="tag at" data-t="fmt_bullet">Bullet list</span>
+    <span class="tag at" data-t="fmt_numbered">Numbered list</span>
+    <span class="tag at" data-t="fmt_color">Text color</span>
+    <span class="tag" data-t="fmt_link">Link</span>
+  </div>
+  <h2 data-t="compose_sig">Signature</h2>
+  <p data-t="compose_sig_desc">Set your signature in <strong>Settings → Accounts → [your account] → Signature</strong>. It is added automatically to every new message and reply.</p>
+  <div class="co info">
+    <div class="co-ico">ℹ️</div>
+    <div class="co-body">
+      <div class="co-title" data-t="compose_sig_free_title">Free version — forced signature</div>
+      <p data-t="compose_sig_free_desc">Without Premium, a standard TchikiMail signature is automatically appended. With Premium you can fully customise or remove it.</p>
+    </div>
+  </div>
+  <h2 data-t="compose_reply">Reply & Forward</h2>
+  <div class="steps">
+    <div class="step"><div class="step-n">↩</div><div><div class="step-t" data-t="reply_t">Reply</div><p class="step-d" data-t="reply_d">Pre-filled with sender address and original message quote. Subject prefixed "Re:".</p></div></div>
+    <div class="step"><div class="step-n">↩↩</div><div><div class="step-t" data-t="replyall_t">Reply all</div><p class="step-d" data-t="replyall_d">Same as Reply but includes all To/Cc recipients.</p></div></div>
+    <div class="step"><div class="step-n">→</div><div><div class="step-t" data-t="fwd_t">Forward</div><p class="step-d" data-t="fwd_d">Original body with empty recipient. Subject prefixed "Fwd:".</p></div></div>
+  </div>
+  <h2 data-t="compose_drafts">Drafts</h2>
+  <p data-t="compose_drafts_desc">Drafts are saved automatically. Find them in the <strong>Drafts</strong> folder. Reopening a draft restores full formatting.</p>
+  <h2 data-t="compose_autocomplete">Address autocomplete</h2>
+  <p data-t="compose_autocomplete_desc">The app suggests addresses from your sending history as you type in the To field.</p>
+</section>
+
+<section id="attachments" class="sec">
+  <div class="ptag" data-t="tag_email">Email</div>
+  <h1 data-t="att_h1">Attachments</h1>
+  <p class="pdesc" data-t="att_desc">Receiving and sending file attachments.</p>
+  <h2 data-t="att_received">Received attachments</h2>
+  <p data-t="att_received_desc">Messages with attachments are marked with 📎. Tap an attachment in the message detail to download and open it.</p>
+  <div class="co info">
+    <div class="co-ico">ℹ️</div>
+    <div class="co-body">
+      <div class="co-title" data-t="att_ondemand_title">On-demand download</div>
+      <p data-t="att_ondemand_desc">Attachments are not downloaded automatically — saves data and storage. Once downloaded, the file is available offline.</p>
+    </div>
+  </div>
+  <h2 data-t="att_send">Adding an attachment</h2>
+  <div class="steps">
+    <div class="step"><div class="step-n">1</div><div><div class="step-t" data-t="att_s1">Tap the attachment icon</div><p class="step-d" data-t="att_s1d">The paperclip in the editor toolbar.</p></div></div>
+    <div class="step"><div class="step-n">2</div><div><div class="step-t" data-t="att_s2">Choose a file</div><p class="step-d" data-t="att_s2d">Android file manager opens. Any file type is supported.</p></div></div>
+    <div class="step"><div class="step-n">3</div><div><div class="step-t" data-t="att_s3">File appears below the message body</div><p class="step-d" data-t="att_s3d">Name and size shown. Tap × to remove.</p></div></div>
+  </div>
+</section>
+
+<section id="search" class="sec">
+  <div class="ptag" data-t="tag_email">Email</div>
+  <h1 data-t="search_h1">Search</h1>
+  <p class="pdesc" data-t="search_desc">Instant full-text search across all stored emails.</p>
+  <h2 data-t="search_where">What is searched</h2>
+  <p data-t="search_where_desc">Tap the magnifying glass to open search. Covers <strong>subject</strong>, <strong>sender name</strong>, <strong>email address</strong> and <strong>message body</strong>.</p>
+  <h2 data-t="search_how">How search works</h2>
+  <p data-t="search_how_desc">A local full-text index of downloaded messages is maintained. Search is instant and works offline.</p>
+  <div class="co tip">
+    <div class="co-ico">💡</div>
+    <div class="co-body">
+      <div class="co-title" data-t="search_tip_title">Tip</div>
+      <p data-t="search_tip_desc">Older messages must be loaded first (pull-to-refresh or "Load older"). Only then are they indexed and visible in search results.</p>
+    </div>
+  </div>
+</section>
+
+<section id="filters" class="sec">
+  <div class="ptag" data-t="tag_prod">Productivity</div>
+  <h1 data-t="filters_h1">Message filters <span class="badge pr">Premium</span></h1>
+  <p class="pdesc" data-t="filters_desc">Automate sorting of incoming emails with rules.</p>
+  <div class="co prem">
+    <div class="co-ico">⭐</div>
+    <div class="co-body">
+      <div class="co-title" data-t="prem_feat">Premium feature</div>
+      <p data-t="filters_limit">Free version: <strong>1 filter</strong>. With Premium or active trial: unlimited.</p>
+    </div>
+  </div>
+  <h2 data-t="filters_create">Creating a filter</h2>
+  <div class="steps">
+    <div class="step"><div class="step-n">1</div><div><div class="step-t" data-t="filt_s1">Settings → Filters → + Add filter</div></div></div>
+    <div class="step"><div class="step-n">2</div><div><div class="step-t" data-t="filt_s2">Choose field and condition</div><p class="step-d" data-t="filt_s2d">Filter by sender, subject, recipient or body. Conditions: contains, does not contain, is exactly, starts with…</p></div></div>
+    <div class="step"><div class="step-n">3</div><div><div class="step-t" data-t="filt_s3">Choose action</div><p class="step-d" data-t="filt_s3d">Move to folder, mark as read, star, or trigger an alert.</p></div></div>
+    <div class="step"><div class="step-n">4</div><div><div class="step-t" data-t="filt_s4">Save</div><p class="step-d" data-t="filt_s4d">Active immediately for all new messages.</p></div></div>
+  </div>
+  <h2 data-t="filters_examples">Examples</h2>
+  <div class="cg">
+    <div class="card"><span class="card-ico">📂</span><div class="card-title" data-t="filt_ex1">Sort newsletters</div><p class="card-desc" data-t="filt_ex1d">From: *@newsletter.com → move to folder and mark as read.</p></div>
+    <div class="card"><span class="card-ico">⭐</span><div class="card-title" data-t="filt_ex2">Priority emails</div><p class="card-desc" data-t="filt_ex2d">From: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c5a7aab6b685a6aaa8b5a4abbceba6aaa8">[email&#160;protected]</a> → star + alert.</p></div>
+    <div class="card"><span class="card-ico">🗑️</span><div class="card-title" data-t="filt_ex3">Auto-delete spam</div><p class="card-desc" data-t="filt_ex3d">Subject contains "You won!" → move to Trash.</p></div>
+  </div>
+</section>
+
+<section id="watcher" class="sec">
+  <div class="ptag" data-t="tag_prod">Productivity</div>
+  <h1 data-t="watcher_h1">Message watcher <span class="badge pr">Premium</span></h1>
+  <p class="pdesc" data-t="watcher_desc">Instant sound alert for emails you're waiting for.</p>
+  <div class="co prem">
+    <div class="co-ico">⭐</div>
+    <div class="co-body">
+      <div class="co-title" data-t="prem_feat">Premium feature</div>
+      <p data-t="watcher_limit">Free version: <strong>1 watcher</strong>. With Premium or active trial: unlimited.</p>
+    </div>
+  </div>
+  <h2 data-t="watcher_how">How it works</h2>
+  <p data-t="watcher_how_desc">A watcher is a special filter with an immediate sound alert — even when other notifications are silenced.</p>
+  <h2 data-t="watcher_when">Use cases</h2>
+  <div class="cg">
+    <div class="card"><span class="card-ico">📦</span><div class="card-title" data-t="watch_ex1">Parcel delivery</div><p class="card-desc" data-t="watch_ex1d">Watch for a delivery confirmation from the courier.</p></div>
+    <div class="card"><span class="card-ico">💼</span><div class="card-title" data-t="watch_ex2">Urgent work</div><p class="card-desc" data-t="watch_ex2d">Watcher for a specific client or subject "Urgent".</p></div>
+    <div class="card"><span class="card-ico">🏦</span><div class="card-title" data-t="watch_ex3">Bank alerts</div><p class="card-desc" data-t="watch_ex3d">Instant notification for payment confirmations.</p></div>
+  </div>
+  <h2 data-t="watcher_setup">Setup</h2>
+  <p data-t="watcher_setup_desc">Same steps as creating a filter — additionally choose an <strong>alert sound</strong> from system or built-in tones.</p>
+</section>
+
+<section id="widget" class="sec">
+  <div class="ptag" data-t="tag_prod">Productivity</div>
+  <h1 data-t="widget_h1">Home screen widget</h1>
+  <p class="pdesc" data-t="widget_desc">Unread message count directly on your home screen.</p>
+  <h2 data-t="widget_add">Adding the widget</h2>
+  <div class="steps">
+    <div class="step"><div class="step-n">1</div><div><div class="step-t" data-t="wid_s1">Long-press the home screen</div><p class="step-d" data-t="wid_s1d">The screen edit menu appears.</p></div></div>
+    <div class="step"><div class="step-n">2</div><div><div class="step-t" data-t="wid_s2">Tap "Widgets" and find TchikiMail</div></div></div>
+    <div class="step"><div class="step-n">3</div><div><div class="step-t" data-t="wid_s3">Drag the widget onto the screen</div><p class="step-d" data-t="wid_s3d">Shows unread count and latest messages. Tap to open the app.</p></div></div>
+  </div>
+  <div class="co info">
+    <div class="co-ico">ℹ️</div>
+    <div class="co-body">
+      <div class="co-title" data-t="wid_update_title">Widget updates</div>
+      <p data-t="wid_update_desc">The widget refreshes automatically with every email sync.</p>
+    </div>
+  </div>
+</section>
+
+<section id="appearance" class="sec">
+  <div class="ptag" data-t="tag_settings">Settings</div>
+  <h1 data-t="appear_h1">Appearance</h1>
+  <p class="pdesc" data-t="appear_desc">Customise the visual style of TchikiMail.</p>
+  <h2 data-t="appear_presets">Visual presets</h2>
+  <p data-t="appear_presets_desc">Several predefined visual styles are available. The free version has access to <strong>3 presets</strong>. Premium unlocks all presets and custom background colors.</p>
+  <table class="tbl">
+    <thead><tr><th data-t="tbl_feature">Feature</th><th data-t="tbl_free">Free</th><th data-t="tbl_premium">Premium</th></tr></thead>
+    <tbody>
+      <tr><td data-t="ap_presets">Visual presets</td><td data-t="ap_presets_free">3 basic</td><td class="pc" data-t="ap_presets_pr">All + custom</td></tr>
+      <tr><td data-t="ap_colors">Custom background colors</td><td class="lk">🔒</td><td class="pc">✓</td></tr>
+      <tr><td data-t="ap_theme">Dark / light mode</td><td>✓</td><td class="pc">✓</td></tr>
+    </tbody>
+  </table>
+  <h2 data-t="appear_custom">Custom colors <span class="badge pr">Premium</span></h2>
+  <p data-t="appear_custom_desc">With Premium, a color picker appears for each preset — set any exact shade you want.</p>
+</section>
+
+<section id="sync" class="sec">
+  <div class="ptag" data-t="tag_settings">Settings</div>
+  <h1 data-t="sync_h1">Synchronization</h1>
+  <p class="pdesc" data-t="sync_desc">How and when TchikiMail downloads new emails.</p>
+  <h2 data-t="sync_auto">Automatic sync</h2>
+  <p data-t="sync_auto_desc">Background sync via Android WorkManager. Minimum interval: <strong>15 minutes</strong> (Android system limit). Sync resumes automatically after device restart.</p>
+  <h2 data-t="sync_manual">Manual sync</h2>
+  <p data-t="sync_manual_desc">Pull down the message list (pull-to-refresh) for an immediate sync.</p>
+  <h2 data-t="sync_outbox">Outbox queue</h2>
+  <p data-t="sync_outbox_desc">Messages pending send are queued and sent automatically. If sending fails (no internet), the message stays in the queue and retries later.</p>
+  <div class="co tip">
+    <div class="co-ico">💡</div>
+    <div class="co-body">
+      <div class="co-title" data-t="sync_notif_title">Per-account notifications</div>
+      <p data-t="sync_notif_desc">Enable or disable new-message notifications for each account separately in <strong>Settings → Accounts → [account]</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="backup" class="sec">
+  <div class="ptag" data-t="tag_settings">Settings</div>
+  <h1 data-t="backup_h1">Backup & restore <span class="badge pr">Premium</span></h1>
+  <p class="pdesc" data-t="backup_desc">Export your settings and restore them on a new device.</p>
+  <div class="co prem">
+    <div class="co-ico">⭐</div>
+    <div class="co-body">
+      <div class="co-title" data-t="prem_feat">Premium feature</div>
+      <p data-t="backup_limit">Backup export requires a Premium licence or active trial.</p>
+    </div>
+  </div>
+  <h2 data-t="backup_what">What is backed up</h2>
+  <div class="slist">
+    <div class="srow"><span class="sl">✅ <span data-t="bk_accounts">Account settings</span></span><span class="sv" data-t="bk_accounts_v">Server, port, username</span></div>
+    <div class="srow"><span class="sl">✅ <span data-t="bk_filters">Message filters</span></span><span class="sv" data-t="bk_filters_v">All your rules</span></div>
+    <div class="srow"><span class="sl">✅ <span data-t="bk_settings">Appearance & settings</span></span><span class="sv" data-t="bk_settings_v">Presets, signatures, language</span></div>
+    <div class="srow"><span class="sl">⚠️ <span data-t="bk_passwords">IMAP/SMTP passwords</span></span><span class="sv" data-t="bk_passwords_v">Optional — protected by backup password</span></div>
+    <div class="srow"><span class="sl">❌ <span data-t="bk_emails">Email messages</span></span><span class="sv" data-t="bk_emails_v">Not backed up — stored on server</span></div>
+  </div>
+  <h2 data-t="backup_export">Exporting</h2>
+  <div class="steps">
+    <div class="step"><div class="step-n">1</div><div><div class="step-t" data-t="bk_s1">Settings → Backup → Export backup</div></div></div>
+    <div class="step"><div class="step-n">2</div><div><div class="step-t" data-t="bk_s2">Choose whether to include passwords</div><p class="step-d" data-t="bk_s2d">If yes, set a backup password to protect them.</p></div></div>
+    <div class="step"><div class="step-n">3</div><div><div class="step-t" data-t="bk_s3">Save or share the file</div><p class="step-d" data-t="bk_s3d">Save to storage or share via Google Drive, email, etc.</p></div></div>
+  </div>
+  <h2 data-t="backup_restore">Restoring</h2>
+  <div class="steps">
+    <div class="step"><div class="step-n">1</div><div><div class="step-t" data-t="bk_r1">Settings → Backup → Import backup</div></div></div>
+    <div class="step"><div class="step-n">2</div><div><div class="step-t" data-t="bk_r2">Select the backup file</div></div></div>
+    <div class="step"><div class="step-n">3</div><div><div class="step-t" data-t="bk_r3">Enter backup password (if set)</div></div></div>
+    <div class="step"><div class="step-n">4</div><div><div class="step-t" data-t="bk_r4">App restarts and restores all settings</div></div></div>
+  </div>
+  <div class="co warn">
+    <div class="co-ico">⚠️</div>
+    <div class="co-body">
+      <div class="co-title" data-t="bk_newdev_title">Passwords on a new device</div>
+      <p data-t="bk_newdev_desc">Encryption keys are device-specific. On a new phone you'll be prompted to re-enter IMAP/SMTP passwords. Gmail and Microsoft 365 need to log in again via OAuth2.</p>
+    </div>
+  </div>
+</section>
+
+<section id="trial" class="sec">
+  <div class="ptag" data-t="tag_settings">Settings</div>
+  <h1 data-t="trial_h1">Trial & Premium</h1>
+  <p class="pdesc" data-t="trial_desc">How the trial works and what Premium unlocks.</p>
+  <h2 data-t="trial_period">Trial period</h2>
+  <p data-t="trial_period_desc">On first install, TchikiMail starts a <strong>30-day trial</strong> with full access to all features — free, no registration required.</p>
+  <div class="tstates">
+    <div class="tstate sa"><span class="tstate-ico">✅</span><span class="tstate-name" data-t="ts_active">Active</span><p class="tstate-desc" data-t="ts_active_d">3+ days remain. Full access.</p></div>
+    <div class="tstate se"><span class="tstate-ico">⏳</span><span class="tstate-name" data-t="ts_expiring">Expiring</span><p class="tstate-desc" data-t="ts_expiring_d">1–3 days left.</p></div>
+    <div class="tstate sx"><span class="tstate-ico">🔴</span><span class="tstate-name" data-t="ts_expired">Expired</span><p class="tstate-desc" data-t="ts_expired_d">Free mode active.</p></div>
+  </div>
+  <h2 data-t="trial_start">Trial start date</h2>
+  <p data-t="trial_start_desc">The trial start date is tied to your device and <strong>survives uninstall and reinstall</strong>. Deleting and reinstalling TchikiMail does not reset the trial.</p>
+  <div class="co tip">
+    <div class="co-ico">💡</div>
+    <div class="co-body">
+      <div class="co-title" data-t="trial_offline_title">Works offline</div>
+      <p data-t="trial_offline_desc">Trial works offline. The start date is stored both locally and on the server.</p>
+    </div>
+  </div>
+  <h2 data-t="trial_after">After expiry — free mode</h2>
+  <p data-t="trial_after_desc">A dialog appears once to select which <strong>2 accounts</strong> remain active. Others are kept but stop syncing.</p>
+  <div class="co warn">
+    <div class="co-ico">⚠️</div>
+    <div class="co-body">
+      <div class="co-title" data-t="trial_select_title">Account selection cooldown</div>
+      <p data-t="trial_select_desc">The selection can be changed any time in <strong>Settings → Accounts → Select active accounts</strong>, but only once every 24 hours.</p>
+    </div>
+  </div>
+  <h2 data-t="trial_compare">Free vs Premium</h2>
+  <table class="tbl">
+    <thead><tr><th data-t="tbl_feature">Feature</th><th data-t="tbl_free">Free</th><th data-t="tbl_premium_trial">Premium / Trial</th></tr></thead>
+    <tbody>
+      <tr><td data-t="cmp_accounts">Active accounts</td><td data-t="cmp_accounts_f">Max 2</td><td class="pc" data-t="cmp_accounts_p">Unlimited</td></tr>
+      <tr><td data-t="cmp_filters">Message filters</td><td data-t="cmp_filters_f">1</td><td class="pc" data-t="cmp_filters_p">Unlimited</td></tr>
+      <tr><td data-t="cmp_watcher">Message watcher</td><td data-t="cmp_watcher_f">1</td><td class="pc" data-t="cmp_watcher_p">Unlimited</td></tr>
+      <tr><td data-t="cmp_presets">Visual presets</td><td data-t="cmp_presets_f">3 basic</td><td class="pc" data-t="cmp_presets_p">All + custom colors</td></tr>
+      <tr><td data-t="cmp_backup">Backup export</td><td class="lk">🔒</td><td class="pc">✓</td></tr>
+      <tr><td data-t="cmp_sig">Custom signature</td><td class="lk" data-t="cmp_sig_f">🔒 Forced</td><td class="pc" data-t="cmp_sig_p">✓ Custom</td></tr>
+    </tbody>
+  </table>
+  <h2 data-t="trial_buy">How to get Premium</h2>
+  <p data-t="trial_buy_desc">Tap <strong>"Get Premium"</strong> in Settings or when a Premium feature is accessed. Payment via <strong>Google Play</strong>.</p>
+</section>
+
+<section id="security" class="sec">
+  <div class="ptag" data-t="tag_settings">Settings</div>
+  <h1 data-t="sec_h1">Security</h1>
+  <p class="pdesc" data-t="sec_desc">How TchikiMail protects your data and credentials.</p>
+  <h2 data-t="sec_enc">Password encryption</h2>
+  <p data-t="sec_enc_desc">IMAP/SMTP passwords are encrypted with <strong>AES-256-GCM</strong> and stored in the Android Keystore, protected by your device's hardware.</p>
+  <h2 data-t="sec_bio">App lock</h2>
+  <p data-t="sec_bio_desc">TchikiMail supports locking the app with a <strong>fingerprint or screen lock gesture</strong>. Configure it in <strong>Settings → Security → App lock</strong>.</p>
+  <h2 data-t="sec_local">What is stored locally</h2>
+  <div class="slist">
+    <div class="srow"><span class="sl">✅ <span data-t="sec_keystore">Encrypted in Keystore</span></span><span class="sv" data-t="sec_keystore_v">IMAP/SMTP passwords, OAuth tokens</span></div>
+    <div class="srow"><span class="sl">✅ <span data-t="sec_db">Local database</span></span><span class="sv" data-t="sec_db_v">Downloaded emails, attachments, contacts</span></div>
+    <div class="srow"><span class="sl">⚠️ <span data-t="sec_nobackup">Not auto-backed up</span></span><span class="sv" data-t="sec_nobackup_v">Passwords & tokens (device-specific keys)</span></div>
+  </div>
+  <div class="co info">
+    <div class="co-ico">ℹ️</div>
+    <div class="co-body">
+      <div class="co-title" data-t="sec_anon_title">Anonymous trial data</div>
+      <p data-t="sec_anon_desc">To protect the trial period, an anonymous device hash is stored on Firebase servers in Europe. It contains no personal data — only the first installation timestamp.</p>
+    </div>
+  </div>
+  <h2 data-t="sec_lost">Lost or reset device</h2>
+  <p data-t="sec_lost_desc">Your emails are safe on the server. Reinstall TchikiMail, sign in to your accounts, and restore settings from an exported backup. IMAP/SMTP passwords must be re-entered.</p>
+</section>
+
+</main>
+</div>
+
+<script data-cfasync="false">
+const T={
+en:{ll:"Language",help_version:"Help · v3.5",nav_start:"Getting started",nav_overview:"Overview",nav_accounts:"Email accounts",nav_login:"Login & OAuth",nav_email:"Email",nav_inbox:"Inbox",nav_compose:"Composing",nav_attachments:"Attachments",nav_search:"Search",nav_productivity:"Productivity",nav_filters:"Filters",nav_watcher:"Watcher",nav_widget:"Widget",nav_settings:"Settings",nav_appearance:"Appearance",nav_sync:"Sync",nav_backup:"Backup",nav_trial:"Trial & Premium",nav_security:"Security",tag_help:"Help",tag_start:"Getting started",tag_email:"Email",tag_prod:"Productivity",tag_settings:"Settings",overview_h1:"Welcome to TchikiMail",overview_desc:"A native Android email client designed for speed, privacy, and clarity.",overview_hero_title:"TchikiMail v3.5",overview_hero_desc:"Full-featured email client supporting IMAP, POP3, Gmail and Microsoft 365. Works with any email address.",overview_protocols:"Supported protocols & services",overview_oauth_title:"What is OAuth2?",overview_oauth_desc:"OAuth2 lets you sign in through the provider's official page — TchikiMail never sees or stores your password.",overview_features:"Main features",feat_inbox:"Inbox",feat_inbox_desc:"Messages from all or selected accounts. Swipe to archive or delete.",feat_compose:"Compose",feat_compose_desc:"Rich text editor with formatting, quotes, attachments and custom signature.",feat_accounts:"Accounts",feat_accounts_desc:"Manage multiple email accounts, each with its own color.",feat_filters:"Filters",feat_filters_desc:"Automatically sort incoming emails using custom rules.",feat_watcher:"Watcher",feat_watcher_desc:"Instant alert when an email matching your criteria arrives.",feat_backup:"Backup",feat_backup_desc:"Export settings and restore on a new device.",accounts_h1:"Email accounts",accounts_desc:"Add one or more email accounts. Each account has its own color and notification settings.",accounts_add:"Adding a new account",acc_s1:"Open Settings → Accounts",acc_s1d:"Tap the person icon in the bottom navigation.",acc_s2:"Tap \"+  Add account\"",acc_s2d:"Button in the bottom-right corner of the Accounts screen.",acc_s3:"Choose login type",acc_s3d:"Gmail and Microsoft 365 offer OAuth2. For other providers, enter IMAP/SMTP details manually.",acc_s4:"Choose color and display name",acc_s4d:"Each account gets a unique color shown next to messages.",accounts_imap:"Manual IMAP/SMTP setup",accounts_imap_desc:"You'll need these details from your email provider:",imap_user:"Username",imap_user_val:"Usually the full email address",acc_tip_title:"App password",acc_tip_desc:"Some providers (e.g. Gmail, Yahoo, Seznam) require an \"app password\" when you have two-factor authentication enabled. Generate it in your provider's security settings — do not use your regular login password.",accounts_manage:"Managing active accounts",accounts_manage_desc:"In Settings → Accounts you can edit, deactivate or delete accounts. \"Select active accounts\" lets you choose which accounts sync.",acc_limit_title:"Free version: 2 active accounts limit",acc_limit_desc:"After trial expiry or without Premium, at most <strong>2 accounts</strong> can be active. Others are saved but won't sync. Premium removes this limit entirely.",accounts_colors:"Account colors",accounts_colors_desc:"Each account has a color visible next to messages and in notifications. Change it anytime in account settings.",login_h1:"Login & OAuth",login_desc:"Secure login for Gmail, Microsoft 365 and other providers.",login_gmail:"Gmail — OAuth2 login",login_gmail_desc:"TchikiMail opens Google's official login page. Your password never reaches the app.",login_g1:"Add account → Gmail",login_g1d:"Tap \"Sign in with Google\".",login_g2:"Sign in on Google's page",login_g2d:"Enter your Google credentials there.",login_g3:"Grant permissions",login_g3d:"Confirm the requested permissions and you'll be redirected back.",login_ms:"Microsoft 365 / Outlook",login_ms_desc:"Same principle — through Microsoft's login page. Works for Outlook.com, Hotmail, Live and corporate Microsoft 365.",login_refresh_title:"Automatic token refresh",login_refresh_desc:"OAuth2 tokens are refreshed automatically in the background — no re-login needed.",login_imap:"IMAP/SMTP — password login",login_imap_desc:"Password is <strong>encrypted with AES-256-GCM</strong> and stored in the Android Keystore.",login_transfer_title:"Transferring to a new device",login_transfer_desc:"Keys are device-specific. On a new phone, re-enter IMAP/SMTP passwords. Gmail/Microsoft 365 just need OAuth2 re-login.",inbox_h1:"Inbox",inbox_desc:"Main screen — messages from all or selected accounts, with quick swipe actions.",inbox_gestures:"Swipe gestures",swipe_left:"Swipe left",swipe_left_val:"Delete message",swipe_right:"Swipe right",swipe_right_val:"Archive message",tap_msg:"Tap message",tap_msg_val:"Open detail",star:"Star icon",star_val:"Mark as important",inbox_qr_title:"Quick Reply",inbox_qr_desc:"Quick reply field at the bottom of message detail. Automatically includes a quote of the original.",inbox_folders:"Folders",inbox_folders_desc:"Inbox, Sent, Drafts, Trash, Spam and other folders from your provider or created by filters.",inbox_read:"Mark read / unread",inbox_read_desc:"Long-press a message to toggle its read state.",inbox_move:"Move to folder",inbox_move_desc:"Tap the folder icon in message detail to choose a target folder. Move is performed on the server.",compose_h1:"Composing emails",compose_desc:"Full-featured editor for writing, replying and forwarding.",compose_format:"Text formatting",fmt_bold:"Bold",fmt_italic:"Italic",fmt_underline:"Underline",fmt_strike:"Strikethrough",fmt_headings:"Headings",fmt_bullet:"Bullet list",fmt_numbered:"Numbered list",fmt_color:"Text color",fmt_link:"Link",compose_sig:"Signature",compose_sig_desc:"Set your signature in <strong>Settings → Accounts → [your account] → Signature</strong>.",compose_sig_free_title:"Free version — forced signature",compose_sig_free_desc:"Without Premium, a standard TchikiMail signature is automatically appended. Premium lets you customise or remove it.",compose_reply:"Reply & Forward",reply_t:"Reply",reply_d:"Pre-filled with sender and quote. Subject prefixed \"Re:\".",replyall_t:"Reply all",replyall_d:"Same as Reply but includes all To/Cc recipients.",fwd_t:"Forward",fwd_d:"Original body, empty recipient. Subject prefixed \"Fwd:\".",compose_drafts:"Drafts",compose_drafts_desc:"Saved automatically. Find them in the <strong>Drafts</strong> folder. Reopening restores full formatting.",compose_autocomplete:"Address autocomplete",compose_autocomplete_desc:"App suggests addresses from sending history as you type.",att_h1:"Attachments",att_desc:"Receiving and sending file attachments.",att_received:"Received attachments",att_received_desc:"Marked with 📎. Tap in message detail to download and open.",att_ondemand_title:"On-demand download",att_ondemand_desc:"Not downloaded automatically — saves data and storage. Once downloaded, available offline.",att_send:"Adding an attachment",att_s1:"Tap the attachment icon",att_s1d:"Paperclip in the editor toolbar.",att_s2:"Choose a file",att_s2d:"Android file manager opens. Any file type supported.",att_s3:"File appears below message body",att_s3d:"Name and size shown. Tap × to remove.",search_h1:"Search",search_desc:"Instant full-text search across all stored emails.",search_where:"What is searched",search_where_desc:"Covers <strong>subject</strong>, <strong>sender name</strong>, <strong>email address</strong> and <strong>message body</strong>.",search_how:"How it works",search_how_desc:"Local full-text index of downloaded messages. Instant and works offline.",search_tip_title:"Tip",search_tip_desc:"Older messages must be loaded first. Only then are they indexed and visible in search.",filters_h1:"Message filters",filters_desc:"Automate sorting of incoming emails with rules.",prem_feat:"Premium feature",filters_limit:"Free version: <strong>1 filter</strong>. Premium or active trial: unlimited.",filters_create:"Creating a filter",filt_s1:"Settings → Filters → + Add filter",filt_s2:"Choose field and condition",filt_s2d:"Filter by sender, subject, recipient or body.",filt_s3:"Choose action",filt_s3d:"Move to folder, mark as read, star, or trigger alert.",filt_s4:"Save",filt_s4d:"Active immediately for all new messages.",filters_examples:"Examples",filt_ex1:"Sort newsletters",filt_ex1d:"From: *@newsletter.com → move to folder and mark as read.",filt_ex2:"Priority emails",filt_ex2d:"From: boss@company.com → star + alert.",filt_ex3:"Auto-delete spam",filt_ex3d:"Subject contains \"You won!\" → move to Trash.",watcher_h1:"Message watcher",watcher_desc:"Instant sound alert for emails you're waiting for.",watcher_limit:"Free version: <strong>1 watcher</strong>. Premium or active trial: unlimited.",watcher_how:"How it works",watcher_how_desc:"Special filter with immediate sound alert — even when other notifications are silenced.",watcher_when:"Use cases",watch_ex1:"Parcel delivery",watch_ex1d:"Watch for delivery confirmation from courier.",watch_ex2:"Urgent work",watch_ex2d:"Watcher for specific client or subject \"Urgent\".",watch_ex3:"Bank alerts",watch_ex3d:"Instant notification for payment confirmations.",watcher_setup:"Setup",watcher_setup_desc:"Same steps as a filter — additionally choose an <strong>alert sound</strong>.",widget_h1:"Home screen widget",widget_desc:"Unread count directly on your home screen.",widget_add:"Adding the widget",wid_s1:"Long-press the home screen",wid_s1d:"Screen edit menu appears.",wid_s2:"Tap \"Widgets\" and find TchikiMail",wid_s3:"Drag the widget onto the screen",wid_s3d:"Shows unread count. Tap to open the app.",wid_update_title:"Widget updates",wid_update_desc:"Refreshes automatically with every sync.",appear_h1:"Appearance",appear_desc:"Customise the visual style of TchikiMail.",appear_presets:"Visual presets",appear_presets_desc:"Free version: <strong>3 presets</strong>. Premium unlocks all presets and custom background colors.",tbl_feature:"Feature",tbl_free:"Free",tbl_premium:"Premium",tbl_premium_trial:"Premium / Trial",ap_presets:"Visual presets",ap_presets_free:"3 basic",ap_presets_pr:"All + custom",ap_colors:"Custom background colors",ap_theme:"Dark / light mode",appear_custom:"Custom colors",appear_custom_desc:"Premium: a color picker appears for each preset.",sync_h1:"Synchronization",sync_desc:"How and when TchikiMail downloads new emails.",sync_auto:"Automatic sync",sync_auto_desc:"Background sync via WorkManager. Minimum interval: <strong>15 minutes</strong>. Resumes after device restart.",sync_manual:"Manual sync",sync_manual_desc:"Pull down the message list (pull-to-refresh) for immediate sync.",sync_outbox:"Outbox queue",sync_outbox_desc:"Pending messages are queued and sent automatically. On failure, retried later.",sync_notif_title:"Per-account notifications",sync_notif_desc:"Enable or disable notifications for each account in <strong>Settings → Accounts → [account]</strong>.",backup_h1:"Backup & restore",backup_desc:"Export your settings and restore on a new device.",backup_limit:"Backup export requires Premium licence or active trial.",backup_what:"What is backed up",bk_accounts:"Account settings",bk_accounts_v:"Server, port, username",bk_filters:"Message filters",bk_filters_v:"All your rules",bk_settings:"Appearance & settings",bk_settings_v:"Presets, signatures, language",bk_passwords:"IMAP/SMTP passwords",bk_passwords_v:"Optional — protected by backup password",bk_emails:"Email messages",bk_emails_v:"Not backed up — on server",backup_export:"Exporting",bk_s1:"Settings → Backup → Export backup",bk_s2:"Choose whether to include passwords",bk_s2d:"If yes, set a backup password.",bk_s3:"Save or share the file",bk_s3d:"Storage, Google Drive, email, etc.",backup_restore:"Restoring",bk_r1:"Settings → Backup → Import backup",bk_r2:"Select the backup file",bk_r3:"Enter backup password (if set)",bk_r4:"App restarts and restores all settings",bk_newdev_title:"Passwords on a new device",bk_newdev_desc:"Keys are device-specific. Re-enter IMAP/SMTP passwords on new phone. Gmail/Microsoft 365 need OAuth2 re-login.",trial_h1:"Trial & Premium",trial_desc:"How the trial works and what Premium unlocks.",trial_period:"Trial period",trial_period_desc:"30-day trial on first install — full access, free, no registration.",ts_active:"Active",ts_active_d:"3+ days remain. Full access.",ts_expiring:"Expiring",ts_expiring_d:"1–3 days left.",ts_expired:"Expired",ts_expired_d:"Free mode active.",trial_start:"Trial start date",trial_start_desc:"Tied to your device — <strong>survives uninstall and reinstall</strong>.",trial_offline_title:"Works offline",trial_offline_desc:"Start date stored locally and on server.",trial_after:"After expiry — free mode",trial_after_desc:"A dialog appears once to select which <strong>2 accounts</strong> remain active.",trial_select_title:"Account selection cooldown",trial_select_desc:"Can be changed in <strong>Settings → Accounts → Select active accounts</strong> — once every 24 hours.",trial_compare:"Free vs Premium",cmp_accounts:"Active accounts",cmp_accounts_f:"Max 2",cmp_accounts_p:"Unlimited",cmp_filters:"Filters",cmp_filters_f:"1",cmp_filters_p:"Unlimited",cmp_watcher:"Watcher",cmp_watcher_f:"1",cmp_watcher_p:"Unlimited",cmp_presets:"Visual presets",cmp_presets_f:"3 basic",cmp_presets_p:"All + custom colors",cmp_backup:"Backup export",cmp_sig:"Custom signature",cmp_sig_f:"🔒 Forced",cmp_sig_p:"✓ Custom",trial_buy:"How to get Premium",trial_buy_desc:"Tap <strong>\"Get Premium\"</strong> in Settings. Payment via <strong>Google Play</strong>.",sec_h1:"Security",sec_desc:"How TchikiMail protects your data and credentials.",sec_enc:"Password encryption",sec_enc_desc:"Passwords encrypted with <strong>AES-256-GCM</strong> in Android Keystore, protected by device hardware.",sec_bio:"App lock",sec_bio_desc:"Lock the app with a <strong>fingerprint or screen lock gesture</strong>. Configure in <strong>Settings → Security → App lock</strong>.",sec_local:"What is stored locally",sec_keystore:"Encrypted in Keystore",sec_keystore_v:"IMAP/SMTP passwords, OAuth tokens",sec_db:"Local database",sec_db_v:"Downloaded emails, attachments, contacts",sec_nobackup:"Not auto-backed up",sec_nobackup_v:"Passwords & tokens (device-specific keys)",sec_anon_title:"Anonymous trial data",sec_anon_desc:"An anonymous device hash is stored on Firebase servers (Europe). No personal data — only first installation timestamp.",sec_lost:"Lost or reset device",sec_lost_desc:"Emails are safe on the server. Reinstall TchikiMail, sign in, restore from backup. IMAP/SMTP passwords must be re-entered."},
+
+cs:{ll:"Jazyk",help_version:"Nápověda · v3.5",nav_start:"Začínáme",nav_overview:"Přehled",nav_accounts:"E-mailové účty",nav_login:"Přihlášení & OAuth",nav_email:"E-mail",nav_inbox:"Doručená pošta",nav_compose:"Psaní",nav_attachments:"Přílohy",nav_search:"Hledání",nav_productivity:"Produktivita",nav_filters:"Filtry",nav_watcher:"Hlídač",nav_widget:"Widget",nav_settings:"Nastavení",nav_appearance:"Vzhled",nav_sync:"Synchronizace",nav_backup:"Záloha",nav_trial:"Trial & Premium",nav_security:"Zabezpečení",tag_help:"Nápověda",tag_start:"Začínáme",tag_email:"E-mail",tag_prod:"Produktivita",tag_settings:"Nastavení",overview_h1:"Vítejte v TchikiMail",overview_desc:"Nativní Android e-mailový klient navržený pro rychlost, soukromí a přehlednost.",overview_hero_title:"TchikiMail v3.5",overview_hero_desc:"Plnohodnotný e-mailový klient s podporou IMAP, POP3, Gmail a Microsoft 365. Funguje s libovolnou e-mailovou adresou.",overview_protocols:"Podporované protokoly a služby",overview_oauth_title:"Co je OAuth2?",overview_oauth_desc:"OAuth2 umožňuje přihlášení přes oficiální stránku poskytovatele — TchikiMail vaše heslo nikdy neuvidí ani neuloží.",overview_features:"Hlavní funkce",feat_inbox:"Doručená pošta",feat_inbox_desc:"Zprávy ze všech nebo vybraných účtů. Swipe pro archivaci a mazání.",feat_compose:"Psaní",feat_compose_desc:"Bohatý textový editor s formátováním, citacemi, přílohami a vlastním podpisem.",feat_accounts:"Účty",feat_accounts_desc:"Správa více e-mailových účtů, každý s vlastní barvou.",feat_filters:"Filtry",feat_filters_desc:"Automatické třídění příchozích e-mailů pomocí vlastních pravidel.",feat_watcher:"Hlídač",feat_watcher_desc:"Okamžité upozornění, když dorazí e-mail splňující vaše kritéria.",feat_backup:"Záloha",feat_backup_desc:"Export nastavení a snadná obnova na novém zařízení.",accounts_h1:"E-mailové účty",accounts_desc:"Přidejte jeden nebo více e-mailových účtů. Každý účet má vlastní barvu a nastavení notifikací.",accounts_add:"Přidání nového účtu",acc_s1:"Otevřete Nastavení → Účty",acc_s1d:"Klepněte na ikonu osoby v dolní navigaci.",acc_s2:"Klepněte na „+ Přidat účet\"",acc_s2d:"Tlačítko je v pravém dolním rohu obrazovky Účty.",acc_s3:"Vyberte typ přihlášení",acc_s3d:"Gmail a Microsoft 365 nabídnou OAuth2. Pro ostatní zadejte IMAP/SMTP údaje ručně.",acc_s4:"Vyberte barvu a zobrazené jméno",acc_s4d:"Každý účet dostane jedinečnou barvu zobrazovanou u zpráv.",accounts_imap:"Ruční nastavení IMAP/SMTP",accounts_imap_desc:"Tyto údaje získáte od svého poskytovatele e-mailu:",imap_user:"Uživatelské jméno",imap_user_val:"Obvykle celá e-mailová adresa",acc_tip_title:"Heslo aplikace",acc_tip_desc:"Někteří poskytovatelé (např. Gmail, Yahoo, Seznam) vyžadují „heslo aplikace\" při zapnutém dvoufázovém ověření. Vygenerujte ho v nastavení zabezpečení svého poskytovatele — nepoužívejte běžné přihlašovací heslo.",accounts_manage:"Správa aktivních účtů",accounts_manage_desc:"V Nastavení → Účty můžete každý účet upravit, deaktivovat nebo smazat. „Vybrat aktivní účty\" určuje, které účty se synchronizují.",acc_limit_title:"Bezplatná verze: limit 2 aktivních účtů",acc_limit_desc:"Po vypršení trialu nebo bez Premium mohou být aktivní nejvýše <strong>2 účty</strong>. Ostatní zůstanou uloženy, ale nebudou se synchronizovat. Premium tento limit zcela odstraní.",accounts_colors:"Barvy účtů",accounts_colors_desc:"Každý účet má barvu viditelnou u zpráv a v notifikacích. Lze kdykoli změnit v nastavení účtu.",login_h1:"Přihlášení & OAuth",login_desc:"Bezpečné přihlášení pro Gmail, Microsoft 365 a ostatní poskytovatele.",login_gmail:"Gmail — přihlášení přes OAuth2",login_gmail_desc:"TchikiMail otevře oficiální přihlašovací stránku Googlu. Vaše heslo se nikdy nedostane do aplikace.",login_g1:"Přidat účet → Gmail",login_g1d:"Klepněte na „Přihlásit se přes Google\".",login_g2:"Přihlaste se na stránce Googlu",login_g2d:"Zadejte tam své Google přihlašovací údaje.",login_g3:"Udělte oprávnění",login_g3d:"Potvrďte požadovaná oprávnění a budete přesměrováni zpět.",login_ms:"Microsoft 365 / Outlook",login_ms_desc:"Stejný princip — přes přihlašovací stránku Microsoftu. Funguje pro Outlook.com, Hotmail, Live i firemní Microsoft 365.",login_refresh_title:"Automatická obnova přihlášení",login_refresh_desc:"OAuth2 tokeny jsou automaticky obnovovány na pozadí — nebudete muset znovu zadávat heslo.",login_imap:"IMAP/SMTP — přihlášení heslem",login_imap_desc:"Heslo je <strong>šifrováno pomocí AES-256-GCM</strong> a uloženo v Android Keystoru.",login_transfer_title:"Přenos na nové zařízení",login_transfer_desc:"Klíče jsou vázány na konkrétní zařízení. Na novém telefonu budete muset znovu zadat hesla IMAP/SMTP. Gmail a Microsoft 365 stačí přihlásit znovu přes OAuth2.",inbox_h1:"Doručená pošta",inbox_desc:"Hlavní obrazovka — zprávy ze všech nebo vybraných účtů s rychlými gesty.",inbox_gestures:"Gesta swipe",swipe_left:"Swipe doleva",swipe_left_val:"Smazat zprávu",swipe_right:"Swipe doprava",swipe_right_val:"Archivovat zprávu",tap_msg:"Klepnutí na zprávu",tap_msg_val:"Otevřít detail",star:"Ikona hvězdičky",star_val:"Označit jako důležité",inbox_qr_title:"Rychlá odpověď",inbox_qr_desc:"Pole pro rychlou odpověď je v dolní části detailu zprávy. Automaticky obsahuje citaci originálu.",inbox_folders:"Složky",inbox_folders_desc:"Doručená, Odeslaná, Koncepty, Koš, Spam a další složky od poskytovatele nebo vytvořené filtry.",inbox_read:"Označení přečteno / nepřečteno",inbox_read_desc:"Podržte zprávu pro přepnutí stavu přečtení.",inbox_move:"Přesunutí do složky",inbox_move_desc:"V detailu zprávy klepněte na ikonu složky. Přesun se provede na serveru.",compose_h1:"Psaní e-mailů",compose_desc:"Plnohodnotný editor pro psaní, odpovídání a přeposílání.",compose_format:"Formátování textu",fmt_bold:"Tučný",fmt_italic:"Kurzíva",fmt_underline:"Podtržení",fmt_strike:"Přeškrtnutí",fmt_headings:"Nadpisy",fmt_bullet:"Odrážkový seznam",fmt_numbered:"Číslovaný seznam",fmt_color:"Barva textu",fmt_link:"Odkaz",compose_sig:"Podpis",compose_sig_desc:"Nastavte podpis v <strong>Nastavení → Účty → [váš účet] → Podpis</strong>.",compose_sig_free_title:"Bezplatná verze — vynucený podpis",compose_sig_free_desc:"Bez Premium se automaticky přidá standardní podpis TchikiMail. S Premium si podpis upravíte nebo odstraníte.",compose_reply:"Odpověď a přeposlání",reply_t:"Odpovědět",reply_d:"Předvyplněná adresa odesílatele a citace. Předmět dostane prefix „Re:\".",replyall_t:"Odpovědět všem",replyall_d:"Jako Odpovědět, ale zahrnuje všechny příjemce (To/Cc).",fwd_t:"Přeposlat",fwd_d:"Tělo originálu, prázdný příjemce. Předmět dostane prefix „Fwd:\".",compose_drafts:"Koncepty",compose_drafts_desc:"Automaticky ukládány. Najdete je ve složce <strong>Koncepty</strong>. Znovuotevření obnoví plné formátování.",compose_autocomplete:"Automatické doplňování adres",compose_autocomplete_desc:"Aplikace navrhuje adresy z vaší historie odesílání při psaní.",att_h1:"Přílohy",att_desc:"Přijímání a odesílání souborů příloh.",att_received:"Přijaté přílohy",att_received_desc:"Zprávy s přílohami jsou označeny 📎. Klepnutím v detailu zprávy stáhnete a otevřete přílohu.",att_ondemand_title:"Stahování na vyžádání",att_ondemand_desc:"Přílohy se nestahují automaticky — šetří data i úložiště. Po stažení jsou dostupné offline.",att_send:"Přidání přílohy",att_s1:"Klepněte na ikonu přílohy",att_s1d:"Ikona sponky v liště editoru.",att_s2:"Vyberte soubor",att_s2d:"Otevře se správce souborů Androidu. Podporován je libovolný typ souboru.",att_s3:"Soubor se zobrazí pod textem zprávy",att_s3d:"Název a velikost jsou viditelné. Klepnutím na × přílohu odeberete.",search_h1:"Hledání",search_desc:"Okamžité fulltextové vyhledávání ve všech uložených e-mailech.",search_where:"Co se prohledává",search_where_desc:"Prohledává <strong>předmět</strong>, <strong>jméno odesílatele</strong>, <strong>e-mailovou adresu</strong> a <strong>text zprávy</strong>.",search_how:"Jak funguje",search_how_desc:"Lokální fulltextový index stažených zpráv. Okamžité a funguje offline.",search_tip_title:"Tip",search_tip_desc:"Starší zprávy je třeba nejdříve načíst. Teprve pak jsou indexovány a zobrazeny ve výsledcích.",filters_h1:"Filtry zpráv",filters_desc:"Automatizujte třídění příchozích e-mailů pomocí pravidel.",prem_feat:"Prémiová funkce",filters_limit:"Bezplatná verze: <strong>1 filtr</strong>. Premium nebo aktivní trial: neomezeno.",filters_create:"Vytvoření filtru",filt_s1:"Nastavení → Filtry → + Přidat filtr",filt_s2:"Zvolte pole a podmínku",filt_s2d:"Filtrovat podle odesílatele, předmětu, příjemce nebo textu.",filt_s3:"Vyberte akci",filt_s3d:"Přesunout do složky, označit jako přečtené, hvězdička nebo upozornění.",filt_s4:"Uložte",filt_s4d:"Aktivní okamžitě pro všechny nově příchozí zprávy.",filters_examples:"Příklady",filt_ex1:"Třídění newsletterů",filt_ex1d:"Od: *@newsletter.cz → přesunout do složky a označit jako přečtené.",filt_ex2:"Prioritní e-maily",filt_ex2d:"Od: sef@firma.cz → hvězdička + upozornění.",filt_ex3:"Automatické mazání spamu",filt_ex3d:"Předmět obsahuje „Výhra!\" → přesunout do Koše.",watcher_h1:"Hlídač zpráv",watcher_desc:"Okamžité zvukové upozornění na e-maily, na které čekáte.",watcher_limit:"Bezplatná verze: <strong>1 hlídač</strong>. Premium nebo aktivní trial: neomezeno.",watcher_how:"Jak funguje",watcher_how_desc:"Speciální filtr s okamžitým zvukovým upozorněním — i při ztlumených notifikacích.",watcher_when:"Kdy použít",watch_ex1:"Zásilka",watch_ex1d:"Hlídejte e-mail s potvrzením doručení od dopravce.",watch_ex2:"Urgentní práce",watch_ex2d:"Hlídač pro e-maily od konkrétního klienta nebo s předmětem „Urgentní\".",watch_ex3:"Bankovní notifikace",watch_ex3d:"Okamžité upozornění na platební potvrzení.",watcher_setup:"Nastavení",watcher_setup_desc:"Stejný postup jako u filtrů — navíc zvolte <strong>zvuk upozornění</strong>.",widget_h1:"Widget plochy",widget_desc:"Počet nepřečtených zpráv přímo na domovské obrazovce.",widget_add:"Přidání widgetu",wid_s1:"Podržte prst na domovské obrazovce",wid_s1d:"Zobrazí se menu pro úpravu plochy.",wid_s2:"Klepněte na „Widgety\" a najděte TchikiMail",wid_s3:"Přetáhněte widget na plochu",wid_s3d:"Zobrazuje počet nepřečtených zpráv. Klepnutím otevřete aplikaci.",wid_update_title:"Aktualizace widgetu",wid_update_desc:"Aktualizuje se automaticky při každé synchronizaci.",appear_h1:"Vzhled aplikace",appear_desc:"Přizpůsobte si vizuální styl TchikiMail.",appear_presets:"Vizuální presety",appear_presets_desc:"Bezplatná verze: <strong>3 presety</strong>. Premium odemkne všechny presety a vlastní barvy pozadí.",tbl_feature:"Funkce",tbl_free:"Bezplatně",tbl_premium:"Premium",tbl_premium_trial:"Premium / Trial",ap_presets:"Vizuální presety",ap_presets_free:"3 základní",ap_presets_pr:"Všechny + vlastní",ap_colors:"Vlastní barvy pozadí",ap_theme:"Tmavý / světlý režim",appear_custom:"Vlastní barvy",appear_custom_desc:"S Premium se u každého presetu zobrazí výběr barvy.",sync_h1:"Synchronizace",sync_desc:"Jak a kdy TchikiMail stahuje nové e-maily.",sync_auto:"Automatická synchronizace",sync_auto_desc:"Synchronizace na pozadí přes WorkManager. Minimální interval: <strong>15 minut</strong>. Obnoví se po restartu zařízení.",sync_manual:"Ruční synchronizace",sync_manual_desc:"Přetáhněte seznam zpráv dolů (pull-to-refresh) pro okamžitou synchronizaci.",sync_outbox:"Fronta odesílání",sync_outbox_desc:"Čekající zprávy jsou ve frontě a odesílány automaticky. Při výpadku se pokus opakuje.",sync_notif_title:"Notifikace pro každý účet",sync_notif_desc:"Zapněte nebo vypněte notifikace pro každý účet zvlášť v <strong>Nastavení → Účty → [účet]</strong>.",backup_h1:"Záloha & obnova",backup_desc:"Exportujte nastavení a obnovte ho na novém zařízení.",backup_limit:"Export zálohy vyžaduje Premium licenci nebo aktivní trial.",backup_what:"Co se zálohuje",bk_accounts:"Nastavení účtů",bk_accounts_v:"Server, port, uživatelské jméno",bk_filters:"Filtry zpráv",bk_filters_v:"Všechna vaše pravidla",bk_settings:"Vzhled a nastavení",bk_settings_v:"Presety, podpisy, jazyk",bk_passwords:"Hesla IMAP/SMTP",bk_passwords_v:"Volitelně — chráněna heslem zálohy",bk_emails:"E-mailové zprávy",bk_emails_v:"Nezálohují se — jsou na serveru",backup_export:"Export zálohy",bk_s1:"Nastavení → Záloha → Exportovat zálohu",bk_s2:"Vyberte, zda zahrnout hesla",bk_s2d:"Pokud ano, nastavte heslo zálohy.",bk_s3:"Uložte nebo sdílejte soubor",bk_s3d:"Úložiště, Google Drive, e-mail apod.",backup_restore:"Obnova zálohy",bk_r1:"Nastavení → Záloha → Importovat zálohu",bk_r2:"Vyberte soubor zálohy",bk_r3:"Zadejte heslo zálohy (pokud bylo nastaveno)",bk_r4:"Restart aplikace dokončí obnovu",bk_newdev_title:"Hesla na novém zařízení",bk_newdev_desc:"Klíče jsou vázány na zařízení. Na novém telefonu znovu zadejte hesla IMAP/SMTP. Gmail a Microsoft 365 přihlaste znovu přes OAuth2.",trial_h1:"Trial & Premium",trial_desc:"Jak funguje zkušební období a co Premium odemyká.",trial_period:"Zkušební období (Trial)",trial_period_desc:"30denní trial při první instalaci — plný přístup, zdarma, bez registrace.",ts_active:"Aktivní",ts_active_d:"Zbývají více než 3 dny. Plný přístup.",ts_expiring:"Vyprší brzy",ts_expiring_d:"1–3 dny do vypršení.",ts_expired:"Vypršel",ts_expired_d:"Aktivní bezplatný režim.",trial_start:"Datum spuštění trialu",trial_start_desc:"Svázáno se zařízením — <strong>přežije odinstalaci a reinstalaci</strong>.",trial_offline_title:"Funguje offline",trial_offline_desc:"Datum spuštění uloženo lokálně i na serveru.",trial_after:"Po vypršení — bezplatný režim",trial_after_desc:"Jednou se zobrazí dialog pro výběr, které <strong>2 účty</strong> zůstanou aktivní.",trial_select_title:"Cooldown výběru účtů",trial_select_desc:"Změna výběru je možná v <strong>Nastavení → Účty → Vybrat aktivní účty</strong> — jednou za 24 hodin.",trial_compare:"Bezplatně vs. Premium",cmp_accounts:"Aktivní účty",cmp_accounts_f:"Max 2",cmp_accounts_p:"Neomezeno",cmp_filters:"Filtry",cmp_filters_f:"1",cmp_filters_p:"Neomezeno",cmp_watcher:"Hlídač",cmp_watcher_f:"1",cmp_watcher_p:"Neomezeno",cmp_presets:"Vizuální presety",cmp_presets_f:"3 základní",cmp_presets_p:"Všechny + vlastní barvy",cmp_backup:"Export zálohy",cmp_sig:"Vlastní podpis",cmp_sig_f:"🔒 Vynucený",cmp_sig_p:"✓ Vlastní",trial_buy:"Jak získat Premium",trial_buy_desc:"Klepněte na <strong>„Získat Premium\"</strong> v Nastavení. Platba přes <strong>Google Play</strong>.",sec_h1:"Zabezpečení",sec_desc:"Jak TchikiMail chrání vaše data a přihlašovací údaje.",sec_enc:"Šifrování hesel",sec_enc_desc:"Hesla jsou šifrována pomocí <strong>AES-256-GCM</strong> v Android Keystoru, chráněném hardwarem zařízení.",sec_bio:"Zámek aplikace",sec_bio_desc:"TchikiMail lze zamknout <strong>otiskem prstu nebo gestem zámku obrazovky</strong>. Nastavení v <strong>Nastavení → Zabezpečení → Zámek aplikace</strong>.",sec_local:"Co se ukládá lokálně",sec_keystore:"Šifrováno v Keystoru",sec_keystore_v:"Hesla IMAP/SMTP, OAuth tokeny",sec_db:"Lokální databáze",sec_db_v:"Stažené e-maily, přílohy, kontakty",sec_nobackup:"Nezálohováno automaticky",sec_nobackup_v:"Hesla a tokeny (klíče vázány na zařízení)",sec_anon_title:"Anonymní data trialu",sec_anon_desc:"Anonymní hash zařízení je uložen na Firebase serverech v Evropě. Neobsahuje žádné osobní údaje — pouze timestamp první instalace.",sec_lost:"Ztráta nebo reset zařízení",sec_lost_desc:"E-maily jsou v bezpečí na serveru. Přeinstalujte TchikiMail, přihlaste se a obnovte nastavení ze zálohy. Hesla IMAP/SMTP bude třeba znovu zadat."},
+
+de:{ll:"Sprache",help_version:"Hilfe · v3.5",nav_start:"Erste Schritte",nav_overview:"Übersicht",nav_accounts:"E-Mail-Konten",nav_login:"Anmeldung & OAuth",nav_email:"E-Mail",nav_inbox:"Posteingang",nav_compose:"Verfassen",nav_attachments:"Anhänge",nav_search:"Suche",nav_productivity:"Produktivität",nav_filters:"Filter",nav_watcher:"Wächter",nav_widget:"Widget",nav_settings:"Einstellungen",nav_appearance:"Erscheinungsbild",nav_sync:"Sync",nav_backup:"Sicherung",nav_trial:"Trial & Premium",nav_security:"Sicherheit",tag_help:"Hilfe",tag_start:"Erste Schritte",tag_email:"E-Mail",tag_prod:"Produktivität",tag_settings:"Einstellungen",overview_h1:"Willkommen bei TchikiMail",overview_desc:"Ein nativer Android-E-Mail-Client für Geschwindigkeit, Datenschutz und Übersichtlichkeit.",overview_hero_title:"TchikiMail v3.5",overview_hero_desc:"Vollständiger E-Mail-Client mit IMAP, POP3, Gmail und Microsoft 365.",overview_protocols:"Unterstützte Protokolle & Dienste",overview_oauth_title:"Was ist OAuth2?",overview_oauth_desc:"OAuth2 ermöglicht die Anmeldung über die offizielle Seite des Anbieters — TchikiMail sieht Ihr Passwort nie.",overview_features:"Hauptfunktionen",feat_inbox:"Posteingang",feat_inbox_desc:"Nachrichten aller oder ausgewählter Konten. Wischen zum Archivieren oder Löschen.",feat_compose:"Verfassen",feat_compose_desc:"Rich-Text-Editor mit Formatierung, Zitaten, Anhängen und Signatur.",feat_accounts:"Konten",feat_accounts_desc:"Mehrere E-Mail-Konten verwalten.",feat_filters:"Filter",feat_filters_desc:"Eingehende E-Mails automatisch sortieren.",feat_watcher:"Wächter",feat_watcher_desc:"Sofortige Benachrichtigung bei passenden E-Mails.",feat_backup:"Sicherung",feat_backup_desc:"Einstellungen exportieren und auf neuem Gerät wiederherstellen.",accounts_h1:"E-Mail-Konten",accounts_desc:"Fügen Sie ein oder mehrere E-Mail-Konten hinzu.",accounts_add:"Neues Konto hinzufügen",acc_s1:"Einstellungen → Konten öffnen",acc_s1d:"Tippen Sie auf das Personen-Symbol.",acc_s2:"\"+ Konto hinzufügen\" antippen",acc_s2d:"Schaltfläche unten rechts.",acc_s3:"Anmeldetyp wählen",acc_s3d:"Gmail und Microsoft 365 bieten OAuth2. Andere Anbieter: IMAP/SMTP manuell eingeben.",acc_s4:"Farbe und Name wählen",acc_s4d:"Jedes Konto erhält eine eindeutige Farbe.",accounts_imap:"Manuelle IMAP/SMTP-Einrichtung",accounts_imap_desc:"Diese Angaben erhalten Sie von Ihrem E-Mail-Anbieter:",imap_user:"Benutzername",imap_user_val:"Meist die vollständige E-Mail-Adresse",acc_tip_title:"App-Passwort",acc_tip_desc:"Manche Anbieter (z.B. Gmail, Yahoo, GMX) verlangen ein \"App-Passwort\" bei aktivierter Zwei-Faktor-Authentifizierung. Generieren Sie es in den Sicherheitseinstellungen Ihres Anbieters.",accounts_manage:"Aktive Konten verwalten",accounts_manage_desc:"In Einstellungen → Konten können Sie Konten bearbeiten, deaktivieren oder löschen.",acc_limit_title:"Kostenlose Version: Limit 2 aktive Konten",acc_limit_desc:"Ohne Premium können maximal <strong>2 Konten</strong> aktiv sein. Premium hebt dieses Limit vollständig auf.",accounts_colors:"Kontofarben",accounts_colors_desc:"Jedes Konto hat eine Farbe bei Nachrichten und in Benachrichtigungen.",login_h1:"Anmeldung & OAuth",login_desc:"Sichere Anmeldung für Gmail, Microsoft 365 und andere.",login_gmail:"Gmail — OAuth2-Anmeldung",login_gmail_desc:"TchikiMail öffnet Googles offizielle Anmeldeseite. Ihr Passwort gelangt nie in die App.",login_g1:"Konto hinzufügen → Gmail",login_g1d:"\"Mit Google anmelden\" antippen.",login_g2:"Auf der Google-Seite anmelden",login_g2d:"Google-Zugangsdaten dort eingeben.",login_g3:"Berechtigungen erteilen",login_g3d:"Berechtigungen bestätigen und zurück zur App.",login_ms:"Microsoft 365 / Outlook",login_ms_desc:"Gleicher Ablauf — über Microsofts Anmeldeseite. Funktioniert für Outlook.com, Hotmail, Live und Microsoft 365.",login_refresh_title:"Automatische Token-Erneuerung",login_refresh_desc:"OAuth2-Token werden automatisch im Hintergrund erneuert.",login_imap:"IMAP/SMTP — Passwort-Anmeldung",login_imap_desc:"Passwort wird <strong>mit AES-256-GCM verschlüsselt</strong> im Android Keystore gespeichert.",login_transfer_title:"Übertragung auf neues Gerät",login_transfer_desc:"Schlüssel sind gerätespezifisch. IMAP/SMTP-Passwörter müssen erneut eingegeben werden. Gmail/Microsoft 365 brauchen erneute OAuth2-Anmeldung.",inbox_h1:"Posteingang",inbox_desc:"Hauptbildschirm — Nachrichten aller oder ausgewählter Konten.",inbox_gestures:"Wischgesten",swipe_left:"Nach links wischen",swipe_left_val:"Nachricht löschen",swipe_right:"Nach rechts wischen",swipe_right_val:"Nachricht archivieren",tap_msg:"Nachricht antippen",tap_msg_val:"Detail öffnen",star:"Stern-Symbol",star_val:"Als wichtig markieren",inbox_qr_title:"Schnellantwort",inbox_qr_desc:"Schnellantwortfeld unten im Nachrichtendetail. Enthält automatisch ein Originalzitat.",inbox_folders:"Ordner",inbox_folders_desc:"Posteingang, Gesendet, Entwürfe, Papierkorb, Spam und weitere Ordner.",inbox_read:"Gelesen / ungelesen",inbox_read_desc:"Lange drücken um den Lesestatus zu wechseln.",inbox_move:"In Ordner verschieben",inbox_move_desc:"Ordner-Symbol im Nachrichtendetail antippen. Verschiebung erfolgt auf dem Server.",compose_h1:"E-Mails verfassen",compose_desc:"Vollständiger Editor zum Schreiben, Antworten und Weiterleiten.",compose_format:"Textformatierung",fmt_bold:"Fett",fmt_italic:"Kursiv",fmt_underline:"Unterstrichen",fmt_strike:"Durchgestrichen",fmt_headings:"Überschriften",fmt_bullet:"Aufzählungsliste",fmt_numbered:"Nummerierte Liste",fmt_color:"Textfarbe",fmt_link:"Link",compose_sig:"Signatur",compose_sig_desc:"Signatur unter <strong>Einstellungen → Konten → [Konto] → Signatur</strong> einrichten.",compose_sig_free_title:"Kostenlose Version — erzwungene Signatur",compose_sig_free_desc:"Ohne Premium wird automatisch eine TchikiMail-Signatur hinzugefügt.",compose_reply:"Antworten & Weiterleiten",reply_t:"Antworten",reply_d:"Vorausgefüllt mit Absender und Zitat. Betreff mit \"Re:\" präfixiert.",replyall_t:"Allen antworten",replyall_d:"Wie Antworten, aber mit allen To/Cc-Empfängern.",fwd_t:"Weiterleiten",fwd_d:"Originalinhalt, leerer Empfänger. Betreff mit \"Fwd:\" präfixiert.",compose_drafts:"Entwürfe",compose_drafts_desc:"Automatisch gespeichert. Im Ordner <strong>Entwürfe</strong>. Formatierung wird beim Öffnen wiederhergestellt.",compose_autocomplete:"Adressvervollständigung",compose_autocomplete_desc:"Die App schlägt Adressen aus dem Sendeverlauf vor.",att_h1:"Anhänge",att_desc:"Empfangen und Senden von Dateianhängen.",att_received:"Empfangene Anhänge",att_received_desc:"Mit 📎 gekennzeichnet. Im Nachrichtendetail antippen zum Herunterladen.",att_ondemand_title:"Download auf Anfrage",att_ondemand_desc:"Nicht automatisch heruntergeladen — spart Daten. Nach Download offline verfügbar.",att_send:"Anhang hinzufügen",att_s1:"Anhang-Symbol antippen",att_s1d:"Büroklammer in der Editor-Leiste.",att_s2:"Datei auswählen",att_s2d:"Android-Dateimanager öffnet sich.",att_s3:"Datei erscheint unter dem Text",att_s3d:"Name und Größe sichtbar. × zum Entfernen.",search_h1:"Suche",search_desc:"Sofortige Volltextsuche in allen gespeicherten E-Mails.",search_where:"Was durchsucht wird",search_where_desc:"<strong>Betreff</strong>, <strong>Absendername</strong>, <strong>E-Mail-Adresse</strong> und <strong>Nachrichtentext</strong>.",search_how:"Wie es funktioniert",search_how_desc:"Lokaler Volltextindex. Sofort und offline verfügbar.",search_tip_title:"Tipp",search_tip_desc:"Ältere Nachrichten müssen zuerst geladen werden, damit sie im Index erscheinen.",filters_h1:"Nachrichtenfilter",filters_desc:"Sortierung eingehender E-Mails automatisieren.",prem_feat:"Premium-Funktion",filters_limit:"Kostenlos: <strong>1 Filter</strong>. Premium oder aktiver Trial: unbegrenzt.",filters_create:"Filter erstellen",filt_s1:"Einstellungen → Filter → + Filter hinzufügen",filt_s2:"Feld und Bedingung wählen",filt_s2d:"Nach Absender, Betreff, Empfänger oder Text filtern.",filt_s3:"Aktion wählen",filt_s3d:"In Ordner verschieben, als gelesen markieren, Stern oder Alert.",filt_s4:"Speichern",filt_s4d:"Sofort für alle neuen Nachrichten aktiv.",filters_examples:"Beispiele",filt_ex1:"Newsletter sortieren",filt_ex1d:"Von: *@newsletter.de → in Ordner verschieben.",filt_ex2:"Wichtige E-Mails",filt_ex2d:"Von: chef@firma.de → Stern + Alert.",filt_ex3:"Spam löschen",filt_ex3d:"Betreff enthält \"Sie haben gewonnen\" → Papierkorb.",watcher_h1:"Nachrichtenwächter",watcher_desc:"Sofortiger Soundalert für erwartete E-Mails.",watcher_limit:"Kostenlos: <strong>1 Wächter</strong>. Premium: unbegrenzt.",watcher_how:"Funktionsweise",watcher_how_desc:"Spezieller Filter mit Sofort-Soundalert — auch bei stummgeschalteten Benachrichtigungen.",watcher_when:"Anwendungsfälle",watch_ex1:"Paketlieferung",watch_ex1d:"Auf Lieferbestätigung warten.",watch_ex2:"Dringende Arbeit",watch_ex2d:"Wächter für bestimmten Kunden oder Betreff \"Dringend\".",watch_ex3:"Bankbenachrichtigungen",watch_ex3d:"Sofortige Benachrichtigung bei Zahlungsbestätigungen.",watcher_setup:"Einrichtung",watcher_setup_desc:"Wie Filter — zusätzlich <strong>Alarmton</strong> wählen.",widget_h1:"Startbildschirm-Widget",widget_desc:"Ungelesene Nachrichten direkt auf dem Startbildschirm.",widget_add:"Widget hinzufügen",wid_s1:"Startbildschirm gedrückt halten",wid_s1d:"Bearbeitungsmenü erscheint.",wid_s2:"\"Widgets\" antippen und TchikiMail finden",wid_s3:"Widget auf Startbildschirm ziehen",wid_s3d:"Zeigt ungelesene Nachrichten. Antippen öffnet die App.",wid_update_title:"Widget-Aktualisierung",wid_update_desc:"Automatisch bei jeder Synchronisation aktualisiert.",appear_h1:"Erscheinungsbild",appear_desc:"Visuellen Stil von TchikiMail anpassen.",appear_presets:"Visuelle Voreinstellungen",appear_presets_desc:"Kostenlos: <strong>3 Voreinstellungen</strong>. Premium schaltet alle frei.",tbl_feature:"Funktion",tbl_free:"Kostenlos",tbl_premium:"Premium",tbl_premium_trial:"Premium / Trial",ap_presets:"Visuelle Voreinstellungen",ap_presets_free:"3 Basis",ap_presets_pr:"Alle + Benutzerdefiniert",ap_colors:"Benutzerdefinierte Hintergrundfarben",ap_theme:"Dunkel / Hell Modus",appear_custom:"Benutzerdefinierte Farben",appear_custom_desc:"Mit Premium öffnet sich ein Farbwähler für jede Voreinstellung.",sync_h1:"Synchronisation",sync_desc:"Wie und wann TchikiMail neue E-Mails lädt.",sync_auto:"Automatische Synchronisation",sync_auto_desc:"Hintergrund-Sync via WorkManager. Mindestintervall: <strong>15 Minuten</strong>.",sync_manual:"Manuelle Synchronisation",sync_manual_desc:"Nachrichtenliste nach unten ziehen (Pull-to-refresh).",sync_outbox:"Postausgang-Warteschlange",sync_outbox_desc:"Ausstehende Nachrichten werden automatisch gesendet. Bei Fehler wird es wiederholt.",sync_notif_title:"Benachrichtigungen pro Konto",sync_notif_desc:"In <strong>Einstellungen → Konten → [Konto]</strong> separat ein-/ausschalten.",backup_h1:"Sicherung & Wiederherstellung",backup_desc:"Einstellungen exportieren und auf neuem Gerät wiederherstellen.",backup_limit:"Export erfordert Premium-Lizenz oder aktiven Trial.",backup_what:"Was gesichert wird",bk_accounts:"Kontoeinstellungen",bk_accounts_v:"Server, Port, Benutzername",bk_filters:"Nachrichtenfilter",bk_filters_v:"Alle Ihre Regeln",bk_settings:"Erscheinungsbild & Einstellungen",bk_settings_v:"Voreinstellungen, Signaturen, Sprache",bk_passwords:"IMAP/SMTP-Passwörter",bk_passwords_v:"Optional — durch Sicherungspasswort geschützt",bk_emails:"E-Mail-Nachrichten",bk_emails_v:"Nicht gesichert — auf dem Server",backup_export:"Exportieren",bk_s1:"Einstellungen → Sicherung → Sicherung exportieren",bk_s2:"Passwörter einschließen?",bk_s2d:"Falls ja, Sicherungspasswort festlegen.",bk_s3:"Datei speichern oder teilen",bk_s3d:"Speicher, Google Drive, E-Mail usw.",backup_restore:"Wiederherstellen",bk_r1:"Einstellungen → Sicherung → Sicherung importieren",bk_r2:"Sicherungsdatei auswählen",bk_r3:"Sicherungspasswort eingeben (falls gesetzt)",bk_r4:"App-Neustart stellt alles wieder her",bk_newdev_title:"Passwörter auf neuem Gerät",bk_newdev_desc:"Schlüssel sind gerätespezifisch. IMAP/SMTP-Passwörter erneut eingeben. Gmail/Microsoft 365 brauchen erneute OAuth2-Anmeldung.",trial_h1:"Trial & Premium",trial_desc:"Wie der Trial funktioniert und was Premium freischaltet.",trial_period:"Testphase (Trial)",trial_period_desc:"30-tägiger Trial bei Erstinstallation — voller Zugriff, kostenlos, keine Registrierung.",ts_active:"Aktiv",ts_active_d:"Mehr als 3 Tage verbleibend. Voller Zugriff.",ts_expiring:"Läuft ab",ts_expiring_d:"1–3 Tage verbleibend.",ts_expired:"Abgelaufen",ts_expired_d:"Kostenloser Modus aktiv.",trial_start:"Trial-Startdatum",trial_start_desc:"An Ihr Gerät gebunden — <strong>überlebt Deinstallation und Neuinstallation</strong>.",trial_offline_title:"Funktioniert offline",trial_offline_desc:"Startdatum lokal und auf dem Server gespeichert.",trial_after:"Nach Ablauf — kostenloser Modus",trial_after_desc:"Ein Dialog erscheint einmal zur Auswahl von <strong>2 aktiven Konten</strong>.",trial_select_title:"Cooldown bei Kontoauswahl",trial_select_desc:"Änderung unter <strong>Einstellungen → Konten → Aktive Konten auswählen</strong> — einmal alle 24 Stunden.",trial_compare:"Kostenlos vs. Premium",cmp_accounts:"Aktive Konten",cmp_accounts_f:"Max. 2",cmp_accounts_p:"Unbegrenzt",cmp_filters:"Filter",cmp_filters_f:"1",cmp_filters_p:"Unbegrenzt",cmp_watcher:"Wächter",cmp_watcher_f:"1",cmp_watcher_p:"Unbegrenzt",cmp_presets:"Visuelle Voreinstellungen",cmp_presets_f:"3 Basis",cmp_presets_p:"Alle + benutzerdefiniert",cmp_backup:"Sicherungsexport",cmp_sig:"Signatur",cmp_sig_f:"🔒 Erzwungen",cmp_sig_p:"✓ Benutzerdefiniert",trial_buy:"Premium kaufen",trial_buy_desc:"<strong>\"Premium erhalten\"</strong> in Einstellungen antippen. Zahlung über <strong>Google Play</strong>.",sec_h1:"Sicherheit",sec_desc:"Wie TchikiMail Ihre Daten schützt.",sec_enc:"Passwortverschlüsselung",sec_enc_desc:"Mit <strong>AES-256-GCM</strong> verschlüsselt im Android Keystore, hardware-geschützt.",sec_bio:"App-Sperre",sec_bio_desc:"App mit <strong>Fingerabdruck oder Bildschirmsperre-Geste</strong> sperren. Konfiguration unter <strong>Einstellungen → Sicherheit → App-Sperre</strong>.",sec_local:"Lokale Speicherung",sec_keystore:"Im Keystore verschlüsselt",sec_keystore_v:"IMAP/SMTP-Passwörter, OAuth-Token",sec_db:"Lokale Datenbank",sec_db_v:"Heruntergeladene E-Mails, Anhänge, Kontakte",sec_nobackup:"Nicht automatisch gesichert",sec_nobackup_v:"Passwörter & Token (gerätespezifische Schlüssel)",sec_anon_title:"Anonyme Trial-Daten",sec_anon_desc:"Ein anonymer Geräte-Hash wird auf Firebase-Servern in Europa gespeichert. Keine persönlichen Daten.",sec_lost:"Gerät verloren oder zurückgesetzt",sec_lost_desc:"E-Mails sind auf dem Server sicher. TchikiMail neu installieren und Konten hinzufügen. IMAP/SMTP-Passwörter müssen erneut eingegeben werden."}
+};
+
+// Remaining languages — extend from English with key overrides
+const LANGS={
+fr:{ll:"Langue",nav_start:"Démarrage",nav_overview:"Aperçu",nav_accounts:"Comptes e-mail",nav_login:"Connexion & OAuth",nav_email:"E-mail",nav_inbox:"Boîte de réception",nav_compose:"Rédiger",nav_attachments:"Pièces jointes",nav_search:"Recherche",nav_productivity:"Productivité",nav_filters:"Filtres",nav_watcher:"Surveillance",nav_widget:"Widget",nav_settings:"Paramètres",nav_appearance:"Apparence",nav_sync:"Sync",nav_backup:"Sauvegarde",nav_trial:"Essai & Premium",nav_security:"Sécurité",overview_h1:"Bienvenue dans TchikiMail",overview_desc:"Un client e-mail Android natif conçu pour la rapidité, la confidentialité et la clarté.",overview_hero_desc:"Client e-mail complet supportant IMAP, POP3, Gmail et Microsoft 365.",accounts_h1:"Comptes e-mail",login_h1:"Connexion & OAuth",inbox_h1:"Boîte de réception",compose_h1:"Rédiger des e-mails",att_h1:"Pièces jointes",search_h1:"Recherche",filters_h1:"Filtres de messages",watcher_h1:"Surveillance des messages",widget_h1:"Widget écran d'accueil",appear_h1:"Apparence",sync_h1:"Synchronisation",backup_h1:"Sauvegarde & restauration",trial_h1:"Essai & Premium",sec_h1:"Sécurité",acc_tip_title:"Mot de passe d'application",acc_tip_desc:"Certains fournisseurs (ex. Gmail, Yahoo) exigent un \"mot de passe d'application\" avec l'authentification en deux étapes. Générez-le dans les paramètres de sécurité de votre fournisseur.",acc_limit_desc:"Sans Premium, au maximum <strong>2 comptes</strong> peuvent être actifs. Premium supprime entièrement cette limite.",sec_bio:"Verrouillage de l'application",sec_bio_desc:"Verrouillez l'application avec une <strong>empreinte digitale ou un geste de verrouillage d'écran</strong>.",cmp_accounts_p:"Illimité",cmp_filters_p:"Illimité",cmp_watcher_p:"Illimité"},
+es:{ll:"Idioma",nav_start:"Primeros pasos",nav_overview:"Resumen",nav_accounts:"Cuentas de correo",nav_login:"Inicio de sesión & OAuth",nav_email:"Correo",nav_inbox:"Bandeja de entrada",nav_compose:"Redactar",nav_attachments:"Archivos adjuntos",nav_search:"Búsqueda",nav_productivity:"Productividad",nav_filters:"Filtros",nav_watcher:"Vigilante",nav_widget:"Widget",nav_settings:"Configuración",nav_appearance:"Apariencia",nav_sync:"Sincronización",nav_backup:"Copia de seguridad",nav_trial:"Prueba & Premium",nav_security:"Seguridad",overview_h1:"Bienvenido a TchikiMail",overview_desc:"Un cliente de correo Android nativo diseñado para velocidad, privacidad y claridad.",overview_hero_desc:"Cliente de correo completo con IMAP, POP3, Gmail y Microsoft 365.",accounts_h1:"Cuentas de correo",login_h1:"Inicio de sesión & OAuth",inbox_h1:"Bandeja de entrada",compose_h1:"Redactar correos",att_h1:"Archivos adjuntos",search_h1:"Búsqueda",filters_h1:"Filtros de mensajes",watcher_h1:"Vigilante de mensajes",widget_h1:"Widget de pantalla de inicio",appear_h1:"Apariencia",sync_h1:"Sincronización",backup_h1:"Copia de seguridad y restauración",trial_h1:"Prueba & Premium",sec_h1:"Seguridad",acc_tip_title:"Contraseña de aplicación",acc_tip_desc:"Algunos proveedores (ej. Gmail, Yahoo) requieren una \"contraseña de aplicación\" con la autenticación en dos pasos. Genérela en la configuración de seguridad de su proveedor.",acc_limit_desc:"Sin Premium, máximo <strong>2 cuentas</strong> activas. Premium elimina este límite completamente.",sec_bio:"Bloqueo de aplicación",sec_bio_desc:"Bloquee la aplicación con <strong>huella dactilar o gesto de bloqueo de pantalla</strong>.",cmp_accounts_p:"Ilimitado",cmp_filters_p:"Ilimitado",cmp_watcher_p:"Ilimitado"},
+it:{ll:"Lingua",nav_start:"Per iniziare",nav_overview:"Panoramica",nav_accounts:"Account e-mail",nav_login:"Accesso & OAuth",nav_email:"E-mail",nav_inbox:"Posta in arrivo",nav_compose:"Composizione",nav_attachments:"Allegati",nav_search:"Ricerca",nav_productivity:"Produttività",nav_filters:"Filtri",nav_watcher:"Monitoraggio",nav_widget:"Widget",nav_settings:"Impostazioni",nav_appearance:"Aspetto",nav_sync:"Sincronizzazione",nav_backup:"Backup",nav_trial:"Prova & Premium",nav_security:"Sicurezza",overview_h1:"Benvenuto in TchikiMail",overview_desc:"Un client e-mail Android nativo progettato per velocità, privacy e chiarezza.",overview_hero_desc:"Client e-mail completo con IMAP, POP3, Gmail e Microsoft 365.",accounts_h1:"Account e-mail",login_h1:"Accesso & OAuth",inbox_h1:"Posta in arrivo",compose_h1:"Scrivere e-mail",att_h1:"Allegati",search_h1:"Ricerca",filters_h1:"Filtri messaggi",watcher_h1:"Monitoraggio messaggi",widget_h1:"Widget schermata iniziale",appear_h1:"Aspetto",sync_h1:"Sincronizzazione",backup_h1:"Backup e ripristino",trial_h1:"Prova & Premium",sec_h1:"Sicurezza",acc_tip_title:"Password dell'app",acc_tip_desc:"Alcuni provider (es. Gmail, Yahoo) richiedono una \"password dell'app\" con l'autenticazione a due fattori. Generarla nelle impostazioni di sicurezza del provider.",acc_limit_desc:"Senza Premium, massimo <strong>2 account</strong> attivi. Premium rimuove completamente questo limite.",sec_bio:"Blocco app",sec_bio_desc:"Blocca l'app con <strong>impronta digitale o gesto di blocco schermo</strong>.",cmp_accounts_p:"Illimitato",cmp_filters_p:"Illimitato",cmp_watcher_p:"Illimitato"},
+pt:{ll:"Idioma",nav_start:"Começando",nav_overview:"Visão geral",nav_accounts:"Contas de e-mail",nav_login:"Login & OAuth",nav_email:"E-mail",nav_inbox:"Caixa de entrada",nav_compose:"Redigir",nav_attachments:"Anexos",nav_search:"Pesquisa",nav_productivity:"Produtividade",nav_filters:"Filtros",nav_watcher:"Vigilante",nav_widget:"Widget",nav_settings:"Configurações",nav_appearance:"Aparência",nav_sync:"Sincronização",nav_backup:"Backup",nav_trial:"Teste & Premium",nav_security:"Segurança",overview_h1:"Bem-vindo ao TchikiMail",overview_desc:"Um cliente de e-mail Android nativo para velocidade, privacidade e clareza.",overview_hero_desc:"Cliente de e-mail completo com IMAP, POP3, Gmail e Microsoft 365.",accounts_h1:"Contas de e-mail",login_h1:"Login & OAuth",inbox_h1:"Caixa de entrada",compose_h1:"Redigir e-mails",att_h1:"Anexos",search_h1:"Pesquisa",filters_h1:"Filtros de mensagens",watcher_h1:"Vigilante de mensagens",widget_h1:"Widget da tela inicial",appear_h1:"Aparência",sync_h1:"Sincronização",backup_h1:"Backup e restauração",trial_h1:"Teste & Premium",sec_h1:"Segurança",acc_tip_title:"Senha do aplicativo",acc_tip_desc:"Alguns provedores (ex. Gmail, Yahoo) exigem uma \"senha de aplicativo\" com autenticação em dois fatores. Gere-a nas configurações de segurança do provedor.",acc_limit_desc:"Sem Premium, máximo <strong>2 contas</strong> ativas. Premium remove completamente este limite.",sec_bio:"Bloqueio do aplicativo",sec_bio_desc:"Bloqueie o aplicativo com <strong>impressão digital ou gesto de desbloqueio de tela</strong>.",cmp_accounts_p:"Ilimitado",cmp_filters_p:"Ilimitado",cmp_watcher_p:"Ilimitado"},
+ru:{ll:"Язык",nav_start:"Начало работы",nav_overview:"Обзор",nav_accounts:"Учётные записи",nav_login:"Вход & OAuth",nav_email:"Почта",nav_inbox:"Входящие",nav_compose:"Написать",nav_attachments:"Вложения",nav_search:"Поиск",nav_productivity:"Продуктивность",nav_filters:"Фильтры",nav_watcher:"Наблюдатель",nav_widget:"Виджет",nav_settings:"Настройки",nav_appearance:"Внешний вид",nav_sync:"Синхронизация",nav_backup:"Резервная копия",nav_trial:"Пробный период & Premium",nav_security:"Безопасность",overview_h1:"Добро пожаловать в TchikiMail",overview_desc:"Нативный Android-клиент электронной почты для скорости, конфиденциальности и удобства.",overview_hero_desc:"Полнофункциональный почтовый клиент с поддержкой IMAP, POP3, Gmail и Microsoft 365.",accounts_h1:"Учётные записи",login_h1:"Вход & OAuth",inbox_h1:"Входящие",compose_h1:"Написать письмо",att_h1:"Вложения",search_h1:"Поиск",filters_h1:"Фильтры сообщений",watcher_h1:"Наблюдатель сообщений",widget_h1:"Виджет главного экрана",appear_h1:"Внешний вид",sync_h1:"Синхронизация",backup_h1:"Резервное копирование",trial_h1:"Пробный период & Premium",sec_h1:"Безопасность",acc_tip_title:"Пароль приложения",acc_tip_desc:"Некоторые провайдеры (напр. Gmail, Yahoo) требуют «пароль приложения» при включённой двухфакторной аутентификации. Создайте его в настройках безопасности вашего провайдера.",acc_limit_desc:"Без Premium максимум <strong>2 активных аккаунта</strong>. Premium полностью снимает это ограничение.",sec_bio:"Блокировка приложения",sec_bio_desc:"Заблокируйте приложение <strong>отпечатком пальца или жестом блокировки экрана</strong>.",cmp_accounts_p:"Без ограничений",cmp_filters_p:"Без ограничений",cmp_watcher_p:"Без ограничений"},
+uk:{ll:"Мова",nav_start:"Початок роботи",nav_overview:"Огляд",nav_accounts:"Облікові записи",nav_login:"Вхід & OAuth",nav_email:"Пошта",nav_inbox:"Вхідні",nav_compose:"Написати",nav_attachments:"Вкладення",nav_search:"Пошук",nav_productivity:"Продуктивність",nav_filters:"Фільтри",nav_watcher:"Спостерігач",nav_widget:"Віджет",nav_settings:"Налаштування",nav_appearance:"Зовнішній вигляд",nav_sync:"Синхронізація",nav_backup:"Резервна копія",nav_trial:"Пробний & Premium",nav_security:"Безпека",overview_h1:"Ласкаво просимо до TchikiMail",overview_desc:"Нативний Android-клієнт електронної пошти для швидкості, конфіденційності та зручності.",overview_hero_desc:"Повнофункціональний поштовий клієнт з підтримкою IMAP, POP3, Gmail та Microsoft 365.",accounts_h1:"Облікові записи",login_h1:"Вхід & OAuth",inbox_h1:"Вхідні",compose_h1:"Написати лист",att_h1:"Вкладення",search_h1:"Пошук",filters_h1:"Фільтри повідомлень",watcher_h1:"Спостерігач повідомлень",widget_h1:"Віджет головного екрана",appear_h1:"Зовнішній вигляд",sync_h1:"Синхронізація",backup_h1:"Резервне копіювання",trial_h1:"Пробний & Premium",sec_h1:"Безпека",acc_tip_title:"Пароль програми",acc_tip_desc:"Деякі провайдери (напр. Gmail, Yahoo) вимагають «пароль програми» при увімкненій двофакторній автентифікації. Створіть його в налаштуваннях безпеки вашого провайдера.",acc_limit_desc:"Без Premium максимум <strong>2 активних облікових записи</strong>. Premium повністю знімає це обмеження.",sec_bio:"Блокування програми",sec_bio_desc:"Заблокуйте програму <strong>відбитком пальця або жестом блокування екрана</strong>.",cmp_accounts_p:"Без обмежень",cmp_filters_p:"Без обмежень",cmp_watcher_p:"Без обмежень"},
+pl:{ll:"Język",nav_start:"Pierwsze kroki",nav_overview:"Przegląd",nav_accounts:"Konta e-mail",nav_login:"Logowanie & OAuth",nav_email:"Poczta",nav_inbox:"Skrzynka odbiorcza",nav_compose:"Pisanie",nav_attachments:"Załączniki",nav_search:"Szukaj",nav_productivity:"Produktywność",nav_filters:"Filtry",nav_watcher:"Obserwator",nav_widget:"Widget",nav_settings:"Ustawienia",nav_appearance:"Wygląd",nav_sync:"Synchronizacja",nav_backup:"Kopia zapasowa",nav_trial:"Okres próbny & Premium",nav_security:"Bezpieczeństwo",overview_h1:"Witamy w TchikiMail",overview_desc:"Natywny klient poczty Android dla szybkości, prywatności i przejrzystości.",overview_hero_desc:"Pełnofunkcyjny klient poczty z IMAP, POP3, Gmail i Microsoft 365.",accounts_h1:"Konta e-mail",login_h1:"Logowanie & OAuth",inbox_h1:"Skrzynka odbiorcza",compose_h1:"Pisanie e-maili",att_h1:"Załączniki",search_h1:"Wyszukiwanie",filters_h1:"Filtry wiadomości",watcher_h1:"Obserwator wiadomości",widget_h1:"Widget ekranu głównego",appear_h1:"Wygląd",sync_h1:"Synchronizacja",backup_h1:"Kopia zapasowa i przywracanie",trial_h1:"Okres próbny & Premium",sec_h1:"Bezpieczeństwo",acc_tip_title:"Hasło aplikacji",acc_tip_desc:"Niektórzy dostawcy (np. Gmail, Yahoo) wymagają \"hasła aplikacji\" przy włączonym uwierzytelnianiu dwuskładnikowym. Wygeneruj je w ustawieniach bezpieczeństwa swojego dostawcy.",acc_limit_desc:"Bez Premium maksymalnie <strong>2 aktywne konta</strong>. Premium całkowicie usuwa ten limit.",sec_bio:"Blokada aplikacji",sec_bio_desc:"Zablokuj aplikację <strong>odciskiem palca lub gestem blokady ekranu</strong>.",cmp_accounts_p:"Nieograniczone",cmp_filters_p:"Nieograniczone",cmp_watcher_p:"Nieograniczone"},
+nl:{ll:"Taal",nav_start:"Aan de slag",nav_overview:"Overzicht",nav_accounts:"E-mailaccounts",nav_login:"Inloggen & OAuth",nav_email:"E-mail",nav_inbox:"Postvak IN",nav_compose:"Opstellen",nav_attachments:"Bijlagen",nav_search:"Zoeken",nav_productivity:"Productiviteit",nav_filters:"Filters",nav_watcher:"Bewaker",nav_widget:"Widget",nav_settings:"Instellingen",nav_appearance:"Uiterlijk",nav_sync:"Synchronisatie",nav_backup:"Back-up",nav_trial:"Proefperiode & Premium",nav_security:"Beveiliging",overview_h1:"Welkom bij TchikiMail",overview_desc:"Een native Android e-mailclient voor snelheid, privacy en overzicht.",overview_hero_desc:"Volledige e-mailclient met IMAP, POP3, Gmail en Microsoft 365.",accounts_h1:"E-mailaccounts",login_h1:"Inloggen & OAuth",inbox_h1:"Postvak IN",compose_h1:"E-mails opstellen",att_h1:"Bijlagen",search_h1:"Zoeken",filters_h1:"Berichtfilters",watcher_h1:"Berichtwachter",widget_h1:"Startscherm-widget",appear_h1:"Uiterlijk",sync_h1:"Synchronisatie",backup_h1:"Back-up en herstel",trial_h1:"Proefperiode & Premium",sec_h1:"Beveiliging",acc_tip_title:"App-wachtwoord",acc_tip_desc:"Sommige providers (bijv. Gmail, Yahoo) vereisen een \"app-wachtwoord\" bij tweefactorauthenticatie. Genereer het in de beveiligingsinstellingen van uw provider.",acc_limit_desc:"Zonder Premium maximaal <strong>2 actieve accounts</strong>. Premium verwijdert deze limiet volledig.",sec_bio:"App-vergrendeling",sec_bio_desc:"Vergrendel de app met een <strong>vingerafdruk of schermvergrendelingsgebaar</strong>.",cmp_accounts_p:"Onbeperkt",cmp_filters_p:"Onbeperkt",cmp_watcher_p:"Onbeperkt"},
+sv:{ll:"Språk",nav_start:"Kom igång",nav_overview:"Översikt",nav_accounts:"E-postkonton",nav_login:"Inloggning & OAuth",nav_email:"E-post",nav_inbox:"Inkorg",nav_compose:"Skriv",nav_attachments:"Bilagor",nav_search:"Sök",nav_productivity:"Produktivitet",nav_filters:"Filter",nav_watcher:"Bevakare",nav_widget:"Widget",nav_settings:"Inställningar",nav_appearance:"Utseende",nav_sync:"Synkronisering",nav_backup:"Säkerhetskopiering",nav_trial:"Provperiod & Premium",nav_security:"Säkerhet",overview_h1:"Välkommen till TchikiMail",overview_desc:"En native Android-e-postklient för snabbhet, integritet och tydlighet.",overview_hero_desc:"Fullständig e-postklient med IMAP, POP3, Gmail och Microsoft 365.",accounts_h1:"E-postkonton",login_h1:"Inloggning & OAuth",inbox_h1:"Inkorg",compose_h1:"Skriva e-post",att_h1:"Bilagor",search_h1:"Sök",filters_h1:"Meddelandefilter",watcher_h1:"Meddelandebevakare",widget_h1:"Hemskärmswidget",appear_h1:"Utseende",sync_h1:"Synkronisering",backup_h1:"Säkerhetskopiering och återställning",trial_h1:"Provperiod & Premium",sec_h1:"Säkerhet",acc_tip_title:"Applösenord",acc_tip_desc:"Vissa leverantörer (t.ex. Gmail, Yahoo) kräver ett \"applösenord\" med tvåfaktorsautentisering. Generera det i din leverantörs säkerhetsinställningar.",acc_limit_desc:"Utan Premium max <strong>2 aktiva konton</strong>. Premium tar bort denna gräns helt.",sec_bio:"Applåsning",sec_bio_desc:"Lås appen med <strong>fingeravtryck eller skärmlåsningsgest</strong>.",cmp_accounts_p:"Obegränsat",cmp_filters_p:"Obegränsat",cmp_watcher_p:"Obegränsat"},
+da:{ll:"Sprog",nav_start:"Kom i gang",nav_overview:"Oversigt",nav_accounts:"E-mailkonti",nav_login:"Log ind & OAuth",nav_email:"E-mail",nav_inbox:"Indbakke",nav_compose:"Skriv",nav_attachments:"Vedhæftede filer",nav_search:"Søg",nav_productivity:"Produktivitet",nav_filters:"Filtre",nav_watcher:"Overvåger",nav_widget:"Widget",nav_settings:"Indstillinger",nav_appearance:"Udseende",nav_sync:"Synkronisering",nav_backup:"Sikkerhedskopi",nav_trial:"Prøveperiode & Premium",nav_security:"Sikkerhed",overview_h1:"Velkommen til TchikiMail",overview_desc:"En native Android-e-mailklient til hastighed, privatliv og overskuelighed.",overview_hero_desc:"Komplet e-mailklient med IMAP, POP3, Gmail og Microsoft 365.",accounts_h1:"E-mailkonti",login_h1:"Log ind & OAuth",inbox_h1:"Indbakke",compose_h1:"Skriv e-mails",att_h1:"Vedhæftede filer",search_h1:"Søgning",filters_h1:"Beskedfiltre",watcher_h1:"Beskedovervåger",widget_h1:"Startskærms-widget",appear_h1:"Udseende",sync_h1:"Synkronisering",backup_h1:"Sikkerhedskopi og gendannelse",trial_h1:"Prøveperiode & Premium",sec_h1:"Sikkerhed",acc_tip_title:"App-adgangskode",acc_tip_desc:"Nogle udbydere (f.eks. Gmail, Yahoo) kræver en \"app-adgangskode\" med to-faktor-godkendelse. Generer den i din udbyders sikkerhedsindstillinger.",acc_limit_desc:"Uden Premium maks. <strong>2 aktive konti</strong>. Premium fjerner denne grænse fuldstændigt.",sec_bio:"App-lås",sec_bio_desc:"Lås appen med <strong>fingeraftryk eller skærmlåsningsgestus</strong>.",cmp_accounts_p:"Ubegrænset",cmp_filters_p:"Ubegrænset",cmp_watcher_p:"Ubegrænset"},
+nb:{ll:"Språk",nav_start:"Kom i gang",nav_overview:"Oversikt",nav_accounts:"E-postkontoer",nav_login:"Logg inn & OAuth",nav_email:"E-post",nav_inbox:"Innboks",nav_compose:"Skriv",nav_attachments:"Vedlegg",nav_search:"Søk",nav_productivity:"Produktivitet",nav_filters:"Filtre",nav_watcher:"Overvåker",nav_widget:"Widget",nav_settings:"Innstillinger",nav_appearance:"Utseende",nav_sync:"Synkronisering",nav_backup:"Sikkerhetskopiering",nav_trial:"Prøveperiode & Premium",nav_security:"Sikkerhet",overview_h1:"Velkommen til TchikiMail",overview_desc:"En native Android-e-postklient for hastighet, personvern og oversikt.",overview_hero_desc:"Komplett e-postklient med IMAP, POP3, Gmail og Microsoft 365.",accounts_h1:"E-postkontoer",login_h1:"Logg inn & OAuth",inbox_h1:"Innboks",compose_h1:"Skrive e-post",att_h1:"Vedlegg",search_h1:"Søk",filters_h1:"Meldingsfiltre",watcher_h1:"Meldingsovervåker",widget_h1:"Startskjerm-widget",appear_h1:"Utseende",sync_h1:"Synkronisering",backup_h1:"Sikkerhetskopiering og gjenoppretting",trial_h1:"Prøveperiode & Premium",sec_h1:"Sikkerhet",acc_tip_title:"App-passord",acc_tip_desc:"Noen leverandører (f.eks. Gmail, Yahoo) krever et \"app-passord\" med tofaktorautentisering. Generer det i leverandørens sikkerhetsinnstillinger.",acc_limit_desc:"Uten Premium maks. <strong>2 aktive kontoer</strong>. Premium fjerner denne grensen helt.",sec_bio:"App-lås",sec_bio_desc:"Lås appen med <strong>fingeravtrykk eller skjermlåsingsgest</strong>.",cmp_accounts_p:"Ubegrenset",cmp_filters_p:"Ubegrenset",cmp_watcher_p:"Ubegrenset"},
+nn:{ll:"Språk",nav_start:"Kjem i gang",nav_overview:"Oversikt",nav_accounts:"E-postkontoar",nav_login:"Logg inn & OAuth",nav_email:"E-post",nav_inbox:"Innboks",nav_compose:"Skriv",nav_attachments:"Vedlegg",nav_search:"Søk",nav_productivity:"Produktivitet",nav_filters:"Filtrar",nav_watcher:"Overvaker",nav_widget:"Widget",nav_settings:"Innstillingar",nav_appearance:"Utsjånad",nav_sync:"Synkronisering",nav_backup:"Tryggleikskopiering",nav_trial:"Prøveperiode & Premium",nav_security:"Tryggleik",overview_h1:"Velkommen til TchikiMail",overview_desc:"Ein native Android-e-postklient for hastigheit, personvern og oversikt.",overview_hero_desc:"Komplett e-postklient med IMAP, POP3, Gmail og Microsoft 365.",accounts_h1:"E-postkontoar",login_h1:"Logg inn & OAuth",inbox_h1:"Innboks",compose_h1:"Skriva e-post",att_h1:"Vedlegg",search_h1:"Søk",filters_h1:"Meldingsfiltrar",watcher_h1:"Meldingsovervaker",widget_h1:"Startskjerm-widget",appear_h1:"Utsjånad",sync_h1:"Synkronisering",backup_h1:"Tryggleikskopiering og attoppretting",trial_h1:"Prøveperiode & Premium",sec_h1:"Tryggleik",acc_tip_title:"App-passord",acc_tip_desc:"Nokre leverandørar (t.d. Gmail, Yahoo) krev eit \"app-passord\" med tofaktorautentisering.",acc_limit_desc:"Utan Premium maks. <strong>2 aktive kontoar</strong>. Premium fjernar grensa heilt.",sec_bio:"App-lås",sec_bio_desc:"Lås appen med <strong>fingeravtrykk eller skjermlåsingsgest</strong>.",cmp_accounts_p:"Ubegrensa",cmp_filters_p:"Ubegrensa",cmp_watcher_p:"Ubegrensa"},
+fi:{ll:"Kieli",nav_start:"Aloittaminen",nav_overview:"Yleiskatsaus",nav_accounts:"Sähköpostitilit",nav_login:"Kirjautuminen & OAuth",nav_email:"Sähköposti",nav_inbox:"Saapuneet",nav_compose:"Kirjoita",nav_attachments:"Liitteet",nav_search:"Haku",nav_productivity:"Tuottavuus",nav_filters:"Suodattimet",nav_watcher:"Tarkkailija",nav_widget:"Widget",nav_settings:"Asetukset",nav_appearance:"Ulkoasu",nav_sync:"Synkronointi",nav_backup:"Varmuuskopio",nav_trial:"Kokeilujakso & Premium",nav_security:"Turvallisuus",overview_h1:"Tervetuloa TchikiMailiin",overview_desc:"Natiivi Android-sähköpostiohjelma nopeudelle, yksityisyydelle ja selkeydelle.",overview_hero_desc:"Täydellinen sähköpostiohjelma IMAP-, POP3-, Gmail- ja Microsoft 365 -tuella.",accounts_h1:"Sähköpostitilit",login_h1:"Kirjautuminen & OAuth",inbox_h1:"Saapuneet",compose_h1:"Sähköpostin kirjoittaminen",att_h1:"Liitteet",search_h1:"Haku",filters_h1:"Viestien suodattimet",watcher_h1:"Viestien tarkkailija",widget_h1:"Aloitusnäytön widget",appear_h1:"Ulkoasu",sync_h1:"Synkronointi",backup_h1:"Varmuuskopiointi ja palautus",trial_h1:"Kokeilujakso & Premium",sec_h1:"Turvallisuus",acc_tip_title:"Sovelluskohtainen salasana",acc_tip_desc:"Jotkut palveluntarjoajat (esim. Gmail, Yahoo) vaativat \"sovelluskohtaisen salasanan\" kaksivaiheisen todennuksen kanssa. Luo se palveluntarjoajasi turvallisuusasetuksista.",acc_limit_desc:"Ilman Premiumia enintään <strong>2 aktiivista tiliä</strong>. Premium poistaa tämän rajan kokonaan.",sec_bio:"Sovelluksen lukitus",sec_bio_desc:"Lukitse sovellus <strong>sormenjäljellä tai näytön lukituseleellä</strong>.",cmp_accounts_p:"Rajoittamaton",cmp_filters_p:"Rajoittamaton",cmp_watcher_p:"Rajoittamaton"},
+hu:{ll:"Nyelv",nav_start:"Kezdés",nav_overview:"Áttekintés",nav_accounts:"E-mail fiókok",nav_login:"Bejelentkezés & OAuth",nav_email:"E-mail",nav_inbox:"Beérkező",nav_compose:"Írás",nav_attachments:"Mellékletek",nav_search:"Keresés",nav_productivity:"Termelékenység",nav_filters:"Szűrők",nav_watcher:"Figyelő",nav_widget:"Widget",nav_settings:"Beállítások",nav_appearance:"Megjelenés",nav_sync:"Szinkronizálás",nav_backup:"Biztonsági mentés",nav_trial:"Próbaidőszak & Premium",nav_security:"Biztonság",overview_h1:"Üdvözöljük a TchikiMailben",overview_desc:"Natív Android e-mail kliens sebességre, adatvédelemre és áttekinthetőségre tervezve.",overview_hero_desc:"Teljes funkcionalitású e-mail kliens IMAP, POP3, Gmail és Microsoft 365 támogatással.",accounts_h1:"E-mail fiókok",login_h1:"Bejelentkezés & OAuth",inbox_h1:"Beérkező",compose_h1:"E-mail írása",att_h1:"Mellékletek",search_h1:"Keresés",filters_h1:"Üzenetszűrők",watcher_h1:"Üzenetfigyelő",widget_h1:"Kezdőképernyő-widget",appear_h1:"Megjelenés",sync_h1:"Szinkronizálás",backup_h1:"Biztonsági mentés és visszaállítás",trial_h1:"Próbaidőszak & Premium",sec_h1:"Biztonság",acc_tip_title:"Alkalmazásjelszó",acc_tip_desc:"Egyes szolgáltatók (pl. Gmail, Yahoo) \"alkalmazásjelszót\" követelnek kétfaktoros hitelesítés esetén. Generálja a szolgáltató biztonsági beállításaiban.",acc_limit_desc:"Premium nélkül legfeljebb <strong>2 aktív fiók</strong>. A Premium teljesen eltávolítja ezt a korlátot.",sec_bio:"Alkalmazászár",sec_bio_desc:"Zárolja az alkalmazást <strong>ujjlenyomattal vagy képernyőzár-mozdulattal</strong>.",cmp_accounts_p:"Korlátlan",cmp_filters_p:"Korlátlan",cmp_watcher_p:"Korlátlan"},
+sk:{ll:"Jazyk",nav_start:"Začíname",nav_overview:"Prehľad",nav_accounts:"E-mailové účty",nav_login:"Prihlásenie & OAuth",nav_email:"E-mail",nav_inbox:"Doručená pošta",nav_compose:"Písanie",nav_attachments:"Prílohy",nav_search:"Hľadanie",nav_productivity:"Produktivita",nav_filters:"Filtre",nav_watcher:"Hliadač",nav_widget:"Widget",nav_settings:"Nastavenia",nav_appearance:"Vzhľad",nav_sync:"Synchronizácia",nav_backup:"Záloha",nav_trial:"Trial & Premium",nav_security:"Zabezpečenie",overview_h1:"Vitajte v TchikiMail",overview_desc:"Natívny Android e-mailový klient pre rýchlosť, súkromie a prehľadnosť.",overview_hero_desc:"Plnohodnotný e-mailový klient s IMAP, POP3, Gmail a Microsoft 365.",accounts_h1:"E-mailové účty",login_h1:"Prihlásenie & OAuth",inbox_h1:"Doručená pošta",compose_h1:"Písanie e-mailov",att_h1:"Prílohy",search_h1:"Hľadanie",filters_h1:"Filtre správ",watcher_h1:"Hliadač správ",widget_h1:"Widget plochy",appear_h1:"Vzhľad",sync_h1:"Synchronizácia",backup_h1:"Záloha a obnovenie",trial_h1:"Trial & Premium",sec_h1:"Zabezpečenie",acc_tip_title:"Heslo aplikácie",acc_tip_desc:"Niektorí poskytovatelia (napr. Gmail, Yahoo, Zoznam) vyžadujú „heslo aplikácie\" pri zapnutom dvojfázovom overení. Vygenerujte ho v nastaveniach zabezpečenia vášho poskytovateľa.",acc_limit_desc:"Bez Premium môžu byť aktívne najviac <strong>2 účty</strong>. Premium tento limit úplne odstráni.",sec_bio:"Zámok aplikácie",sec_bio_desc:"Uzamknite aplikáciu <strong>odtlačkom prsta alebo gestom zámku obrazovky</strong>.",cmp_accounts_p:"Neobmedzene",cmp_filters_p:"Neobmedzene",cmp_watcher_p:"Neobmedzene"},
+hr:{ll:"Jezik",nav_start:"Početak",nav_overview:"Pregled",nav_accounts:"E-mail računi",nav_login:"Prijava & OAuth",nav_email:"E-mail",nav_inbox:"Pristigla pošta",nav_compose:"Pisanje",nav_attachments:"Privici",nav_search:"Pretraga",nav_productivity:"Produktivnost",nav_filters:"Filtri",nav_watcher:"Pratilac",nav_widget:"Widget",nav_settings:"Postavke",nav_appearance:"Izgled",nav_sync:"Sinkronizacija",nav_backup:"Sigurnosna kopija",nav_trial:"Probno & Premium",nav_security:"Sigurnost",overview_h1:"Dobrodošli u TchikiMail",overview_desc:"Nativni Android e-mail klijent za brzinu, privatnost i preglednost.",overview_hero_desc:"Potpuni e-mail klijent s IMAP, POP3, Gmail i Microsoft 365.",accounts_h1:"E-mail računi",login_h1:"Prijava & OAuth",inbox_h1:"Pristigla pošta",compose_h1:"Pisanje e-maila",att_h1:"Privici",search_h1:"Pretraga",filters_h1:"Filtri poruka",watcher_h1:"Pratilac poruka",widget_h1:"Widget početnog zaslona",appear_h1:"Izgled",sync_h1:"Sinkronizacija",backup_h1:"Sigurnosna kopija i obnova",trial_h1:"Probno & Premium",sec_h1:"Sigurnost",acc_tip_title:"Lozinka aplikacije",acc_tip_desc:"Neki pružatelji (npr. Gmail, Yahoo) zahtijevaju \"lozinku aplikacije\" s dvofaktorskom autentifikacijom. Generirajte je u sigurnosnim postavkama vašeg pružatelja.",acc_limit_desc:"Bez Premiuma maksimalno <strong>2 aktivna računa</strong>. Premium u potpunosti uklanja to ograničenje.",sec_bio:"Zaključavanje aplikacije",sec_bio_desc:"Zaključajte aplikaciju <strong>otiskom prsta ili gestom zaključavanja zaslona</strong>.",cmp_accounts_p:"Neograničeno",cmp_filters_p:"Neograničeno",cmp_watcher_p:"Neograničeno"},
+ro:{ll:"Limbă",nav_start:"Noțiuni de bază",nav_overview:"Prezentare generală",nav_accounts:"Conturi e-mail",nav_login:"Autentificare & OAuth",nav_email:"E-mail",nav_inbox:"Căsuță de intrare",nav_compose:"Redactare",nav_attachments:"Atașamente",nav_search:"Căutare",nav_productivity:"Productivitate",nav_filters:"Filtre",nav_watcher:"Monitor",nav_widget:"Widget",nav_settings:"Setări",nav_appearance:"Aspect",nav_sync:"Sincronizare",nav_backup:"Copie de rezervă",nav_trial:"Perioadă de probă & Premium",nav_security:"Securitate",overview_h1:"Bun venit în TchikiMail",overview_desc:"Un client de e-mail Android nativ pentru viteză, confidențialitate și claritate.",overview_hero_desc:"Client de e-mail complet cu IMAP, POP3, Gmail și Microsoft 365.",accounts_h1:"Conturi e-mail",login_h1:"Autentificare & OAuth",inbox_h1:"Căsuță de intrare",compose_h1:"Redactarea e-mailurilor",att_h1:"Atașamente",search_h1:"Căutare",filters_h1:"Filtre mesaje",watcher_h1:"Monitor mesaje",widget_h1:"Widget ecran principal",appear_h1:"Aspect",sync_h1:"Sincronizare",backup_h1:"Copie de rezervă și restaurare",trial_h1:"Perioadă de probă & Premium",sec_h1:"Securitate",acc_tip_title:"Parolă de aplicație",acc_tip_desc:"Unii furnizori (ex. Gmail, Yahoo) necesită o \"parolă de aplicație\" cu autentificarea în doi pași. Generați-o în setările de securitate ale furnizorului.",acc_limit_desc:"Fără Premium, maxim <strong>2 conturi</strong> active. Premium elimină complet această limită.",sec_bio:"Blocare aplicație",sec_bio_desc:"Blocați aplicația cu <strong>amprentă sau gest de blocare a ecranului</strong>.",cmp_accounts_p:"Nelimitat",cmp_filters_p:"Nelimitat",cmp_watcher_p:"Nelimitat"},
+bg:{ll:"Език",nav_start:"Начало",nav_overview:"Преглед",nav_accounts:"Имейл акаунти",nav_login:"Вход & OAuth",nav_email:"Имейл",nav_inbox:"Входящи",nav_compose:"Писане",nav_attachments:"Прикачени файлове",nav_search:"Търсене",nav_productivity:"Продуктивност",nav_filters:"Филтри",nav_watcher:"Наблюдател",nav_widget:"Уиджет",nav_settings:"Настройки",nav_appearance:"Изглед",nav_sync:"Синхронизация",nav_backup:"Архивиране",nav_trial:"Пробен период & Premium",nav_security:"Сигурност",overview_h1:"Добре дошли в TchikiMail",overview_desc:"Нативен Android имейл клиент за скорост, поверителност и яснота.",overview_hero_desc:"Пълнофункционален имейл клиент с IMAP, POP3, Gmail и Microsoft 365.",accounts_h1:"Имейл акаунти",login_h1:"Вход & OAuth",inbox_h1:"Входящи",compose_h1:"Писане на имейли",att_h1:"Прикачени файлове",search_h1:"Търсене",filters_h1:"Филтри за съобщения",watcher_h1:"Наблюдател на съобщения",widget_h1:"Уиджет на началния екран",appear_h1:"Изглед",sync_h1:"Синхронизация",backup_h1:"Архивиране и възстановяване",trial_h1:"Пробен период & Premium",sec_h1:"Сигурност",acc_tip_title:"Парола за приложение",acc_tip_desc:"Някои доставчици (напр. Gmail, Yahoo) изискват \"парола за приложение\" при двуфакторно удостоверяване. Генерирайте я в настройките за сигурност на вашия доставчик.",acc_limit_desc:"Без Premium максимум <strong>2 активни акаунта</strong>. Premium напълно премахва това ограничение.",sec_bio:"Заключване на приложението",sec_bio_desc:"Заключете приложението с <strong>пръстов отпечатък или жест за заключване на екрана</strong>.",cmp_accounts_p:"Неограничено",cmp_filters_p:"Неограничено",cmp_watcher_p:"Неограничено"},
+tr:{ll:"Dil",nav_start:"Başlangıç",nav_overview:"Genel Bakış",nav_accounts:"E-posta Hesapları",nav_login:"Giriş & OAuth",nav_email:"E-posta",nav_inbox:"Gelen Kutusu",nav_compose:"Yaz",nav_attachments:"Ekler",nav_search:"Ara",nav_productivity:"Verimlilik",nav_filters:"Filtreler",nav_watcher:"İzleyici",nav_widget:"Widget",nav_settings:"Ayarlar",nav_appearance:"Görünüm",nav_sync:"Senkronizasyon",nav_backup:"Yedek",nav_trial:"Deneme & Premium",nav_security:"Güvenlik",overview_h1:"TchikiMail'e Hoş Geldiniz",overview_desc:"Hız, gizlilik ve netlik için tasarlanmış yerel bir Android e-posta istemcisi.",overview_hero_desc:"IMAP, POP3, Gmail ve Microsoft 365 destekli tam özellikli e-posta istemcisi.",accounts_h1:"E-posta Hesapları",login_h1:"Giriş & OAuth",inbox_h1:"Gelen Kutusu",compose_h1:"E-posta Yazma",att_h1:"Ekler",search_h1:"Arama",filters_h1:"Mesaj Filtreleri",watcher_h1:"Mesaj İzleyici",widget_h1:"Ana Ekran Widget'ı",appear_h1:"Görünüm",sync_h1:"Senkronizasyon",backup_h1:"Yedekleme ve Geri Yükleme",trial_h1:"Deneme & Premium",sec_h1:"Güvenlik",acc_tip_title:"Uygulama şifresi",acc_tip_desc:"Bazı sağlayıcılar (ör. Gmail, Yahoo) iki faktörlü kimlik doğrulama ile \"uygulama şifresi\" gerektirir. Sağlayıcınızın güvenlik ayarlarından oluşturun.",acc_limit_desc:"Premium olmadan en fazla <strong>2 aktif hesap</strong>. Premium bu sınırı tamamen kaldırır.",sec_bio:"Uygulama kilidi",sec_bio_desc:"Uygulamayı <strong>parmak izi veya ekran kilidi hareketi</strong> ile kilitleyin.",cmp_accounts_p:"Sınırsız",cmp_filters_p:"Sınırsız",cmp_watcher_p:"Sınırsız"},
+ar:{ll:"اللغة",nav_start:"البداية",nav_overview:"نظرة عامة",nav_accounts:"حسابات البريد",nav_login:"تسجيل الدخول",nav_email:"البريد",nav_inbox:"صندوق الوارد",nav_compose:"إنشاء",nav_attachments:"المرفقات",nav_search:"البحث",nav_productivity:"الإنتاجية",nav_filters:"الفلاتر",nav_watcher:"المراقب",nav_widget:"الودجت",nav_settings:"الإعدادات",nav_appearance:"المظهر",nav_sync:"المزامنة",nav_backup:"النسخ الاحتياطي",nav_trial:"الفترة التجريبية",nav_security:"الأمان",overview_h1:"مرحباً بك في TchikiMail",overview_desc:"عميل بريد إلكتروني أصلي لنظام Android مصمم للسرعة والخصوصية والوضوح.",overview_hero_desc:"عميل بريد إلكتروني متكامل يدعم IMAP وPOP3 وGmail وMicrosoft 365.",accounts_h1:"حسابات البريد الإلكتروني",login_h1:"تسجيل الدخول & OAuth",inbox_h1:"صندوق الوارد",compose_h1:"إنشاء رسائل",att_h1:"المرفقات",search_h1:"البحث",filters_h1:"فلاتر الرسائل",watcher_h1:"مراقب الرسائل",widget_h1:"ودجت الشاشة الرئيسية",appear_h1:"المظهر",sync_h1:"المزامنة",backup_h1:"النسخ الاحتياطي والاستعادة",trial_h1:"الفترة التجريبية & Premium",sec_h1:"الأمان",acc_tip_title:"كلمة مرور التطبيق",acc_tip_desc:"يتطلب بعض مزودي الخدمة (مثل Gmail وYahoo) \"كلمة مرور التطبيق\" عند تفعيل التحقق بخطوتين. أنشئها في إعدادات الأمان لدى مزودك.",acc_limit_desc:"بدون Premium، يمكن أن يكون <strong>حسابان</strong> نشطان كحد أقصى. يرفع Premium هذا الحد تماماً.",sec_bio:"قفل التطبيق",sec_bio_desc:"اقفل التطبيق ببصمة الإصبع أو إيماءة قفل الشاشة.",cmp_accounts_p:"غير محدود",cmp_filters_p:"غير محدود",cmp_watcher_p:"غير محدود"},
+hi:{ll:"भाषा",nav_start:"शुरुआत",nav_overview:"अवलोकन",nav_accounts:"ईमेल खाते",nav_login:"लॉगिन & OAuth",nav_email:"ईमेल",nav_inbox:"इनबॉक्स",nav_compose:"लिखें",nav_attachments:"अटैचमेंट",nav_search:"खोज",nav_productivity:"उत्पादकता",nav_filters:"फ़िल्टर",nav_watcher:"वॉचर",nav_widget:"विजेट",nav_settings:"सेटिंग्स",nav_appearance:"दिखावट",nav_sync:"सिंक",nav_backup:"बैकअप",nav_trial:"ट्रायल & प्रीमियम",nav_security:"सुरक्षा",overview_h1:"TchikiMail में आपका स्वागत है",overview_desc:"गति, गोपनीयता और स्पष्टता के लिए डिज़ाइन किया गया नेटिव Android ईमेल क्लाइंट।",overview_hero_desc:"IMAP, POP3, Gmail और Microsoft 365 सपोर्ट के साथ पूर्ण-विशेषताओं वाला ईमेल क्लाइंट।",accounts_h1:"ईमेल खाते",login_h1:"लॉगिन & OAuth",inbox_h1:"इनबॉक्स",compose_h1:"ईमेल लिखें",att_h1:"अटैचमेंट",search_h1:"खोज",filters_h1:"संदेश फ़िल्टर",watcher_h1:"संदेश वॉचर",widget_h1:"होम स्क्रीन विजेट",appear_h1:"दिखावट",sync_h1:"सिंक्रोनाइज़ेशन",backup_h1:"बैकअप और पुनर्स्थापना",trial_h1:"ट्रायल & प्रीमियम",sec_h1:"सुरक्षा",acc_tip_title:"ऐप पासवर्ड",acc_tip_desc:"कुछ प्रदाता (जैसे Gmail, Yahoo) दो-कारक प्रमाणीकरण के साथ \"ऐप पासवर्ड\" की आवश्यकता करते हैं। इसे अपने प्रदाता की सुरक्षा सेटिंग्स में जेनरेट करें।",acc_limit_desc:"प्रीमियम के बिना अधिकतम <strong>2 सक्रिय खाते</strong>। प्रीमियम इस सीमा को पूरी तरह हटा देता है।",sec_bio:"ऐप लॉक",sec_bio_desc:"ऐप को <strong>फिंगरप्रिंट या स्क्रीन लॉक जेस्चर</strong> से लॉक करें।",cmp_accounts_p:"असीमित",cmp_filters_p:"असीमित",cmp_watcher_p:"असीमित"},
+bn:{ll:"ভাষা",nav_start:"শুরু করুন",nav_overview:"সংক্ষিপ্ত বিবরণ",nav_accounts:"ইমেইল অ্যাকাউন্ট",nav_login:"লগইন & OAuth",nav_email:"ইমেইল",nav_inbox:"ইনবক্স",nav_compose:"লিখুন",nav_attachments:"সংযুক্তি",nav_search:"অনুসন্ধান",nav_productivity:"উৎপাদনশীলতা",nav_filters:"ফিল্টার",nav_watcher:"পর্যবেক্ষক",nav_widget:"উইজেট",nav_settings:"সেটিংস",nav_appearance:"চেহারা",nav_sync:"সিঙ্ক",nav_backup:"ব্যাকআপ",nav_trial:"ট্রায়াল & প্রিমিয়াম",nav_security:"নিরাপত্তা",overview_h1:"TchikiMail-এ স্বাগতম",overview_desc:"গতি, গোপনীয়তা এবং স্বচ্ছতার জন্য ডিজাইন করা নেটিভ Android ইমেইল ক্লায়েন্ট।",overview_hero_desc:"IMAP, POP3, Gmail এবং Microsoft 365 সমর্থন সহ সম্পূর্ণ ইমেইল ক্লায়েন্ট।",accounts_h1:"ইমেইল অ্যাকাউন্ট",login_h1:"লগইন & OAuth",inbox_h1:"ইনবক্স",compose_h1:"ইমেইল লিখুন",att_h1:"সংযুক্তি",search_h1:"অনুসন্ধান",filters_h1:"বার্তা ফিল্টার",watcher_h1:"বার্তা পর্যবেক্ষক",widget_h1:"হোম স্ক্রিন উইজেট",appear_h1:"চেহারা",sync_h1:"সিঙ্ক্রোনাইজেশন",backup_h1:"ব্যাকআপ ও পুনরুদ্ধার",trial_h1:"ট্রায়াল & প্রিমিয়াম",sec_h1:"নিরাপত্তা",acc_tip_title:"অ্যাপ পাসওয়ার্ড",acc_tip_desc:"কিছু প্রদানকারী (যেমন Gmail, Yahoo) দ্বি-ফ্যাক্টর যাচাইকরণের সাথে \"অ্যাপ পাসওয়ার্ড\" প্রয়োজন করে।",acc_limit_desc:"প্রিমিয়াম ছাড়া সর্বোচ্চ <strong>২টি সক্রিয় অ্যাকাউন্ট</strong>।",sec_bio:"অ্যাপ লক",sec_bio_desc:"অ্যাপটি <strong>আঙুলের ছাপ বা স্ক্রিন লক জেসচার</strong> দিয়ে লক করুন।",cmp_accounts_p:"সীমাহীন",cmp_filters_p:"সীমাহীন",cmp_watcher_p:"সীমাহীন"},
+ja:{ll:"言語",nav_start:"はじめに",nav_overview:"概要",nav_accounts:"メールアカウント",nav_login:"ログイン & OAuth",nav_email:"メール",nav_inbox:"受信トレイ",nav_compose:"作成",nav_attachments:"添付ファイル",nav_search:"検索",nav_productivity:"生産性",nav_filters:"フィルター",nav_watcher:"ウォッチャー",nav_widget:"ウィジェット",nav_settings:"設定",nav_appearance:"外観",nav_sync:"同期",nav_backup:"バックアップ",nav_trial:"トライアル & プレミアム",nav_security:"セキュリティ",overview_h1:"TchikiMailへようこそ",overview_desc:"スピード、プライバシー、明確さのために設計されたネイティブAndroidメールクライアント。",overview_hero_desc:"IMAP、POP3、Gmail、Microsoft 365対応の多機能メールクライアント。",accounts_h1:"メールアカウント",login_h1:"ログイン & OAuth",inbox_h1:"受信トレイ",compose_h1:"メールの作成",att_h1:"添付ファイル",search_h1:"検索",filters_h1:"メッセージフィルター",watcher_h1:"メッセージウォッチャー",widget_h1:"ホーム画面ウィジェット",appear_h1:"外観",sync_h1:"同期",backup_h1:"バックアップと復元",trial_h1:"トライアル & プレミアム",sec_h1:"セキュリティ",acc_tip_title:"アプリパスワード",acc_tip_desc:"一部のプロバイダー（Gmail、Yahooなど）は2段階認証で「アプリパスワード」が必要です。プロバイダーのセキュリティ設定で生成してください。",acc_limit_desc:"Premiumなしでは最大<strong>2アカウント</strong>がアクティブ。Premiumでこの制限を完全に解除。",sec_bio:"アプリロック",sec_bio_desc:"<strong>指紋または画面ロックジェスチャー</strong>でアプリをロック。設定は<strong>設定 → セキュリティ → アプリロック</strong>。",cmp_accounts_p:"無制限",cmp_filters_p:"無制限",cmp_watcher_p:"無制限"},
+ko:{ll:"언어",nav_start:"시작하기",nav_overview:"개요",nav_accounts:"이메일 계정",nav_login:"로그인 & OAuth",nav_email:"이메일",nav_inbox:"받은 편지함",nav_compose:"작성",nav_attachments:"첨부 파일",nav_search:"검색",nav_productivity:"생산성",nav_filters:"필터",nav_watcher:"감시자",nav_widget:"위젯",nav_settings:"설정",nav_appearance:"외관",nav_sync:"동기화",nav_backup:"백업",nav_trial:"체험판 & 프리미엄",nav_security:"보안",overview_h1:"TchikiMail에 오신 것을 환영합니다",overview_desc:"속도, 개인 정보 보호 및 명확성을 위해 설계된 네이티브 Android 이메일 클라이언트.",overview_hero_desc:"IMAP, POP3, Gmail, Microsoft 365를 지원하는 완전한 기능의 이메일 클라이언트.",accounts_h1:"이메일 계정",login_h1:"로그인 & OAuth",inbox_h1:"받은 편지함",compose_h1:"이메일 작성",att_h1:"첨부 파일",search_h1:"검색",filters_h1:"메시지 필터",watcher_h1:"메시지 감시자",widget_h1:"홈 화면 위젯",appear_h1:"외관",sync_h1:"동기화",backup_h1:"백업 및 복원",trial_h1:"체험판 & 프리미엄",sec_h1:"보안",acc_tip_title:"앱 비밀번호",acc_tip_desc:"일부 제공업체(Gmail, Yahoo 등)는 2단계 인증 시 \"앱 비밀번호\"를 요구합니다. 제공업체의 보안 설정에서 생성하세요.",acc_limit_desc:"프리미엄 없이 최대 <strong>계정 2개</strong> 활성화. 프리미엄은 이 제한을 완전히 제거합니다.",sec_bio:"앱 잠금",sec_bio_desc:"<strong>지문 또는 화면 잠금 동작</strong>으로 앱을 잠그세요.",cmp_accounts_p:"무제한",cmp_filters_p:"무제한",cmp_watcher_p:"무제한"},
+zh:{ll:"语言",nav_start:"开始使用",nav_overview:"概览",nav_accounts:"邮件账户",nav_login:"登录 & OAuth",nav_email:"邮件",nav_inbox:"收件箱",nav_compose:"撰写",nav_attachments:"附件",nav_search:"搜索",nav_productivity:"效率",nav_filters:"过滤器",nav_watcher:"监控",nav_widget:"小组件",nav_settings:"设置",nav_appearance:"外观",nav_sync:"同步",nav_backup:"备份",nav_trial:"试用 & 高级版",nav_security:"安全",overview_h1:"欢迎使用 TchikiMail",overview_desc:"专为速度、隐私和清晰度设计的原生 Android 邮件客户端。",overview_hero_desc:"支持 IMAP、POP3、Gmail 和 Microsoft 365 的全功能邮件客户端。",accounts_h1:"邮件账户",login_h1:"登录 & OAuth",inbox_h1:"收件箱",compose_h1:"撰写邮件",att_h1:"附件",search_h1:"搜索",filters_h1:"邮件过滤器",watcher_h1:"邮件监控",widget_h1:"主屏幕小组件",appear_h1:"外观",sync_h1:"同步",backup_h1:"备份与恢复",trial_h1:"试用 & 高级版",sec_h1:"安全",acc_tip_title:"应用专用密码",acc_tip_desc:"某些提供商（如 Gmail、Yahoo）在启用两步验证时需要「应用专用密码」。请在您的提供商的安全设置中生成。",acc_limit_desc:"无高级版时最多 <strong>2 个</strong>活跃账户。高级版完全取消此限制。",sec_bio:"应用锁",sec_bio_desc:"使用<strong>指纹或屏幕锁定手势</strong>锁定应用。",cmp_accounts_p:"无限制",cmp_filters_p:"无限制",cmp_watcher_p:"无限制"},
+vi:{ll:"Ngôn ngữ",nav_start:"Bắt đầu",nav_overview:"Tổng quan",nav_accounts:"Tài khoản email",nav_login:"Đăng nhập & OAuth",nav_email:"Email",nav_inbox:"Hộp thư đến",nav_compose:"Soạn thảo",nav_attachments:"Tệp đính kèm",nav_search:"Tìm kiếm",nav_productivity:"Năng suất",nav_filters:"Bộ lọc",nav_watcher:"Theo dõi",nav_widget:"Widget",nav_settings:"Cài đặt",nav_appearance:"Giao diện",nav_sync:"Đồng bộ",nav_backup:"Sao lưu",nav_trial:"Dùng thử & Premium",nav_security:"Bảo mật",overview_h1:"Chào mừng đến với TchikiMail",overview_desc:"Ứng dụng email Android gốc được thiết kế cho tốc độ, quyền riêng tư và sự rõ ràng.",overview_hero_desc:"Ứng dụng email đầy đủ tính năng hỗ trợ IMAP, POP3, Gmail và Microsoft 365.",accounts_h1:"Tài khoản email",login_h1:"Đăng nhập & OAuth",inbox_h1:"Hộp thư đến",compose_h1:"Soạn email",att_h1:"Tệp đính kèm",search_h1:"Tìm kiếm",filters_h1:"Bộ lọc tin nhắn",watcher_h1:"Theo dõi tin nhắn",widget_h1:"Widget màn hình chính",appear_h1:"Giao diện",sync_h1:"Đồng bộ hóa",backup_h1:"Sao lưu và khôi phục",trial_h1:"Dùng thử & Premium",sec_h1:"Bảo mật",acc_tip_title:"Mật khẩu ứng dụng",acc_tip_desc:"Một số nhà cung cấp (ví dụ Gmail, Yahoo) yêu cầu \"mật khẩu ứng dụng\" với xác thực hai yếu tố. Tạo trong cài đặt bảo mật của nhà cung cấp.",acc_limit_desc:"Không có Premium, tối đa <strong>2 tài khoản</strong> hoạt động. Premium xóa hoàn toàn giới hạn này.",sec_bio:"Khóa ứng dụng",sec_bio_desc:"Khóa ứng dụng bằng <strong>dấu vân tay hoặc cử chỉ khóa màn hình</strong>.",cmp_accounts_p:"Không giới hạn",cmp_filters_p:"Không giới hạn",cmp_watcher_p:"Không giới hạn"},
+id:{ll:"Bahasa",nav_start:"Mulai",nav_overview:"Ikhtisar",nav_accounts:"Akun Email",nav_login:"Masuk & OAuth",nav_email:"Email",nav_inbox:"Kotak Masuk",nav_compose:"Tulis",nav_attachments:"Lampiran",nav_search:"Cari",nav_productivity:"Produktivitas",nav_filters:"Filter",nav_watcher:"Pemantau",nav_widget:"Widget",nav_settings:"Pengaturan",nav_appearance:"Tampilan",nav_sync:"Sinkronisasi",nav_backup:"Cadangan",nav_trial:"Masa Coba & Premium",nav_security:"Keamanan",overview_h1:"Selamat Datang di TchikiMail",overview_desc:"Klien email Android native yang dirancang untuk kecepatan, privasi, dan kejelasan.",overview_hero_desc:"Klien email lengkap dengan dukungan IMAP, POP3, Gmail, dan Microsoft 365.",accounts_h1:"Akun Email",login_h1:"Masuk & OAuth",inbox_h1:"Kotak Masuk",compose_h1:"Menulis Email",att_h1:"Lampiran",search_h1:"Pencarian",filters_h1:"Filter Pesan",watcher_h1:"Pemantau Pesan",widget_h1:"Widget Layar Utama",appear_h1:"Tampilan",sync_h1:"Sinkronisasi",backup_h1:"Cadangan dan Pemulihan",trial_h1:"Masa Coba & Premium",sec_h1:"Keamanan",acc_tip_title:"Kata Sandi Aplikasi",acc_tip_desc:"Beberapa penyedia (misal Gmail, Yahoo) memerlukan \"kata sandi aplikasi\" dengan autentikasi dua faktor. Buat di pengaturan keamanan penyedia Anda.",acc_limit_desc:"Tanpa Premium, maksimal <strong>2 akun</strong> aktif. Premium menghapus batas ini sepenuhnya.",sec_bio:"Kunci Aplikasi",sec_bio_desc:"Kunci aplikasi dengan <strong>sidik jari atau gerakan kunci layar</strong>.",cmp_accounts_p:"Tidak terbatas",cmp_filters_p:"Tidak terbatas",cmp_watcher_p:"Tidak terbatas"},
+sw:{ll:"Lugha",nav_start:"Kuanza",nav_overview:"Muhtasari",nav_accounts:"Akaunti za Barua Pepe",nav_login:"Ingia & OAuth",nav_email:"Barua Pepe",nav_inbox:"Kisanduku cha Barua",nav_compose:"Andika",nav_attachments:"Viambatisho",nav_search:"Tafuta",nav_productivity:"Uzalishaji",nav_filters:"Vichujio",nav_watcher:"Mwangalizi",nav_widget:"Wijeti",nav_settings:"Mipangilio",nav_appearance:"Muonekano",nav_sync:"Usawazishaji",nav_backup:"Hifadhi Nakala",nav_trial:"Kipindi cha Majaribio",nav_security:"Usalama",overview_h1:"Karibu TchikiMail",overview_desc:"Programu ya barua pepe ya Android iliyoundwa kwa kasi, faragha na uwazi.",overview_hero_desc:"Programu ya barua pepe kamili inayounga mkono IMAP, POP3, Gmail na Microsoft 365.",accounts_h1:"Akaunti za Barua Pepe",login_h1:"Ingia & OAuth",inbox_h1:"Kisanduku cha Barua",compose_h1:"Kuandika Barua Pepe",att_h1:"Viambatisho",search_h1:"Utafutaji",filters_h1:"Vichujio vya Ujumbe",watcher_h1:"Mwangalizi wa Ujumbe",widget_h1:"Wijeti wa Skrini ya Nyumbani",appear_h1:"Muonekano",sync_h1:"Usawazishaji",backup_h1:"Hifadhi Nakala na Kurejesha",trial_h1:"Majaribio & Premium",sec_h1:"Usalama",acc_tip_title:"Nywila ya Programu",acc_tip_desc:"Watoa huduma wengine (mfano Gmail, Yahoo) wanahitaji \"nywila ya programu\" na uthibitishaji wa hatua mbili.",acc_limit_desc:"Bila Premium, akaunti <strong>2</strong> tu zinaweza kuwa hai. Premium inaondoa kikomo hiki kabisa.",sec_bio:"Kufunga Programu",sec_bio_desc:"Funga programu kwa <strong>alama ya kidole au ishara ya kufunga skrini</strong>.",cmp_accounts_p:"Bila kikomo",cmp_filters_p:"Bila kikomo",cmp_watcher_p:"Bila kikomo"},
+ur:{ll:"زبان",nav_start:"شروعات",nav_overview:"جائزہ",nav_accounts:"ای میل اکاؤنٹس",nav_login:"لاگ ان & OAuth",nav_email:"ای میل",nav_inbox:"ان باکس",nav_compose:"لکھیں",nav_attachments:"منسلکات",nav_search:"تلاش",nav_productivity:"پیداواریت",nav_filters:"فلٹرز",nav_watcher:"واچر",nav_widget:"ویجٹ",nav_settings:"ترتیبات",nav_appearance:"ظاہری شکل",nav_sync:"مطابقت پذیری",nav_backup:"بیک اپ",nav_trial:"آزمائشی & پریمیم",nav_security:"سیکیورٹی",overview_h1:"TchikiMail میں خوش آمدید",overview_desc:"رفتار، رازداری اور وضاحت کے لیے ڈیزائن کیا گیا مقامی Android ای میل کلائنٹ۔",overview_hero_desc:"IMAP، POP3، Gmail اور Microsoft 365 کی حمایت کے ساتھ مکمل ای میل کلائنٹ۔",accounts_h1:"ای میل اکاؤنٹس",login_h1:"لاگ ان & OAuth",inbox_h1:"ان باکس",compose_h1:"ای میل لکھیں",att_h1:"منسلکات",search_h1:"تلاش",filters_h1:"پیغام فلٹرز",watcher_h1:"پیغام واچر",widget_h1:"ہوم اسکرین ویجٹ",appear_h1:"ظاہری شکل",sync_h1:"مطابقت پذیری",backup_h1:"بیک اپ اور بحالی",trial_h1:"آزمائشی & پریمیم",sec_h1:"سیکیورٹی",acc_tip_title:"ایپ پاسورڈ",acc_tip_desc:"کچھ فراہم کنندگان (جیسے Gmail، Yahoo) دو عنصری تصدیق کے ساتھ \"ایپ پاسورڈ\" کی ضرورت ہوتی ہے۔ اسے اپنے فراہم کنندہ کی سیکیورٹی ترتیبات میں بنائیں۔",acc_limit_desc:"پریمیم کے بغیر زیادہ سے زیادہ <strong>2 فعال اکاؤنٹس</strong>۔ پریمیم اس حد کو مکمل طور پر ہٹا دیتا ہے۔",sec_bio:"ایپ لاک",sec_bio_desc:"<strong>انگلی کے نشان یا اسکرین لاک اشارے</strong> سے ایپ کو لاک کریں۔",cmp_accounts_p:"لامحدود",cmp_filters_p:"لامحدود",cmp_watcher_p:"لامحدود"}
+};
+
+const RTL_LANGS=['ar','ur','he','fa'];
+let curLang='en';
+
+function t(lang,key){
+  if(T[lang]&&T[lang][key]!==undefined)return T[lang][key];
+  if(LANGS[lang]&&LANGS[lang][key]!==undefined)return LANGS[lang][key];
+  return T['en'][key]||key;
+}
+
+function applyLang(lang){
+  curLang=lang;
+  const isRTL=RTL_LANGS.includes(lang);
+  document.documentElement.dir=isRTL?'rtl':'ltr';
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-t]').forEach(el=>{
+    el.innerHTML=t(lang,el.getAttribute('data-t'));
+  });
+  document.getElementById('ll').textContent=t(lang,'ll');
+  // sync lang dropdown
+  const ls=document.getElementById('lang-select');
+  if(ls) ls.value=lang;
+  // translate topic dropdown options
+  document.querySelectorAll('#topic-select option[data-nav]').forEach(opt=>{
+    opt.textContent=t(lang,opt.getAttribute('data-nav'));
+  });
+  // translate topic label
+  const tl=document.getElementById('ll-topic');
+  if(tl) tl.textContent=t(lang,'nav_settings')||'Topic';
+}
+
+function setLang(lang){applyLang(lang);}
+
+function showSec(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(btn) btn.classList.add('active');
+  const ts=document.getElementById('topic-select');
+  if(ts) ts.value=id;
+  document.querySelector('.main').scrollTop=0;
+}
+
+function showSecById(id){
+  const btn=document.querySelector('.ni[onclick*=\''+id+'\']');
+  showSec(id,btn||null);
+}
+
+// Auto-detect language
+(function(){
+  const code=(navigator.language||'en').split('-')[0].toLowerCase();
+  const all=['en','cs','de','fr','es','it','pt','ru','uk','pl','nl','sv','da','nb','nn','fi','hu','sk','hr','ro','bg','tr','ar','hi','bn','ja','ko','zh','vi','id','sw','ur'];
+  const lang=all.includes(code)?code:'en';
+  applyLang(lang);
+})();
+</script>
+</body>
+</html>
