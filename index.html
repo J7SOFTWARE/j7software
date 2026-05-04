@@ -317,12 +317,12 @@
             
             <p class="subtitle">Přetváříme nápady ve výkonné Android aplikace. Žádné šablony, žádný zbytečný kód. Jen moderní vývoj, co funguje.</p>
             
+            <!-- Tady je ta oprava - ID contact-trigger -->
             <a href="#" class="cta-button" id="contact-trigger">Napište nám</a>
 
             <div class="apps-section">
                 <p class="apps-label">Naše aplikace</p>
                 
-                <!-- TchikiMail -->
                 <a href="https://play.google.com/store/apps/details?id=com.j7software.emailapp"
                    target="_blank"
                    class="app-card">
@@ -331,7 +331,6 @@
                     <span class="app-card-desc">— Android email klient</span>
                 </a>
 
-                <!-- Raven File Manager -->
                 <a href="#" target="_blank" class="app-card">
                     <img src="rave.png" alt="Raven File Manager">
                     <span class="app-card-name">Raven File Manager</span>
@@ -346,10 +345,11 @@
             <a href="privacy.html">Soukromí: TchikiMail</a>
             <a href="raven-privacy.html">Soukromí: Raven File Manager</a>
         </div>
-        <span class="contact-link" id="email-coder">Kontakt: j7software [zavináč] post.cz</span>
+        <span class="contact-link" id="email-coder">Načítání kontaktu...</span>
     </footer>
 
     <script>
+        // Matrix pozadí
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         const fontSize = 16;
@@ -385,6 +385,7 @@
         }
         requestAnimationFrame(drawMatrix);
 
+        // 3D Tilt efekt
         const container = document.getElementById('tilt-container');
         if (window.innerWidth > 768) { 
             document.body.addEventListener('mousemove', (e) => {
@@ -397,15 +398,23 @@
             });
         }
 
+        // OPRAVA KONTAKTNÍHO ODKAZU
         (function() {
             const u = "j7software", d = "post.cz";
             const email = `${u}@${d}`;
+            
+            const contactBtn = document.getElementById('contact-trigger');
             const footerEmail = document.getElementById('email-coder');
-            footerEmail.innerHTML = `Kontakt: <a href="mailto:${email}">${email}</a>`;
-            document.getElementById('contact-trigger').addEventListener('click', (e) => {
-                e.preventDefault();
-                window.location.href = `mailto:${email}`;
-            });
+
+            // Nastavíme odkaz přímo do tlačítka - nejstabilnější metoda
+            if (contactBtn) {
+                contactBtn.setAttribute('href', 'mailto:' + email);
+            }
+
+            // Nastavíme odkaz do patičky
+            if (footerEmail) {
+                footerEmail.innerHTML = `Kontakt: <a href="mailto:${email}">${email}</a>`;
+            }
         })();
     </script>
 
